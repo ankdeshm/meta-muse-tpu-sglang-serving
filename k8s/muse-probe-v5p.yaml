@@ -1,0 +1,54 @@
+# Interactive probe: SGLang-TorchTPU image on ONE host (4 x TPU v5p chips) of the v5p-32 (2x4x4) slice.
+# Used to inspect the image (Muse model / recipe support) and to test single-host TPU init on a multi-host slice.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: muse-probe-v5p
+  namespace: default
+  labels: {app: muse-probe}
+  annotations:
+    gke-gcsfuse/volumes: "true"
+    gke-gcsfuse/cpu-limit: "0"
+    gke-gcsfuse/memory-limit: "0"
+    gke-gcsfuse/ephemeral-storage-limit: "0"
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+spec:
+  restartPolicy: Never
+  terminationGracePeriodSeconds: 10
+  serviceAccountName: default
+  nodeSelector:
+    cloud.google.com/gke-nodepool: tpu-v5p-32-pool
+    cloud.google.com/gke-tpu-accelerator: tpu-v5p-slice
+    cloud.google.com/gke-tpu-topology: 2x4x4
+    kubernetes.io/hostname: gke-tpu-6abd1b5a-2kxw
+  tolerations:
+  - {key: google.com/tpu, operator: Exists, effect: NoSchedule}
+  containers:
+  - name: sglang
+    image: us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/vllm/sglang-torchtpu-diffusion:v0.2.0
+    imagePullPolicy: IfNotPresent
+    command: ["bash", "-lc", "sleep infinity"]
+    env:
+    - name: HF_TOKEN
+      valueFrom:
+        secretKeyRef: {name: hf-token, key: HF_TOKEN}
+    - name: PJRT_DEVICE
+      value: "TPU"
+    resources:
+      requests:
+        google.com/tpu: "4"
+        cpu: "96"
+        memory: 300Gi
+      limits:
+        google.com/tpu: "4"
+    volumeMounts:
+    - {name: models-gcs, mountPath: /models}
+    - {name: dshm, mountPath: /dev/shm}
+  volumes:
+  - name: models-gcs
+    persistentVolumeClaim:
+      claimName: tpu-models-gcs-pvc
+  - name: dshm
+    emptyDir:
+      medium: Memory
+      sizeLimit: 300Gi

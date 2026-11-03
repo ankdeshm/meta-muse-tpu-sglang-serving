@@ -1,0 +1,85 @@
+# Stage the public Muse checkpoints HF -> gs://YOUR_GCS_BUCKET/models/<org>/<name>
+# (v5p cluster gke_YOUR_GCP_PROJECT_ID_us-central1_tpu-v5p-cluster; CPU-only pods on the assigned
+# tpu-v5p-32-pool nodes; script = configmap stage-hf-script / stage_hf_to_gcs.py).
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: muse-stage-glimmer
+  namespace: default
+  labels: {app: muse-stage}
+spec:
+  backoffLimit: 6
+  template:
+    metadata:
+      labels: {app: muse-stage}
+    spec:
+      serviceAccountName: default
+      restartPolicy: OnFailure
+      nodeSelector:
+        cloud.google.com/gke-nodepool: tpu-v5p-32-pool
+      tolerations:
+      - {key: google.com/tpu, operator: Exists, effect: NoSchedule}
+      containers:
+      - name: streamer
+        image: python:3.11-slim
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          set -euo pipefail
+          pip install --no-cache-dir -q huggingface_hub google-cloud-storage requests
+          python3 /scripts/stage_hf_to_gcs.py --bucket=YOUR_GCS_BUCKET --prefix=models --workers=16 \
+            --repos="meta-models/Muse-Glimmer-30B"
+        env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef: {name: hf-token, key: HF_TOKEN}
+        resources:
+          requests: {cpu: "4", memory: 8Gi}
+          limits: {cpu: "16", memory: 32Gi}
+        volumeMounts:
+        - {name: stage-script, mountPath: /scripts}
+      volumes:
+      - name: stage-script
+        configMap: {name: stage-hf-script}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: muse-stage-drafts
+  namespace: default
+  labels: {app: muse-stage}
+spec:
+  backoffLimit: 6
+  template:
+    metadata:
+      labels: {app: muse-stage}
+    spec:
+      serviceAccountName: default
+      restartPolicy: OnFailure
+      nodeSelector:
+        cloud.google.com/gke-nodepool: tpu-v5p-32-pool
+      tolerations:
+      - {key: google.com/tpu, operator: Exists, effect: NoSchedule}
+      containers:
+      - name: streamer
+        image: python:3.11-slim
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          set -euo pipefail
+          pip install --no-cache-dir -q huggingface_hub google-cloud-storage requests
+          python3 /scripts/stage_hf_to_gcs.py --bucket=YOUR_GCS_BUCKET --prefix=models --workers=8 \
+            --repos="meta-models/Muse-Glimmer-30B-assistant,RadixArk/Muse-Spark-Open-DFlash2"
+        env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef: {name: hf-token, key: HF_TOKEN}
+        resources:
+          requests: {cpu: "4", memory: 8Gi}
+          limits: {cpu: "12", memory: 24Gi}
+        volumeMounts:
+        - {name: stage-script, mountPath: /scripts}
+      volumes:
+      - name: stage-script
+        configMap: {name: stage-hf-script}

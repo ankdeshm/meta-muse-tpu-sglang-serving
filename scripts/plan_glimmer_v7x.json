@@ -1,0 +1,722 @@
+{
+  "tag": "muse_glimmer30b_sglang_v7x_1host",
+  "title": "Meta Muse-Glimmer-30B (MuseGlimmerForConditionalGeneration: dense 30B, 52 layers = 39 SWA-2048 + 13 global NoPE, 32 Q / 2 KV heads, text-only serving: language_model_only=true, vision tower not built) on one TPU v7x host (4 chips = 8 TensorCores) with SGLang-TorchTPU",
+  "model_repo": "meta-models/Muse-Glimmer-30B (+ meta-models/Muse-Glimmer-30B-assistant DFlash draft)",
+  "model_gb": 59.6,
+  "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/vllm/sglang-torchtpu-diffusion:v0.2.0",
+  "hardware": {
+    "name": "v7x",
+    "chips": 4,
+    "desc": "one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 GB`), host `gke-tpu-771db71a-cz6l` of the `tpu-v7x-cluster-8-pool-b` (`2x2x2`) slice used standalone"
+  },
+  "model_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B",
+  "port": 30000,
+  "server_args": {
+    "served_model_name": "meta-models/Muse-Glimmer-30B",
+    "watchdog_timeout": 3600,
+    "page_size": 128,
+    "context_length": 131072,
+    "chunked_prefill_size": 8192,
+    "max_prefill_tokens": 8192,
+    "tpu_compile_tokens": [
+      512,
+      2048,
+      8192
+    ],
+    "mem_fraction_static": 0.85,
+    "disable_radix_cache": true,
+    "json_model_override_args": "{\"language_model_only\": true}"
+  },
+  "runtime_env": {},
+  "workloads": [
+    [
+      1024,
+      1024,
+      [
+        1,
+        4,
+        16,
+        32,
+        64
+      ]
+    ],
+    [
+      4096,
+      1024,
+      [
+        1,
+        4,
+        16,
+        32,
+        64
+      ]
+    ],
+    [
+      32768,
+      1024,
+      [
+        1,
+        4,
+        8
+      ]
+    ],
+    [
+      65536,
+      1024,
+      [
+        1,
+        4
+      ]
+    ]
+  ],
+  "variants": [
+    {
+      "name": "glimmer_bf16_tp8",
+      "desc": "BF16 weights, TP8 (8 TensorCores), BF16 KV",
+      "server_args": {
+        "tp_size": 8,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "max_total_tokens": 1048576
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          32768,
+          1024,
+          [
+            1,
+            4,
+            8
+          ]
+        ],
+        [
+          65536,
+          1024,
+          [
+            1,
+            4
+          ]
+        ],
+        [
+          126976,
+          1024,
+          [
+            1
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "glimmer_bf16_tp8_dflash16",
+      "desc": "BF16, TP8, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), model-default sampling (T=1.0, top-p 0.95, top-k 64)",
+      "draft_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B-assistant",
+      "server_args": {
+        "tp_size": 8,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 32,
+        "torch_compile_max_bs": 32,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "max_total_tokens": 524288,
+        "speculative_algorithm": "DFLASH",
+        "speculative_num_draft_tokens": 16,
+        "sampling_backend": "pytorch",
+        "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
+      },
+      "runtime_env": {
+        "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+        "SGLANG_SPEC_TP_SYNC": "rng",
+        "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1"
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32
+          ]
+        ],
+        [
+          32768,
+          1024,
+          [
+            1,
+            4
+          ]
+        ]
+      ],
+      "draft_config_overrides": {
+        "vocab_size": 202048
+      }
+    },
+    {
+      "name": "glimmer_fp8_tp8",
+      "desc": "FP8 W8A8 online quantization (channelwise), TP8, FP8 KV",
+      "server_args": {
+        "tp_size": 8,
+        "quantization": "fp8",
+        "tpu_fp8_runtime": "channelwise",
+        "kv_cache_dtype": "fp8_e4m3",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "max_total_tokens": 1048576
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          32768,
+          1024,
+          [
+            1,
+            4,
+            8
+          ]
+        ],
+        [
+          65536,
+          1024,
+          [
+            1,
+            4
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "glimmer_bf16_tp4_dp2",
+      "desc": "BF16, 2 data-parallel replicas x TP4 (2 chips each), BF16 KV",
+      "server_args": {
+        "tp_size": 4,
+        "dp_size": 2,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "max_total_tokens": 1048576
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            16,
+            32,
+            64
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "glimmer_fp8_tp8_dflash16",
+      "desc": "FP8 W8A8 (channelwise), TP8, FP8 KV + DFLASH (assistant draft, block 16), model-default sampling",
+      "draft_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B-assistant",
+      "server_args": {
+        "tp_size": 8,
+        "quantization": "fp8",
+        "tpu_fp8_runtime": "channelwise",
+        "kv_cache_dtype": "fp8_e4m3",
+        "max_running_requests": 32,
+        "torch_compile_max_bs": 32,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "max_total_tokens": 524288,
+        "speculative_algorithm": "DFLASH",
+        "speculative_num_draft_tokens": 16,
+        "sampling_backend": "pytorch",
+        "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
+      },
+      "runtime_env": {
+        "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+        "SGLANG_SPEC_TP_SYNC": "rng",
+        "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1"
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            16,
+            32
+          ]
+        ]
+      ],
+      "draft_config_overrides": {
+        "vocab_size": 202048
+      }
+    },
+    {
+      "name": "glimmer_fp8_tp2_dp4",
+      "desc": "FP8 W8A8 online quantization (channelwise), 4 replicas x TP2 (FP8 needs tp<=2: Muse Glimmer unfused q/k/v requires kv_heads(2) >= tp), FP8 KV",
+      "server_args": {
+        "tp_size": 2,
+        "dp_size": 4,
+        "quantization": "fp8",
+        "tpu_fp8_runtime": "channelwise",
+        "kv_cache_dtype": "fp8_e4m3",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "max_total_tokens": 1048576
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          32768,
+          1024,
+          [
+            1,
+            4,
+            8
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "glimmer_fp8_tp2_dp4_dflash16",
+      "desc": "FP8 (channelwise), 4 replicas x TP2, FP8 KV + DFLASH (assistant draft, block 16), model-default sampling",
+      "draft_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B-assistant",
+      "server_args": {
+        "tp_size": 2,
+        "dp_size": 4,
+        "quantization": "fp8",
+        "tpu_fp8_runtime": "channelwise",
+        "kv_cache_dtype": "fp8_e4m3",
+        "max_running_requests": 32,
+        "torch_compile_max_bs": 32,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "max_total_tokens": 524288,
+        "speculative_algorithm": "DFLASH",
+        "speculative_num_draft_tokens": 16,
+        "speculative_draft_attention_backend": "pallas_tpu_rpa_v3",
+        "sampling_backend": "pytorch"
+      },
+      "runtime_env": {
+        "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+        "SGLANG_SPEC_TP_SYNC": "rng",
+        "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1"
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            16,
+            32
+          ]
+        ]
+      ],
+      "draft_config_overrides": {
+        "vocab_size": 202048
+      }
+    },
+    {
+      "name": "glimmer_bf16_tp8_dpattn2",
+      "desc": "BF16, DP-attention: 2 attention replicas x attention-TP4, MLP TP8, BF16 KV",
+      "server_args": {
+        "tp_size": 8,
+        "dp_size": 2,
+        "enable_dp_attention": true,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "max_total_tokens": 1048576,
+        "enable_dp_lm_head": true
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          32768,
+          1024,
+          [
+            1,
+            4,
+            8
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "glimmer_bf16_tp8_dpattn4",
+      "desc": "BF16, DP-attention: 4 attention replicas x attention-TP2 (no KV-head replication), MLP TP8, BF16 KV",
+      "server_args": {
+        "tp_size": 8,
+        "dp_size": 4,
+        "enable_dp_attention": true,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "max_total_tokens": 1048576,
+        "enable_dp_lm_head": true
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "glimmer_fp8_tp2",
+      "desc": "FP8 W8A8 online quantization (channelwise), TP2 = 1 chip (2 TensorCores) of the 4 (FP8 requires tp<=2: kv_heads=2), FP8 KV",
+      "server_args": {
+        "tp_size": 2,
+        "quantization": "fp8",
+        "tpu_fp8_runtime": "channelwise",
+        "kv_cache_dtype": "fp8_e4m3",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "max_total_tokens": 524288
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "glimmer_bf16_tp2",
+      "desc": "BF16, TP2 = 1 chip (2 TensorCores) of the 4, BF16 KV",
+      "server_args": {
+        "tp_size": 2,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "max_total_tokens": 524288
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "glimmer_bf16_tp4",
+      "desc": "BF16, TP4 = 2 chips (4 TensorCores) of the 4, BF16 KV",
+      "server_args": {
+        "tp_size": 4,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "max_total_tokens": 1048576
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ]
+      ]
+    }
+  ]
+}
