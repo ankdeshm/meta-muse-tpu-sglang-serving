@@ -24,7 +24,7 @@ spec:
         cloud.google.com/gke-nodepool: tpu-v7x-cluster-8-pool-b
         cloud.google.com/gke-tpu-accelerator: tpu7x
         cloud.google.com/gke-tpu-topology: 2x2x2
-        kubernetes.io/hostname: gke-tpu-771db71a-cz6l
+        kubernetes.io/hostname: tpu-worker-node
       tolerations:
       - {key: google.com/tpu, operator: Exists, effect: NoSchedule}
       - {key: cloud.google.com/gke-queued, operator: Exists, effect: NoSchedule}

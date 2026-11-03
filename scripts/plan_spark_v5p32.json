@@ -1,0 +1,269 @@
+{
+  "tag": "muse_spark816b_sglang_v5p32_8host",
+  "title": "Meta Muse-Spark-Open-816B-A42B BF16 (MuseSparkForConditionalGeneration: 816B total / 42B active MoE, 256 experts top-8, 62 layers = 46 SWA-2048 + 16 global GQA, 128 Q / 16 KV heads, text-only serving) on TPU v5p-32 slice (8 hosts = 32 chips, 2x4x4 ICI, 3.04 TB HBM) with SGLang-TorchTPU",
+  "model_repo": "meta-models/Muse-Spark-Open-816B-A42B (+ RadixArk/Muse-Spark-Open-DFlash2 draft)",
+  "model_gb": 1644.4,
+  "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/vllm/sglang-torchtpu-diffusion:v0.2.0",
+  "nnodes": 8,
+  "use_gcsfuse": true,
+  "hardware": {
+    "name": "v5p32_spark",
+    "chips": 32,
+    "desc": "TPU `v5p-32` slice (`8` hosts, `32` chips in `2x4x4` 3D torus ICI, `95 GB` HBM/chip = `3.04 TB` HBM)"
+  },
+  "model_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Spark-Open-816B-A42B",
+  "port": 30000,
+  "cell_timeout_s": 1800,
+  "server_args": {
+    "nnodes": 8,
+    "tp_size": 32,
+    "served_model_name": "meta-models/Muse-Spark-Open-816B-A42B",
+    "watchdog_timeout": 3600,
+    "page_size": 128,
+    "context_length": 262144,
+    "chunked_prefill_size": 4096,
+    "max_prefill_tokens": 4096,
+    "tpu_compile_tokens": [
+      1024,
+      2048,
+      4096
+    ],
+    "weight_loader_drop_cache_after_load": true,
+    "reasoning_parser": "muse",
+    "tool_call_parser": "muse"
+  },
+  "runtime_env": {
+    "SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE": "1"
+  },
+  "workloads": [
+    [
+      1024,
+      1024,
+      [
+        1,
+        4,
+        8,
+        16,
+        32,
+        64
+      ]
+    ],
+    [
+      4096,
+      1024,
+      [
+        1,
+        4,
+        16,
+        32,
+        64
+      ]
+    ]
+  ],
+  "variants": [
+    {
+      "name": "spark_bf16_v5p32_tp32_ep32",
+      "desc": "BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context",
+      "chips_used": 32,
+      "ready_timeout_s": 7200,
+      "server_args": {
+        "tp_size": 32,
+        "ep_size": 32,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 64,
+        "torch_compile_max_bs": 64,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "swa_full_tokens_ratio": 0.25,
+        "mem_fraction_static": 0.85,
+        "disable_radix_cache": true
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            8,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32,
+            64
+          ]
+        ],
+        [
+          32768,
+          1024,
+          [
+            1,
+            4
+          ]
+        ],
+        [
+          65536,
+          1024,
+          [
+            1,
+            4
+          ]
+        ],
+        [
+          131072,
+          1024,
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          258048,
+          1024,
+          [
+            1
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "spark_bf16_v5p32_tp32_ep32_dflash8",
+      "desc": "BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV",
+      "chips_used": 32,
+      "ready_timeout_s": 7200,
+      "draft_gcs": "gs://YOUR_GCS_BUCKET/models/RadixArk/Muse-Spark-Open-DFlash2",
+      "draft_config_overrides": {
+        "is_hybrid_swa": true,
+        "hybrid_layer_pattern": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "server_args": {
+        "tp_size": 32,
+        "ep_size": 32,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 32,
+        "torch_compile_max_bs": 32,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "swa_full_tokens_ratio": 0.5,
+        "mem_fraction_static": 0.85,
+        "disable_radix_cache": true,
+        "speculative_algorithm": "DFLASH",
+        "speculative_num_draft_tokens": 8,
+        "sampling_backend": "pytorch",
+        "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
+      },
+      "runtime_env": {
+        "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+        "SGLANG_SPEC_TP_SYNC": "rng",
+        "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1",
+        "SGLANG_DFLASH_ROW_PARALLEL_FC": "1",
+        "SGLANG_DFLASH_CONV_MATMUL_EXPAND": "1"
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            8,
+            16,
+            32
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            4,
+            16
+          ]
+        ],
+        [
+          65536,
+          1024,
+          [
+            1,
+            2
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "spark_bf16_v5p32_tp32_ep1",
+      "desc": "BF16 checkpoint, TP32 EP1 (32-way expert-TP across all 32 v5p chips), BF16 KV",
+      "chips_used": 32,
+      "ready_timeout_s": 7200,
+      "server_args": {
+        "tp_size": 32,
+        "ep_size": 1,
+        "quantization": "unquant",
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 32,
+        "torch_compile_max_bs": 32,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "swa_full_tokens_ratio": 0.25,
+        "mem_fraction_static": 0.85,
+        "disable_radix_cache": true
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            16
+          ]
+        ]
+      ]
+    }
+  ]
+}

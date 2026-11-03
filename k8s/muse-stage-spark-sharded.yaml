@@ -1,0 +1,115 @@
+# Sharded CPU-only (0 TPU) staging Jobs on tpu-v5p-32-pool using secret hf-token-muse.
+# Anti-affinity spreads shards across distinct hosts in tpu-v5p-32-pool to multiply NIC bandwidth
+# while leaving >= 180 CPUs, > 400 GiB RAM, and all 4 TPUs free per host.
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: muse-stage-spark-nvfp4
+  namespace: default
+  labels: {app: muse-stage, model: spark-nvfp4}
+spec:
+  completionMode: Indexed
+  completions: 4
+  parallelism: 4
+  backoffLimit: 6
+  template:
+    metadata:
+      labels: {app: muse-stage, stage-job: spark-nvfp4}
+    spec:
+      serviceAccountName: default
+      restartPolicy: OnFailure
+      nodeSelector:
+        cloud.google.com/gke-nodepool: tpu-v5p-32-pool
+      tolerations:
+      - {key: google.com/tpu, operator: Exists, effect: NoSchedule}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels: {stage-job: spark-nvfp4}
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: streamer
+        image: python:3.11-slim
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          set -euo pipefail
+          pip install --no-cache-dir -q huggingface_hub google-cloud-storage requests
+          python3 /scripts/stage_spark_sharded.py \
+            --bucket=YOUR_GCS_BUCKET \
+            --prefix=models \
+            --workers=24 \
+            --num-shards=4 \
+            --repos="RadixArk/Muse-Spark-Open-DFlash2,meta-models/Muse-Spark-Open-816B-A42B-NVFP4"
+        env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef: {name: hf-token-muse, key: HF_TOKEN}
+        resources:
+          requests: {cpu: "8", memory: 12Gi}
+          limits: {cpu: "24", memory: 24Gi}
+        volumeMounts:
+        - {name: stage-script, mountPath: /scripts}
+      volumes:
+      - name: stage-script
+        configMap: {name: muse-stage-spark-script}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: muse-stage-spark-bf16
+  namespace: default
+  labels: {app: muse-stage, model: spark-bf16}
+spec:
+  completionMode: Indexed
+  completions: 8
+  parallelism: 8
+  backoffLimit: 6
+  template:
+    metadata:
+      labels: {app: muse-stage, stage-job: spark-bf16}
+    spec:
+      serviceAccountName: default
+      restartPolicy: OnFailure
+      nodeSelector:
+        cloud.google.com/gke-nodepool: tpu-v5p-32-pool
+      tolerations:
+      - {key: google.com/tpu, operator: Exists, effect: NoSchedule}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels: {stage-job: spark-bf16}
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: streamer
+        image: python:3.11-slim
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          set -euo pipefail
+          pip install --no-cache-dir -q huggingface_hub google-cloud-storage requests
+          python3 /scripts/stage_spark_sharded.py \
+            --bucket=YOUR_GCS_BUCKET \
+            --prefix=models \
+            --workers=20 \
+            --num-shards=8 \
+            --repos="meta-models/Muse-Spark-Open-816B-A42B"
+        env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef: {name: hf-token-muse, key: HF_TOKEN}
+        resources:
+          requests: {cpu: "8", memory: 12Gi}
+          limits: {cpu: "24", memory: 24Gi}
+        volumeMounts:
+        - {name: stage-script, mountPath: /scripts}
+      volumes:
+      - name: stage-script
+        configMap: {name: muse-stage-spark-script}

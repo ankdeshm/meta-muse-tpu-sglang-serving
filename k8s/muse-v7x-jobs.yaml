@@ -1,0 +1,153 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: muse-spark-v7x-059c
+  namespace: default
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+        gke-gcsfuse/volumes: "true"
+        gke-gcsfuse/cpu-limit: "0"
+        gke-gcsfuse/memory-limit: "0"
+        gke-gcsfuse/ephemeral-storage-limit: "0"
+    spec:
+      restartPolicy: Never
+      nodeSelector:
+        cloud.google.com/gke-nodepool: tpu-v7x-cluster-8-pool-b
+        cloud.google.com/gke-tpu-accelerator: tpu7x
+        cloud.google.com/gke-tpu-topology: 2x2x2
+        kubernetes.io/hostname: tpu-worker-node
+      tolerations:
+      - key: google.com/tpu
+        operator: Exists
+        effect: NoSchedule
+      - key: cloud.google.com/gke-queued
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: sglang
+        image: us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/vllm/sglang-torchtpu-diffusion:v0.2.0
+        command:
+        - bash
+        - -lc
+        - |
+          set -euo pipefail
+          python3 /sweep/run_muse_sweep.py \
+            --plan /sweep/plan_spark_v7x.json \
+            --tag-suffix _059c \
+            --out-root /models/benchmark-results
+        env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hf-token-muse
+              key: HF_TOKEN
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        resources:
+          requests:
+            cpu: "48"
+            memory: 400Gi
+            google.com/tpu: "4"
+          limits:
+            google.com/tpu: "4"
+        volumeMounts:
+        - name: models-gcs
+          mountPath: /models
+        - name: sweep
+          mountPath: /sweep
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: models-gcs
+        persistentVolumeClaim:
+          claimName: tpu-models-gcs-pvc
+      - name: sweep
+        configMap:
+          name: sglang-muse-sweep
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 580Gi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: muse-glimmer-v7x-cz6l
+  namespace: default
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+        gke-gcsfuse/volumes: "true"
+        gke-gcsfuse/cpu-limit: "0"
+        gke-gcsfuse/memory-limit: "0"
+        gke-gcsfuse/ephemeral-storage-limit: "0"
+    spec:
+      restartPolicy: Never
+      nodeSelector:
+        cloud.google.com/gke-nodepool: tpu-v7x-cluster-8-pool-b
+        cloud.google.com/gke-tpu-accelerator: tpu7x
+        cloud.google.com/gke-tpu-topology: 2x2x2
+        kubernetes.io/hostname: tpu-worker-node
+      tolerations:
+      - key: google.com/tpu
+        operator: Exists
+        effect: NoSchedule
+      - key: cloud.google.com/gke-queued
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: sglang
+        image: us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/vllm/sglang-torchtpu-diffusion:v0.2.0
+        command:
+        - bash
+        - -lc
+        - |
+          set -euo pipefail
+          python3 /sweep/run_muse_sweep.py \
+            --plan /sweep/plan_glimmer_v7x_rem.json \
+            --tag-suffix _cz6l \
+            --out-root /models/benchmark-results
+        env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hf-token-muse
+              key: HF_TOKEN
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        resources:
+          requests:
+            cpu: "48"
+            memory: 400Gi
+            google.com/tpu: "4"
+          limits:
+            google.com/tpu: "4"
+        volumeMounts:
+        - name: models-gcs
+          mountPath: /models
+        - name: sweep
+          mountPath: /sweep
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: models-gcs
+        persistentVolumeClaim:
+          claimName: tpu-models-gcs-pvc
+      - name: sweep
+        configMap:
+          name: sglang-muse-sweep
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 500Gi
