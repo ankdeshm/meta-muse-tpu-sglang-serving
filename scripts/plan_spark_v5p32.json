@@ -14,18 +14,22 @@
   "model_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Spark-Open-816B-A42B",
   "port": 30000,
   "cell_timeout_s": 1800,
+  "extra_args": [
+    "--no-tpu-node-normalization"
+  ],
   "server_args": {
+    "host": "0.0.0.0",
     "nnodes": 8,
     "tp_size": 32,
     "served_model_name": "meta-models/Muse-Spark-Open-816B-A42B",
-    "watchdog_timeout": 3600,
+    "watchdog_timeout": 7200,
+    "dist_timeout": 600,
     "page_size": 128,
     "context_length": 262144,
     "chunked_prefill_size": 4096,
     "max_prefill_tokens": 4096,
     "tpu_compile_tokens": [
       1024,
-      2048,
       4096
     ],
     "weight_loader_drop_cache_after_load": true,
@@ -33,7 +37,13 @@
     "tool_call_parser": "muse"
   },
   "runtime_env": {
-    "SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE": "1"
+    "TORCH_TPU_DEVICES_PER_HOST": "4",
+    "TORCH_TPU_TOPOLOGY": "2,4,4",
+    "TPU_CHIPS_PER_HOST_BOUNDS": "2,2,1",
+    "TPU_HOST_BOUNDS": "1,2,4",
+    "TORCH_TPU_SLICEBUILDER_ADDRESSES": null,
+    "SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE": "1",
+    "SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S": "5400"
   },
   "workloads": [
     [
@@ -69,7 +79,7 @@
       "server_args": {
         "tp_size": 32,
         "ep_size": 32,
-        "quantization": "unquant",
+        "quantization": null,
         "kv_cache_dtype": "bfloat16",
         "max_running_requests": 64,
         "torch_compile_max_bs": 64,
@@ -162,7 +172,7 @@
       "server_args": {
         "tp_size": 32,
         "ep_size": 32,
-        "quantization": "unquant",
+        "quantization": null,
         "kv_cache_dtype": "bfloat16",
         "max_running_requests": 32,
         "torch_compile_max_bs": 32,
@@ -221,6 +231,51 @@
       ]
     },
     {
+      "name": "spark_bf16_v5p32_tp32_ep8",
+      "desc": "BF16 checkpoint, TP32 EP8 (32 experts/host, 4-way intra-host expert-TP across 8 v5p hosts), BF16 KV",
+      "chips_used": 32,
+      "ready_timeout_s": 7200,
+      "server_args": {
+        "tp_size": 32,
+        "ep_size": 8,
+        "quantization": null,
+        "kv_cache_dtype": "bfloat16",
+        "max_running_requests": 32,
+        "torch_compile_max_bs": 32,
+        "tpu_compile_bs": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "swa_full_tokens_ratio": 0.25,
+        "mem_fraction_static": 0.85,
+        "disable_radix_cache": true
+      },
+      "workloads": [
+        [
+          1024,
+          1024,
+          [
+            1,
+            4,
+            16,
+            32
+          ]
+        ],
+        [
+          4096,
+          1024,
+          [
+            1,
+            16
+          ]
+        ]
+      ]
+    },
+    {
       "name": "spark_bf16_v5p32_tp32_ep1",
       "desc": "BF16 checkpoint, TP32 EP1 (32-way expert-TP across all 32 v5p chips), BF16 KV",
       "chips_used": 32,
@@ -228,7 +283,7 @@
       "server_args": {
         "tp_size": 32,
         "ep_size": 1,
-        "quantization": "unquant",
+        "quantization": null,
         "kv_cache_dtype": "bfloat16",
         "max_running_requests": 32,
         "torch_compile_max_bs": 32,

@@ -14,6 +14,7 @@ spec:
         gke-gcsfuse/memory-limit: "0"
         gke-gcsfuse/ephemeral-storage-limit: "0"
     spec:
+      terminationGracePeriodSeconds: 5
       restartPolicy: Never
       nodeSelector:
         cloud.google.com/gke-nodepool: tpu-v7x-cluster-8-pool-b
@@ -37,6 +38,7 @@ spec:
           set -euo pipefail
           python3 /sweep/run_muse_sweep.py \
             --plan /sweep/plan_spark_v7x.json \
+            --only spark_nvfp4_tp8_ep1,spark_nvfp4_tp8_ep1_bs8_recipe \
             --tag-suffix _059c \
             --out-root /models/benchmark-results
         env:
@@ -73,7 +75,7 @@ spec:
       - name: dshm
         emptyDir:
           medium: Memory
-          sizeLimit: 580Gi
+          sizeLimit: 160Gi
 ---
 apiVersion: batch/v1
 kind: Job

@@ -5,6 +5,7 @@ metadata:
   namespace: default
 spec:
   clusterIP: None
+  publishNotReadyAddresses: true
   selector:
     job-name: muse-spark-v5p32
 ---
@@ -28,6 +29,7 @@ spec:
         gke-gcsfuse/ephemeral-storage-limit: "0"
     spec:
       subdomain: muse-spark-v5p32-svc
+      terminationGracePeriodSeconds: 5
       restartPolicy: Never
       nodeSelector:
         cloud.google.com/gke-nodepool: tpu-v5p-32-pool
@@ -53,10 +55,11 @@ spec:
           set -euo pipefail
           python3 /sweep/run_muse_sweep.py \
             --plan /sweep/plan_spark_v5p32.json \
+            --only spark_bf16_v5p32_tp32_ep32_dflash8,spark_bf16_v5p32_tp32_ep8,spark_bf16_v5p32_tp32_ep1 \
             --out-root /models/benchmark-results
         env:
         - name: MUSE_RUN_TS
-          value: "20261103T061500Z"
+          value: "20261103T112800Z"
         - name: HF_TOKEN
           valueFrom:
             secretKeyRef:

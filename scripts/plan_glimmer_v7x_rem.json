@@ -10,6 +10,7 @@
     "desc": "one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 GB`)"
   },
   "model_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B",
+  "use_gcsfuse": true,
   "port": 30000,
   "cell_timeout_s": 1200,
   "server_args": {
@@ -24,12 +25,13 @@
       2048,
       8192
     ],
+    "weight_loader_drop_cache_after_load": true,
     "mem_fraction_static": 0.85,
     "disable_radix_cache": true,
     "json_model_override_args": "{\"language_model_only\": true}"
   },
   "runtime_env": {
-    "SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE": "0"
+    "SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE": "1"
   },
   "workloads": [
     [

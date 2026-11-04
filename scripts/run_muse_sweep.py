@@ -5,21 +5,26 @@ Supports:
   * Single-server single-host sweeps (`FORCE_SINGLE_HOST=1`),
   * Multi-replica colocated single-host sweeps (`replicas > 1`: independent servers pinned via `base_gpu_id`
     and `SGLANG_TPU_PD_COLOCATED=1`, fronted by `muse_multi_replica_proxy.py` async least-inflight gateway),
-  * Multi-host slice sweeps (`nnodes > 1` using GKE `TPU_WORKER_ID` / `TPU_WORKER_HOSTNAMES`),
-  * Host-RAM `/dev/shm` staging OR direct GCSFuse mount (`use_gcsfuse: true` + `weight_loader_drop_cache_after_load`),
+  * Multi-host slice sweeps (`nnodes > 1` using TCP barrier sync + `sglang_tpu.node_normalization`),
+  * Host-RAM `/dev/shm` staging OR direct GCSFuse mount (`use_gcsfuse: true` + optional parallel page-cache warmup),
   * Speculative decoding (`DFLASH` with `Muse-Glimmer-30B-assistant` or `RadixArk/Muse-Spark-Open-DFlash2`).
 """
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
 from pathlib import Path
 import signal
+import socket
 import subprocess
 import sys
+import threading
 import time
+import urllib.parse
 import urllib.request
 
 SGL_ROOT = Path("/workspace/sglang")
@@ -40,6 +45,9 @@ CONFIG["server_args"].update(json.loads({server_args!r}))
 CONFIG["runtime_env"].update(json.loads({runtime_env!r}))
 for _k in json.loads({drop_server_args!r}):
     CONFIG["server_args"].pop(_k, None)
+_extra_args = json.loads({extra_args!r})
+if _extra_args:
+    CONFIG["extra_args"] = list(CONFIG.get("extra_args", [])) + _extra_args
 _extra_libtpu = {extra_libtpu!r}
 if _extra_libtpu:
     CONFIG["runtime_env"]["LIBTPU_INIT_ARGS"] = " ".join(LIBTPU_FLAGS + tuple(_extra_libtpu))
@@ -52,10 +60,38 @@ def log(msg: str) -> None:
 
 
 def gcs_to_fuse_path(gcs_uri: str, fuse_root: str = "/models") -> Path:
-    # gs://<bucket>/<relpath> -> /models/<relpath>
     without_scheme = gcs_uri.replace("gs://", "", 1)
     rel = without_scheme.split("/", 1)[1] if "/" in without_scheme else ""
     return Path(fuse_root) / rel
+
+
+def prefetch_gcsfuse_pagecache(model_dir: Path, workers: int = 16) -> float:
+    """Warm Linux kernel page cache from GCSFuse in parallel (100% kernel-reclaimable RAM)."""
+    files = sorted(model_dir.glob("*.safetensors"))
+    if not files:
+        return 0.0
+    t0 = time.time()
+
+    def _read_file(fp: Path) -> int:
+        total = 0
+        buf = bytearray(16 * 1024 * 1024)
+        mv = memoryview(buf)
+        with fp.open("rb", buffering=0) as f:
+            while True:
+                n = f.readinto(mv)
+                if not n:
+                    break
+                total += n
+        return total
+
+    total_bytes = 0
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for b in ex.map(_read_file, files):
+            total_bytes += b
+    dt_s = time.time() - t0
+    gb = total_bytes / 1e9
+    log(f"warmed page cache: {len(files)} shards ({gb:.1f} GB) in {dt_s:.1f}s ({gb / max(dt_s, 0.1):.2f} GB/s)")
+    return dt_s
 
 
 def stage_model(gcs_uri: str, local_dir: Path) -> float:
@@ -72,19 +108,102 @@ def stage_model(gcs_uri: str, local_dir: Path) -> float:
     return time.time() - t0
 
 
-def wait_ready(port: int, procs: list[subprocess.Popen], timeout_s: float) -> bool:
+def start_coord_server(port: int, nnodes: int) -> ThreadingHTTPServer:
+    """Lightweight TCP coordinator on worker 0 to avoid GCSFuse directory cache staleness."""
+    lock = threading.Lock()
+    barriers: dict[str, set[int]] = {}
+    done_variants: dict[int, str] = {}
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, format: str, *args) -> None:  # noqa: A002
+            return
+
+        def _json(self, obj: dict) -> None:
+            data = json.dumps(obj).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        def do_GET(self) -> None:  # noqa: N802
+            parsed = urllib.parse.urlparse(self.path)
+            qs = urllib.parse.parse_qs(parsed.query)
+            with lock:
+                if parsed.path == "/barrier":
+                    stage = qs["stage"][0]
+                    w = int(qs["w"][0])
+                    s = barriers.setdefault(stage, set())
+                    s.add(w)
+                    self._json({"arrived": len(s), "ready": len(s) >= nnodes})
+                elif parsed.path == "/mark_done":
+                    v = int(qs["v"][0])
+                    st = qs.get("status", ["done"])[0]
+                    done_variants[v] = st
+                    self._json({"ok": True})
+                elif parsed.path == "/is_done":
+                    v = int(qs["v"][0])
+                    self._json({"done": v in done_variants, "status": done_variants.get(v, "")})
+                else:
+                    self._json({"ok": True})
+
+    srv = ThreadingHTTPServer(("0.0.0.0", port), Handler)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    return srv
+
+
+def multihost_barrier(coord_host: str, coord_port: int, stage: str, worker_id: int, timeout_s: float = 900.0) -> None:
+    deadline = time.time() + timeout_s
+    url = f"http://{coord_host}:{coord_port}/barrier?stage={urllib.parse.quote(stage)}&w={worker_id}"
+    while time.time() < deadline:
+        try:
+            with urllib.request.urlopen(url, timeout=5) as resp:
+                data = json.loads(resp.read().decode())
+                if data.get("ready"):
+                    return
+        except Exception:
+            pass
+        time.sleep(1.0)
+    raise TimeoutError(f"multihost barrier '{stage}' timed out after {timeout_s}s")
+
+
+def multihost_mark_done(coord_host: str, coord_port: int, var_idx: int, status: str) -> None:
+    url = f"http://{coord_host}:{coord_port}/mark_done?v={var_idx}&status={urllib.parse.quote(status)}"
+    for _ in range(10):
+        try:
+            with urllib.request.urlopen(url, timeout=5) as resp:
+                if resp.status == 200:
+                    return
+        except Exception:
+            time.sleep(1.0)
+
+
+def multihost_is_done(coord_host: str, coord_port: int, var_idx: int) -> bool:
+    url = f"http://{coord_host}:{coord_port}/is_done?v={var_idx}"
+    try:
+        with urllib.request.urlopen(url, timeout=5) as resp:
+            return bool(json.loads(resp.read().decode()).get("done"))
+    except Exception:
+        return False
+
+
+def wait_ready_any(base_urls: list[str], procs: list[subprocess.Popen], timeout_s: float) -> str | None:
     deadline = time.time() + timeout_s
     while time.time() < deadline:
         if any(p.poll() is not None for p in procs):
-            return False
-        try:
-            with urllib.request.urlopen(f"http://127.0.0.1:{port}/health_generate", timeout=60) as resp:
-                if resp.status == 200:
-                    return True
-        except Exception:
-            pass
-        time.sleep(15)
-    return False
+            return None
+        for base_url in base_urls:
+            try:
+                with urllib.request.urlopen(f"{base_url}/health_generate", timeout=30) as resp:
+                    if resp.status != 200:
+                        continue
+                with urllib.request.urlopen(f"{base_url}/v1/models", timeout=15) as mresp:
+                    if mresp.status == 200:
+                        return base_url
+            except Exception:
+                pass
+        time.sleep(12)
+    return None
 
 
 def stop_servers(procs: list[subprocess.Popen]) -> None:
@@ -107,7 +226,7 @@ def stop_servers(procs: list[subprocess.Popen]) -> None:
     time.sleep(25)
 
 
-def sanity_generate(port: int, served_name: str) -> dict:
+def sanity_generate(base_url: str, served_name: str) -> dict:
     body = {
         "model": served_name or "default",
         "messages": [{"role": "user", "content": "In one short sentence: what is the capital of France?"}],
@@ -115,7 +234,7 @@ def sanity_generate(port: int, served_name: str) -> dict:
         "temperature": 0,
     }
     req = urllib.request.Request(
-        f"http://127.0.0.1:{port}/v1/chat/completions",
+        f"{base_url}/v1/chat/completions",
         data=json.dumps(body).encode(),
         headers={"Content-Type": "application/json"},
     )
@@ -137,7 +256,7 @@ def sanity_generate(port: int, served_name: str) -> dict:
         return {"ok": False, "error": f"{type(exc).__name__}: {exc}"[:400]}
 
 
-def server_info(server_log: Path) -> list[str]:
+def server_info(server_logs: list[Path]) -> list[str]:
     keys = (
         "max_total_num_tokens",
         "KV Cache is allocated",
@@ -146,21 +265,25 @@ def server_info(server_log: Path) -> list[str]:
         "SWA",
         "max_running_requests",
         "Load weight end",
+        "normalized node rank",
         "accept",
         "draft",
     )
     lines = []
-    try:
-        for line in server_log.read_text(errors="replace").splitlines():
-            if ("TP0" in line or "Schedule" in line) and any(k in line for k in keys) and len(lines) < 25:
-                lines.append(line[-400:])
-    except Exception:
-        pass
+    for server_log in server_logs:
+        try:
+            for line in server_log.read_text(errors="replace").splitlines():
+                if ("TP0" in line or "Schedule" in line or "normalized" in line) and any(k in line for k in keys):
+                    lines.append(line[-400:])
+                    if len(lines) >= 25:
+                        return lines
+        except Exception:
+            pass
     return lines
 
 
 def run_cell(
-    port: int,
+    base_url: str,
     tokenizer: str,
     served_name: str,
     inp: int,
@@ -183,7 +306,7 @@ def run_cell(
         "--backend",
         "sglang",
         "--base-url",
-        f"http://127.0.0.1:{port}",
+        base_url,
         "--dataset-name",
         "random",
         "--random-input-len",
@@ -301,6 +424,63 @@ def write_summary(out_dir: Path, meta: dict, variants: list[dict]) -> None:
     (out_dir / "SUMMARY.md").write_text("\n".join(md) + "\n")
 
 
+def patch_jax011_pallas() -> None:
+    """Fix JAX 0.11 removed pltpu.* aliases and preserve multi-host TPU bounds in launch_server."""
+    subs = [
+        ("pltpu.semaphore_signal(", "pl.semaphore_signal("),
+        ("pltpu.semaphore_wait(", "pl.semaphore_wait("),
+        ("pltpu.semaphore_read(", "pl.semaphore_read("),
+        ("pltpu.DeviceIdType", "pl.DeviceIdType"),
+        ("pltpu.semaphore(", "pl.semaphore("),
+    ]
+    rels = [
+        "moe/pallas/fused_rs/gmm_fused_rs_nodedup.py",
+        "k3_megakernel/kernel/collectives.py",
+        "twolevel_allreduce.py",
+    ]
+    roots = [
+        Path("/workspace/sglang/sglang_tpu"),
+        Path("/workspace/sglang/build/lib/sglang_tpu"),
+        Path("/usr/local/lib/python3.12/site-packages/sglang_tpu"),
+    ]
+    patched = 0
+    for root in roots:
+        for rel in rels:
+            fp = root / rel
+            if not fp.exists():
+                continue
+            orig = fp.read_text(encoding="utf-8", errors="replace")
+            updated = orig
+            for old, new in subs:
+                updated = updated.replace(old, new)
+            if updated != orig:
+                fp.write_text(updated, encoding="utf-8")
+                patched += 1
+        nn_fp = root / "node_normalization.py"
+        if nn_fp.exists():
+            nn_orig = nn_fp.read_text(encoding="utf-8", errors="replace")
+            target = 'child_env = dict(os.environ)\n    child_env["PYTHONPATH"]'
+            replacement = (
+                'child_env = dict(os.environ)\n'
+                '    child_env.pop("TORCH_TPU_SLICEBUILDER_ADDRESSES", None)\n'
+                '    child_env.pop("TORCH_TPU_TOPOLOGY", None)\n'
+                '    child_env["PYTHONPATH"]'
+            )
+            if target in nn_orig and "TORCH_TPU_SLICEBUILDER_ADDRESSES" not in nn_orig.split("_query_local_device_coords")[1][:400]:
+                nn_fp.write_text(nn_orig.replace(target, replacement, 1), encoding="utf-8")
+                patched += 1
+    ls_fp = SGL_ROOT / "benchmark/tpu/launch_server.py"
+    if ls_fp.exists():
+        ls_orig = ls_fp.read_text(encoding="utf-8", errors="replace")
+        ls_target = '    if settings.get("tp_size", 1) > 1:\n        for key in ('
+        ls_repl = '    if settings.get("tp_size", 1) > 1 and settings.get("nnodes", 1) == 1:\n        for key in ('
+        if ls_target in ls_orig:
+            ls_fp.write_text(ls_orig.replace(ls_target, ls_repl, 1), encoding="utf-8")
+            patched += 1
+    if patched:
+        log(f"patched {patched} sglang_tpu files (JAX 0.11 Pallas + multi-host coordinate discovery)")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--plan", required=True)
@@ -310,19 +490,43 @@ def main() -> int:
     ap.add_argument("--proxy-script", default="/sweep/muse_multi_replica_proxy.py")
     args = ap.parse_args()
 
+    patch_jax011_pallas()
     plan = json.loads(Path(args.plan).read_text())
-    worker_id = int(os.environ.get("TPU_WORKER_ID", "0"))
-    is_multihost = int(plan.get("nnodes", 1)) > 1
+    worker_id = int(os.environ.get("TPU_WORKER_ID", os.environ.get("JOB_COMPLETION_INDEX", "0")))
+    nnodes_plan = int(plan.get("nnodes", 1))
+    is_multihost = nnodes_plan > 1
+    whosts = [h.strip() for h in os.environ.get("TPU_WORKER_HOSTNAMES", "").split(",") if h.strip()]
+    coord_port = int(plan.get("coord_port", 29599))
+    coord_host = whosts[0] if whosts else "127.0.0.1"
+
+    if is_multihost:
+        if worker_id == 0:
+            start_coord_server(coord_port, nnodes_plan)
+            log(f"started TCP coordinator on 0.0.0.0:{coord_port} for {nnodes_plan} hosts")
+        # Wait for DNS resolution and synchronize all workers before touching TPUs
+        dns_deadline = time.time() + 300
+        while time.time() < dns_deadline:
+            try:
+                socket.gethostbyname(coord_host)
+                break
+            except socket.gaierror:
+                time.sleep(2.0)
+        multihost_barrier(coord_host, coord_port, "boot", worker_id, timeout_s=600)
+        log(f"all {nnodes_plan} workers passed boot barrier")
+
+    is_leader = (worker_id == 0)
     run_id = os.environ.get("MUSE_RUN_TS") or dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     out_dir = Path(args.out_root) / f"{plan['tag']}{args.tag_suffix}_{run_id}"
-    if worker_id == 0:
-        out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir.mkdir(parents=True, exist_ok=True)
     RECIPE_DIR.mkdir(parents=True, exist_ok=True)
+
     base_port = int(plan.get("port", 30000))
     meta = {k: plan[k] for k in ("title", "model_repo", "model_gb", "image", "hardware") if k in plan}
     meta["plan"] = plan
     meta["only"] = args.only
     meta["node"] = os.environ.get("NODE_NAME", "")
+    if is_multihost:
+        meta["worker_hosts"] = whosts
     results: list[dict] = []
     only = [s.strip() for s in args.only.split(",") if s.strip()]
     variants = plan["variants"]
@@ -341,30 +545,19 @@ def main() -> int:
             "cells": [],
         }
         results.append(rec)
-        if worker_id == 0:
+        if is_leader:
             write_summary(out_dir, meta, results)
         procs: list[subprocess.Popen] = []
-        ready_flag = out_dir / f".ready_{var_idx}_{var['name']}"
-        done_flag = out_dir / f".done_{var_idx}_{var['name']}"
         try:
-            if is_multihost:
-                if worker_id == 0:
-                    ready_flag.write_text("ready\n")
-                else:
-                    # Refresh directory listing so GCSFuse sees rank-0 barrier files
-                    wait_t0 = time.time()
-                    while time.time() - wait_t0 < 900:
-                        names = set(os.listdir(out_dir)) if out_dir.exists() else set()
-                        if ready_flag.name in names:
-                            break
-                        time.sleep(3)
-
             use_gcsfuse = bool(var.get("use_gcsfuse", plan.get("use_gcsfuse", False)))
+            do_prefetch = bool(var.get("prefetch_pagecache", plan.get("prefetch_pagecache", False)))
             gcs = var.get("model_gcs", plan["model_gcs"])
             draft_gcs = var.get("draft_gcs")
             if use_gcsfuse:
                 local = gcs_to_fuse_path(gcs)
                 log(f"[{var['name']}] using GCSFuse path {local}")
+                if do_prefetch:
+                    prefetch_gcsfuse_pagecache(local)
                 if draft_gcs:
                     if draft_gcs not in staged:
                         target_draft = Path("/dev/shm/models") / draft_gcs.rstrip("/").split("/")[-1]
@@ -404,19 +597,28 @@ def main() -> int:
                 base_sa["speculative_draft_model_path"] = str(draft_local)
 
             nnodes = int(base_sa.get("nnodes", plan.get("nnodes", 1)))
-            base_env: dict[str, str] = {}
+            base_env: dict[str, str | None] = {}
             if nnodes == 1:
                 base_env["FORCE_SINGLE_HOST"] = "1"
             else:
-                base_env["DIST_PORT"] = str(10011 + var_idx * 10)
+                dist_port = 10011 + var_idx * 10
+                sb_port = 8070 + var_idx * 20
+                base_sa["node_rank"] = worker_id
+                base_sa["dist_init_addr"] = f"{whosts[0]}:{dist_port}"
+                base_sa.setdefault("dist_timeout", 600)
+                base_env["TORCH_TPU_BASE_PORT"] = str(sb_port)
             base_env.update(plan.get("runtime_env", {}))
             base_env.update(var.get("runtime_env", {}))
             drop = list(plan.get("drop_server_args", [])) + list(var.get("drop_server_args", []))
+            extra_args = list(plan.get("extra_args", [])) + list(var.get("extra_args", []))
             extra_libtpu = list(plan.get("extra_libtpu", [])) + list(var.get("extra_libtpu", []))
             replicas = int(var.get("replicas", 1))
             tp_size = int(base_sa.get("tp_size", 1))
-            ready_timeout_s = float(var.get("ready_timeout_s", 5400))
+            ready_timeout_s = float(var.get("ready_timeout_s", plan.get("ready_timeout_s", 7200)))
             cell_timeout_s = int(var.get("cell_timeout_s", plan.get("cell_timeout_s", 1200)))
+
+            if is_multihost:
+                multihost_barrier(coord_host, coord_port, f"pre_launch_{var_idx}", worker_id, timeout_s=900)
 
             t0 = time.time()
             if replicas > 1:
@@ -440,6 +642,7 @@ def main() -> int:
                             server_args=json.dumps(r_sa),
                             runtime_env=json.dumps(r_env),
                             drop_server_args=json.dumps(drop),
+                            extra_args=json.dumps(extra_args),
                             extra_libtpu=extra_libtpu,
                         )
                     )
@@ -456,9 +659,12 @@ def main() -> int:
                     procs.append(p)
                     backend_urls.append(f"http://127.0.0.1:{r_port}")
 
-                server_log = out_dir / f"server_{var['name']}_r0.log"
+                server_logs = [out_dir / f"server_{var['name']}_r0.log"]
                 rec["recipe"] = (RECIPE_DIR / f"{var['name']}_r0.py").read_text()
-                all_ready = all(wait_ready(base_port + r, procs, ready_timeout_s) for r in range(replicas))
+                all_ready = all(
+                    wait_ready_any([f"http://127.0.0.1:{base_port + r}"], procs, ready_timeout_s) is not None
+                    for r in range(replicas)
+                )
                 if all_ready:
                     gw_log = out_dir / f"gateway_{var['name']}.log"
                     gw_proc = subprocess.Popen(
@@ -475,10 +681,9 @@ def main() -> int:
                         start_new_session=True,
                     )
                     procs.append(gw_proc)
-                    ready = wait_ready(gw_port, procs, 60.0)
+                    bench_base_url = wait_ready_any([f"http://127.0.0.1:{gw_port}"], procs, 60.0)
                 else:
-                    ready = False
-                bench_port = gw_port
+                    bench_base_url = None
             else:
                 mod = f"{var['name']}.py"
                 (RECIPE_DIR / mod).write_text(
@@ -487,13 +692,15 @@ def main() -> int:
                         server_args=json.dumps(base_sa),
                         runtime_env=json.dumps(base_env),
                         drop_server_args=json.dumps(drop),
+                        extra_args=json.dumps(extra_args),
                         extra_libtpu=extra_libtpu,
                     )
                 )
                 rec["recipe"] = (RECIPE_DIR / mod).read_text()
                 server_log = out_dir / f"server_{var['name']}_w{worker_id}.log" if is_multihost else out_dir / f"server_{var['name']}.log"
                 server_log.parent.mkdir(parents=True, exist_ok=True)
-                log(f"[{var['name']}] launching server ({var['desc']})")
+                server_logs = [out_dir / f"server_{var['name']}_w{i}.log" for i in range(nnodes_plan)] if is_multihost else [server_log]
+                log(f"[{var['name']}] launching server (worker_id={worker_id}, {var['desc']})")
                 p = subprocess.Popen(
                     [sys.executable, "-m", "benchmark.tpu.launch_server", "--config", f"recipe/configs/muse_custom/{mod}"],
                     cwd=str(SGL_ROOT),
@@ -503,35 +710,37 @@ def main() -> int:
                     env={**os.environ, "HEALTH_TIMEOUT": str(int(ready_timeout_s))},
                 )
                 procs.append(p)
-                bench_port = base_port
-                if worker_id == 0:
-                    ready = wait_ready(bench_port, procs, ready_timeout_s)
+                if is_leader:
+                    candidate_urls = [f"http://127.0.0.1:{base_port}"]
+                    if is_multihost:
+                        candidate_urls += [f"http://{h}:{base_port}" for h in whosts]
+                    bench_base_url = wait_ready_any(candidate_urls, procs, ready_timeout_s)
                 else:
-                    # Nonzero multi-host worker: stay alive while local launch_server runs AND rank 0 hasn't signaled done
                     while p.poll() is None:
-                        names = set(os.listdir(out_dir)) if out_dir.exists() else set()
-                        if done_flag.name in names:
+                        if multihost_is_done(coord_host, coord_port, var_idx):
                             break
-                        time.sleep(8)
+                        time.sleep(5)
                     stop_servers(procs)
+                    multihost_barrier(coord_host, coord_port, f"post_stop_{var_idx}", worker_id, timeout_s=600)
                     continue
 
             rec["server_ready_s"] = round(time.time() - t0, 1)
-            rec["server_info"] = server_info(server_log)
-            if not ready:
+            rec["server_info"] = server_info(server_logs)
+            if bench_base_url is None:
                 rec["status"] = "SERVER_FAILED"
-                rec["server_log_tail"] = server_log.read_text(errors="replace")[-6000:] if server_log.exists() else ""
+                rec["server_log_tail"] = server_logs[0].read_text(errors="replace")[-6000:] if server_logs[0].exists() else ""
                 log(f"[{var['name']}] server did not become ready ({rec['server_ready_s']}s)")
                 if is_multihost:
-                    done_flag.write_text("failed\n")
+                    multihost_mark_done(coord_host, coord_port, var_idx, "failed")
                 stop_servers(procs)
                 if is_multihost:
-                    time.sleep(15)
+                    multihost_barrier(coord_host, coord_port, f"post_stop_{var_idx}", worker_id, timeout_s=600)
                 write_summary(out_dir, meta, results)
                 continue
 
-            log(f"[{var['name']}] ready after {rec['server_ready_s']}s")
-            rec["sanity"] = sanity_generate(bench_port, base_sa.get("served_model_name", ""))
+            rec["bench_base_url"] = bench_base_url
+            log(f"[{var['name']}] ready after {rec['server_ready_s']}s at {bench_base_url}")
+            rec["sanity"] = sanity_generate(bench_base_url, base_sa.get("served_model_name", ""))
             log(f"[{var['name']}] sanity: {json.dumps(rec['sanity'])[:500]}")
             rec["status"] = "RUNNING"
             write_summary(out_dir, meta, results)
@@ -542,7 +751,7 @@ def main() -> int:
                     log(f"[{var['name']}] bench in={inp} out={out} conc={conc}")
                     try:
                         cell = run_cell(
-                            bench_port,
+                            bench_base_url,
                             str(local),
                             base_sa.get("served_model_name", ""),
                             inp,
@@ -561,7 +770,6 @@ def main() -> int:
                             "metrics": {},
                             "error_tail": f"client timeout after {cell_timeout_s}s",
                         }
-                        # Kill stray client process if any
                         subprocess.run(["pkill", "-9", "-f", "sglang.benchmark.serving"], check=False)
                     rec["cells"].append(cell)
                     m = cell.get("metrics", {})
@@ -575,25 +783,33 @@ def main() -> int:
                         break
                 if any(pr.poll() is not None for pr in procs):
                     rec["status"] = "SERVER_DIED"
-                    rec["server_log_tail"] = server_log.read_text(errors="replace")[-6000:] if server_log.exists() else ""
+                    rec["server_log_tail"] = server_logs[0].read_text(errors="replace")[-6000:] if server_logs[0].exists() else ""
                     break
             if rec["status"] == "RUNNING":
                 rec["status"] = "DONE"
-            rec["server_info"] = server_info(server_log)
+            rec["server_info"] = server_info(server_logs)
             if is_multihost:
-                done_flag.write_text("done\n")
+                multihost_mark_done(coord_host, coord_port, var_idx, "done")
             stop_servers(procs)
+            if is_multihost:
+                multihost_barrier(coord_host, coord_port, f"post_stop_{var_idx}", worker_id, timeout_s=600)
         except Exception as exc:
             rec["status"] = f"ERROR: {type(exc).__name__}: {exc}"[:400]
             log(f"[{var['name']}] {rec['status']}")
-            if is_multihost and worker_id == 0:
+            if is_multihost and is_leader:
+                multihost_mark_done(coord_host, coord_port, var_idx, "error")
+            stop_servers(procs)
+            if is_multihost:
                 try:
-                    done_flag.write_text("error\n")
+                    multihost_barrier(coord_host, coord_port, f"post_stop_{var_idx}", worker_id, timeout_s=300)
                 except Exception:
                     pass
-            stop_servers(procs)
-        if worker_id == 0:
+        if is_leader:
             write_summary(out_dir, meta, results)
+
+    if is_multihost:
+        multihost_barrier(coord_host, coord_port, "all_done", worker_id, timeout_s=300)
+        time.sleep(2.0)
     log(f"sweep finished -> {out_dir}")
     return 0
 

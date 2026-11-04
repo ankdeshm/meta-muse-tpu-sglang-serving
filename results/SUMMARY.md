@@ -1,7 +1,7 @@
 # Meta Muse (`Muse-Spark-Open-816B-A42B` & `Muse-Glimmer-30B`) on Cloud TPU (`v7x` & `v5p`) — Measured SGLang-TorchTPU Results
 
-- **Generated (UTC):** `2026-11-03T06:14:22.081574+00:00`
-- **Source runs:** 35 result directories
+- **Generated (UTC):** `2026-11-04T01:51:05.428827+00:00`
+- **Source runs:** 52 result directories
 - **`Output tok/s/chip`** divides output throughput by the physical TPU chips occupied by that serving topology (`TP2` on `v5p` = 2 chips; `TP2` on `v7x` = 1 chip; `2×TP2` gateway on `v5p` = 4 chips; `4×TP2` / `2×TP4` / `TP8` on `v7x` = 4 chips; `TP32` on `v5p-32` = 32 chips).
 
 ## Muse-Spark-Open-816B-A42B (NVFP4 + DFlash2) — TPU `v7x` (1 host = 4 chips / 8 TensorCores)
@@ -10,12 +10,154 @@ one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 G
 
 | Variant | Layout / precision | Chips | In / Out | Conc. | Req/s | Output tok/s | Output tok/s/chip | Total tok/s | TTFT p50 / p99 (ms) | TPOT p50 / p99 (ms) | Spec accept len | Status |
 |---|---|---:|---|---:|---:|---:|---:|---:|---|---|---:|---|
-| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | - | - | - | - | - | - | - | - | - | `PENDING` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `1024` / `1024` | 1 | 0.089 | 91.5 | 22.9 | 183.0 | 166 / 172 | 10.78 / 10.78 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `1024` / `1024` | 4 | 0.255 | 261.1 | 65.3 | 522.3 | 552 / 710 | 14.78 / 15.17 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `1024` / `1024` | 8 | 0.365 | 373.6 | 93.4 | 747.3 | 707 / 1,250 | 20.64 / 21.24 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `1024` / `1024` | 16 | 0.510 | 522.3 | 130.6 | 1,044.6 | 1,402 / 2,261 | 29.35 / 30.55 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `1024` / `1024` | 32 | 0.725 | 742.7 | 185.7 | 1,485.4 | 2,430 / 4,312 | 40.77 / 43.22 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `1024` / `1024` | 64 | 1.012 | 1,036.2 | 259.0 | 2,072.3 | 4,662 / 8,429 | 57.48 / 61.71 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `4096` / `1024` | 1 | 0.086 | 87.8 | 22.0 | 439.2 | 536 / 545 | 10.87 / 10.87 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `4096` / `1024` | 4 | 0.229 | 234.1 | 58.5 | 1,170.7 | 1,295 / 2,062 | 15.86 / 16.70 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `4096` / `1024` | 8 | 0.313 | 320.0 | 80.0 | 1,600.0 | 2,294 / 4,097 | 22.81 / 24.72 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `4096` / `1024` | 16 | 0.414 | 424.1 | 106.0 | 2,120.6 | 4,543 / 8,141 | 33.38 / 37.39 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `4096` / `1024` | 32 | 0.542 | 554.7 | 138.7 | 2,773.4 | 8,329 / 16,187 | 49.55 / 57.51 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `4096` / `1024` | 64 | 0.682 | 698.8 | 174.7 | 3,494.1 | 14,244 / 32,052 | 77.50 / 91.08 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `32768` / `1024` | 1 | 0.063 | 64.9 | 16.2 | 2,142.1 | 4,364 / 4,366 | 11.17 / 11.17 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `32768` / `1024` | 4 | 0.119 | 121.4 | 30.3 | 4,005.1 | 10,787 / 17,131 | 22.46 / 28.76 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `65536` / `1024` | 1 | 0.048 | 48.8 | 12.2 | 3,170.0 | 9,265 / 9,275 | 11.50 / 11.51 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `65536` / `1024` | 4 | 0.074 | 75.3 | 18.8 | 4,896.0 | 22,936 / 36,413 | 30.72 / 44.13 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `131072` / `1024` | 1 | 0.030 | 31.0 | 7.7 | 3,993.6 | 20,615 / 20,755 | 12.17 / 12.17 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `131072` / `1024` | 2 | 0.036 | 36.4 | 9.1 | 4,690.8 | 30,902 / 40,843 | 24.82 / 34.54 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context | 4 | `258048` / `1024` | 1 | 0.016 | 16.2 | 4.1 | 4,108.6 | 49,261 / 49,515 | 13.47 / 13.47 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `1024` / `1024` | 1 | 0.089 | 91.4 | 22.9 | 182.8 | 159 / 170 | 10.79 / 10.79 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `1024` / `1024` | 4 | 0.258 | 263.8 | 66.0 | 527.7 | 433 / 546 | 14.81 / 14.92 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `1024` / `1024` | 8 | 0.372 | 381.0 | 95.3 | 762.1 | 445 / 1,071 | 20.52 / 21.15 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `1024` / `1024` | 16 | 0.372 | 381.1 | 95.3 | 762.2 | 21,564 / 23,290 | 20.54 / 21.18 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `1024` / `1024` | 32 | 0.376 | 384.6 | 96.2 | 769.3 | 63,572 / 66,204 | 20.36 / 20.79 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `4096` / `1024` | 1 | 0.086 | 88.0 | 22.0 | 439.9 | 526 / 536 | 10.87 / 10.88 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `4096` / `1024` | 4 | 0.232 | 237.5 | 59.4 | 1,187.3 | 1,123 / 2,049 | 15.76 / 16.67 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `4096` / `1024` | 8 | 0.327 | 334.8 | 83.7 | 1,673.8 | 1,549 / 4,033 | 22.02 / 24.62 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `4096` / `1024` | 16 | 0.327 | 335.0 | 83.7 | 1,675.0 | 26,422 / 29,831 | 21.95 / 24.69 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `65536` / `1024` | 1 | 0.055 | 56.5 | 14.1 | 3,669.9 | 9,102 / 9,247 | 11.50 / 11.50 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `65536` / `1024` | 4 | 0.097 | 99.8 | 25.0 | 6,487.8 | 9,616 / 35,474 | 26.33 / 43.29 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `131072` / `1024` | 1 | 0.043 | 44.2 | 11.0 | 5,697.8 | 10,722 / 20,266 | 12.17 / 12.17 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_bs8_recipe` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`) | 4 | `258048` / `1024` | 1 | 0.035 | 35.8 | 8.9 | 9,054.9 | 14,805 / 28,172 | 13.49 / 13.49 | - | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `1024` / `1024` | 1 | 0.347 | 355.2 | 88.8 | 710.5 | 170 / 175 | 2.35 / 4.15 | 6.71 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `1024` / `1024` | 4 | 0.649 | 664.1 | 166.0 | 1,328.3 | 276 / 717 | 4.43 / 7.64 | 6.72 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `1024` / `1024` | 8 | 0.952 | 974.5 | 243.6 | 1,949.0 | 590 / 1,253 | 6.18 / 12.37 | 6.73 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `1024` / `1024` | 16 | 1.328 | 1,360.2 | 340.1 | 2,720.4 | 625 / 2,268 | 9.12 / 19.61 | 6.82 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `1024` / `1024` | 32 | 1.818 | 1,861.9 | 465.5 | 3,723.8 | 1,718 / 6,578 | 12.76 / 29.27 | 6.99 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `4096` / `1024` | 1 | 0.341 | 349.3 | 87.3 | 1,746.3 | 535 / 546 | 2.33 / 2.45 | 7.01 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `4096` / `1024` | 4 | 0.625 | 640.3 | 160.1 | 3,201.7 | 1,030 / 1,954 | 5.22 / 6.19 | 7.06 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `4096` / `1024` | 8 | 0.716 | 733.6 | 183.4 | 3,667.9 | 1,314 / 3,890 | 8.26 / 15.71 | 7.10 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `4096` / `1024` | 16 | 0.915 | 937.1 | 234.3 | 4,685.3 | 2,609 / 7,786 | 11.85 / 31.66 | 7.14 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `32768` / `1024` | 1 | 0.148 | 151.6 | 37.9 | 5,002.4 | 4,360 / 4,363 | 2.38 / 2.39 | 7.14 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `32768` / `1024` | 4 | 0.185 | 189.1 | 47.3 | 6,239.0 | 8,609 / 16,792 | 12.72 / 17.07 | 7.16 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `65536` / `1024` | 1 | 0.086 | 87.7 | 21.9 | 5,702.1 | 9,234 / 9,250 | 2.41 / 2.44 | 7.16 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `65536` / `1024` | 2 | 0.093 | 94.8 | 23.7 | 6,165.2 | 13,675 / 18,229 | 7.63 / 12.06 | 7.17 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8` | NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8) | 4 | `131072` / `1024` | 1 | 0.043 | 44.4 | 11.1 | 5,728.1 | 20,496 / 20,651 | 2.49 / 2.50 | 7.17 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `1024` / `1024` | 1 | 0.744 | 761.9 | 190.5 | 1,523.9 | 154 / 159 | 0.97 / 1.86 | 6.25 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `1024` / `1024` | 2 | 0.860 | 880.9 | 220.2 | 1,761.8 | 161 / 281 | 1.83 / 3.52 | 6.61 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `1024` / `1024` | 4 | 0.933 | 955.8 | 239.0 | 1,911.6 | 256 / 717 | 3.29 / 6.23 | 6.65 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `1024` / `1024` | 8 | 0.944 | 966.5 | 241.6 | 1,933.0 | 3,884 / 7,150 | 3.28 / 8.45 | 6.62 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `1024` / `1024` | 16 | 0.975 | 998.4 | 249.6 | 1,996.7 | 12,034 / 15,395 | 3.31 / 7.93 | 6.74 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `4096` / `1024` | 1 | 0.656 | 672.0 | 168.0 | 3,359.9 | 532 / 538 | 0.96 / 1.05 | 6.80 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `4096` / `1024` | 4 | 0.778 | 796.5 | 199.1 | 3,982.4 | 566 / 1,987 | 4.41 / 4.98 | 6.90 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `4096` / `1024` | 8 | 0.744 | 761.7 | 190.4 | 3,808.5 | 5,693 / 8,039 | 4.40 / 7.68 | 7.00 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `32768` / `1024` | 1 | 0.185 | 188.9 | 47.2 | 6,235.2 | 4,436 / 4,442 | 0.98 / 0.98 | 7.00 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `32768` / `1024` | 4 | 0.184 | 188.7 | 47.2 | 6,227.8 | 11,350 / 18,129 | 10.07 / 16.87 | 7.04 | `PASS` |
+| `spark_nvfp4_tp8_ep1_dflash8_megakernel` | NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), BF16 packed KV (`SGLANG_TPU_KV_PACK_HEADS=1`, `max_running_requests=4` = 32 verify rows) | 4 | `65536` / `1024` | 1 | 0.096 | 98.0 | 24.5 | 6,372.9 | 9,440 / 9,443 | 1.02 / 1.04 | 7.05 | `PASS` |
+| `spark_nvfp4_tp8_ep8` | NVFP4 (`modelopt_fp4`), TP8 EP8 (32 whole experts per TensorCore rank vs `ep_size=1` expert-TP), FP8 KV | 4 | `1024` / `1024` | 1 | 0.056 | 57.7 | 14.4 | 115.4 | 215 / 226 | 17.14 / 17.19 | - | `PASS` |
+| `spark_nvfp4_tp8_ep8` | NVFP4 (`modelopt_fp4`), TP8 EP8 (32 whole experts per TensorCore rank vs `ep_size=1` expert-TP), FP8 KV | 4 | `1024` / `1024` | 4 | 0.138 | 141.2 | 35.3 | 282.5 | 655 / 839 | 27.68 / 28.15 | - | `PASS` |
+| `spark_nvfp4_tp8_ep8` | NVFP4 (`modelopt_fp4`), TP8 EP8 (32 whole experts per TensorCore rank vs `ep_size=1` expert-TP), FP8 KV | 4 | `1024` / `1024` | 16 | 0.280 | 286.4 | 71.6 | 572.7 | 1,650 / 2,678 | 54.40 / 55.93 | - | `PASS` |
+| `spark_nvfp4_tp8_ep8` | NVFP4 (`modelopt_fp4`), TP8 EP8 (32 whole experts per TensorCore rank vs `ep_size=1` expert-TP), FP8 KV | 4 | `1024` / `1024` | 32 | 0.411 | 421.3 | 105.3 | 842.7 | 2,848 / 5,136 | 73.33 / 76.79 | - | `PASS` |
+| `spark_nvfp4_tp8_ep8` | NVFP4 (`modelopt_fp4`), TP8 EP8 (32 whole experts per TensorCore rank vs `ep_size=1` expert-TP), FP8 KV | 4 | `4096` / `1024` | 1 | 0.055 | 56.0 | 14.0 | 279.8 | 700 / 730 | 17.21 / 17.28 | - | `PASS` |
+| `spark_nvfp4_tp8_ep8` | NVFP4 (`modelopt_fp4`), TP8 EP8 (32 whole experts per TensorCore rank vs `ep_size=1` expert-TP), FP8 KV | 4 | `4096` / `1024` | 16 | 0.243 | 249.3 | 62.3 | 1,246.6 | 6,004 / 10,725 | 58.44 / 63.81 | - | `PASS` |
 
 ### Variant status & sanity check
 
-- `spark_nvfp4_tp8_ep1`: **PENDING** (server ready after `-` s)
-  - reason: `PENDING`
+- `spark_nvfp4_tp8_ep1`: **DONE** (server ready after `3241.3` s)
+  - sanity (greedy chat): `Should we be helpful? Yes.  We should answer: The capital of France is Paris.  Make sure it's one sentence. Don't add extra fluff.  We should not add additional sentences. Just one.  We should ensure `
+  - earlier attempt: SERVER_FAILED — `SERVER_FAILED`
+  - earlier attempt: PENDING — `PENDING`
+  - earlier attempt: SERVER_FAILED — `ValueError: TP rank 6 finished loading, but other ranks did not within SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S. Check their logs for a load failure (e.g. OOM, a missing or truncated checkpoint shard`
+  - earlier attempt: PENDING — `PENDING`
+- `spark_nvfp4_tp8_ep1_bs8_recipe`: **DONE** (server ready after `3337.2` s)
+  - sanity (greedy chat): `Should we be helpful? Yes.  We should answer: The capital of France is Paris.  Make sure it's one sentence. Don't add extra fluff.  We should not add additional sentences. Just one.  We should ensure `
+  - earlier attempt: SERVER_FAILED — `SERVER_FAILED`
+  - earlier attempt: PENDING — `PENDING`
+- `spark_nvfp4_tp8_ep1_dflash8`: **DONE** (server ready after `3085.2` s)
+  - sanity (greedy chat): `tences. One short sentence.  We must ensure we follow policy. This is straightforward.  We should not add extra fluff. One short sentence.  We could answer: Paris is the capital of France.  That's one`
+  - earlier attempt: PENDING — `PENDING`
+- `spark_nvfp4_tp8_ep1_dflash8_megakernel`: **DONE** (server ready after `2905.2` s)
+  - sanity (greedy chat): `l of France is Paris.  Make sure it's one sentence. Possibly add period.  We should not add extra fluff. Just one sentence.  We should ensure we don't violate policy. It's fine.  We should answer conc`
+  - earlier attempt: SERVER_FAILED — `torch._dynamo.exc.Unsupported: Observed exception`
+- `spark_nvfp4_tp8_ep8`: **DONE** (server ready after `7033.4` s)
+  - sanity (greedy chat): `ris."  We should ensure we follow policy. No issues.  We should not add extra sentences. Just one sentence.  We should be helpful.  We should not add unnecessary formatting? Probably just plain senten`
+  - earlier attempt: PENDING — `PENDING`
+  - earlier attempt: PENDING — `PENDING`
+
+## Muse-Spark-Open-816B-A42B (BF16 + DFlash2) — TPU `v5p-32` (8 hosts = 32 chips, `2x4x4`)
+
+TPU `v5p-32` slice (`8` hosts, `32` chips in `2x4x4` 3D torus ICI, `95 GB` HBM/chip = `3.04 TB` HBM)
+
+| Variant | Layout / precision | Chips | In / Out | Conc. | Req/s | Output tok/s | Output tok/s/chip | Total tok/s | TTFT p50 / p99 (ms) | TPOT p50 / p99 (ms) | Spec accept len | Status |
+|---|---|---:|---|---:|---:|---:|---:|---:|---|---|---:|---|
+| `spark_bf16_v5p32_tp32_ep1` | BF16 checkpoint, TP32 EP1 (32-way expert-TP across all 32 v5p chips), BF16 KV | 32 | - | - | - | - | - | - | - | - | - | `SERVER_FAILED` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `1024` / `1024` | 1 | 0.039 | 40.0 | 1.3 | 80.1 | 186 / 191 | 24.81 / 24.88 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `1024` / `1024` | 4 | 0.133 | 136.4 | 4.3 | 272.8 | 469 / 582 | 28.89 / 29.19 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `1024` / `1024` | 8 | 0.237 | 242.4 | 7.6 | 484.7 | 585 / 993 | 32.37 / 32.84 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `1024` / `1024` | 16 | 0.405 | 414.3 | 12.9 | 828.6 | 1,128 / 1,827 | 37.57 / 38.41 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `1024` / `1024` | 32 | 0.690 | 706.5 | 22.1 | 1,413.1 | 1,940 / 3,444 | 43.43 / 45.05 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `1024` / `1024` | 64 | 1.095 | 1,121.5 | 35.0 | 2,243.1 | 3,737 / 6,704 | 53.50 / 56.70 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `4096` / `1024` | 1 | 0.039 | 39.4 | 1.2 | 197.2 | 512 / 526 | 24.87 / 24.92 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `4096` / `1024` | 4 | 0.127 | 130.0 | 4.1 | 650.2 | 1,179 / 1,887 | 29.66 / 30.37 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `4096` / `1024` | 16 | 0.351 | 359.4 | 11.2 | 1,797.1 | 4,080 / 7,289 | 40.64 / 44.13 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `4096` / `1024` | 32 | 0.546 | 558.8 | 17.5 | 2,793.8 | 7,472 / 14,480 | 50.01 / 56.85 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `4096` / `1024` | 64 | 0.767 | 785.3 | 24.5 | 3,926.5 | 12,724 / 28,133 | 68.99 / 80.98 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `32768` / `1024` | 1 | 0.034 | 34.8 | 1.1 | 1,149.0 | 3,839 / 3,877 | 25.00 / 25.03 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `32768` / `1024` | 4 | 0.088 | 90.5 | 2.8 | 2,984.9 | 9,476 / 15,117 | 35.02 / 40.49 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `65536` / `1024` | 1 | 0.030 | 30.5 | 1.0 | 1,985.2 | 7,831 / 7,888 | 25.15 / 25.19 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `65536` / `1024` | 4 | 0.065 | 66.4 | 2.1 | 4,316.8 | 19,403 / 30,972 | 41.36 / 52.62 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `131072` / `1024` | 1 | 0.024 | 24.2 | 0.8 | 3,121.1 | 16,216 / 16,456 | 25.50 / 25.54 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `131072` / `1024` | 2 | 0.033 | 33.8 | 1.1 | 4,359.0 | 24,101 / 32,056 | 35.65 / 43.42 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32` | BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context | 32 | `258048` / `1024` | 1 | 0.016 | 16.6 | 0.5 | 4,207.1 | 34,879 / 35,418 | 26.08 / 26.11 | - | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `1024` / `1024` | 1 | 0.145 | 148.0 | 4.6 | 296.0 | 255 / 264 | 5.97 / 9.17 | 6.98 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `1024` / `1024` | 4 | 0.373 | 382.2 | 11.9 | 764.5 | 304 / 848 | 7.74 / 14.48 | 6.79 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `1024` / `1024` | 8 | 0.670 | 685.9 | 21.4 | 1,371.8 | 748 / 1,392 | 8.68 / 25.19 | 6.64 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `1024` / `1024` | 16 | 1.094 | 1,119.8 | 35.0 | 2,239.5 | 768 / 2,467 | 11.44 / 28.45 | 6.83 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `1024` / `1024` | 32 | 1.504 | 1,540.1 | 48.1 | 3,080.1 | 1,849 / 6,393 | 14.61 / 36.61 | 7.02 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `4096` / `1024` | 1 | 0.146 | 149.6 | 4.7 | 748.1 | 712 / 737 | 5.84 / 6.61 | 7.04 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `4096` / `1024` | 4 | 0.388 | 397.1 | 12.4 | 1,985.5 | 1,297 / 2,509 | 8.57 / 10.52 | 7.08 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `4096` / `1024` | 16 | 0.737 | 754.5 | 23.6 | 3,772.7 | 3,581 / 9,775 | 14.47 / 37.82 | 7.15 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `65536` / `1024` | 1 | 0.059 | 60.9 | 1.9 | 3,955.8 | 10,859 / 10,983 | 5.91 / 5.96 | 7.15 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep32_dflash8` | BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV | 32 | `65536` / `1024` | 2 | 0.070 | 72.0 | 2.2 | 4,679.4 | 16,130 / 21,456 | 11.98 / 17.17 | 7.16 | `PASS` |
+| `spark_bf16_v5p32_tp32_ep8` | BF16 checkpoint, TP32 EP8 (32 experts/host, 4-way intra-host expert-TP across 8 v5p hosts), BF16 KV | 32 | - | - | - | - | - | - | - | - | - | `SERVER_FAILED` |
+
+### Variant status & sanity check
+
+- `spark_bf16_v5p32_tp32_ep1`: **SERVER_FAILED** (server ready after `7204.4` s)
+  - reason: `SERVER_FAILED`
+  - earlier attempt: SERVER_FAILED — `ValueError: TPU topology normalization requires all devices in one slice`
+  - earlier attempt: SERVER_FAILED — `SERVER_FAILED`
+  - earlier attempt: SERVER_FAILED — `SERVER_FAILED`
+- `spark_bf16_v5p32_tp32_ep32`: **DONE** (server ready after `5787.4` s)
+  - sanity (greedy chat): ` We should ensure we answer correctly.  We should not add extra fluff. One short sentence.  We should answer: The capital of France is Paris.  That's good.  We must ensure we don't violate any policy.`
+  - earlier attempt: SERVER_FAILED — `ValueError: TPU topology normalization requires all devices in one slice`
+  - earlier attempt: SERVER_FAILED — `RuntimeError: TPU coordinate discovery failed; refusing pod-index fallback: ['TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU `
+  - earlier attempt: SERVER_FAILED — `RuntimeError: TPU coordinate discovery failed; refusing pod-index fallback: ['TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU `
+  - earlier attempt: SERVER_FAILED — `RuntimeError: failed to retrieve the PjRt client: TPU initialization failed: Worker failed to join a slice within 15m`
+  - earlier attempt: PENDING — `PENDING`
+  - earlier attempt: PENDING — `PENDING`
+- `spark_bf16_v5p32_tp32_ep32_dflash8`: **DONE** (server ready after `5548.3` s)
+  - sanity (greedy chat): `e should ensure we answer correctly.  We should not add extra fluff. One short sentence.  We should answer: The capital of France is Paris.  That's good.  We must ensure we don't violate policy. It's `
+  - earlier attempt: SERVER_FAILED — `ValueError: TPU topology normalization requires all devices in one slice`
+  - earlier attempt: SERVER_FAILED — `SERVER_FAILED`
+  - earlier attempt: SERVER_FAILED — `SERVER_FAILED`
+  - earlier attempt: PENDING — `PENDING`
+  - earlier attempt: PENDING — `PENDING`
+- `spark_bf16_v5p32_tp32_ep8`: **SERVER_FAILED** (server ready after `49.4` s)
+  - reason: `ValueError: Muse Spark MoE supports EP or expert TP, not both`
 
 ## Muse-Glimmer-30B (+ DFlash assistant) — TPU `v7x` (1 host = 4 chips / 8 TensorCores)
 
@@ -23,7 +165,45 @@ one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 G
 
 | Variant | Layout / precision | Chips | In / Out | Conc. | Req/s | Output tok/s | Output tok/s/chip | Total tok/s | TTFT p50 / p99 (ms) | TPOT p50 / p99 (ms) | Spec accept len | Status |
 |---|---|---:|---|---:|---:|---:|---:|---:|---|---|---:|---|
-| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | - | - | - | - | - | - | - | - | - | `PENDING` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 1 | 0.130 | 133.5 | 33.4 | 266.9 | 118 / 126 | 7.38 / 7.38 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 4 | 0.519 | 531.4 | 132.9 | 1,062.3 | 164 / 212 | 7.36 / 7.42 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 16 | 1.763 | 1,805.0 | 451.2 | 3,608.2 | 487 / 849 | 8.33 / 8.81 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 32 | 3.089 | 3,163.4 | 790.9 | 6,323.8 | 854 / 1,223 | 9.41 / 10.13 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 64 | 5.005 | 5,125.0 | 1,281.3 | 10,245.1 | 1,221 / 1,810 | 11.51 / 12.35 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 128 | 7.307 | 7,482.5 | 1,870.6 | 14,957.6 | 1,668 / 3,142 | 15.44 / 16.87 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 1 | 0.125 | 128.2 | 32.1 | 640.9 | 404 / 405 | 7.41 / 7.41 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 16 | 1.496 | 1,531.7 | 382.9 | 7,656.9 | 1,173 / 1,935 | 9.29 / 10.06 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 32 | 2.392 | 2,448.9 | 612.2 | 12,242.2 | 1,945 / 3,483 | 11.17 / 12.68 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 64 | 3.385 | 3,466.6 | 866.6 | 17,329.6 | 3,494 / 6,570 | 15.02 / 18.07 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `65536` / `1024` | 1 | 0.087 | 88.8 | 22.2 | 5,771.3 | 3,719 / 3,730 | 7.63 / 7.64 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `65536` / `1024` | 4 | 0.261 | 267.5 | 66.9 | 17,389.4 | 5,504 / 7,313 | 9.57 / 11.33 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `126976` / `1024` | 1 | 0.062 | 63.1 | 15.8 | 7,883.7 | 8,238 / 8,269 | 7.81 / 7.81 | - | `PASS` |
+| `glimmer_bf16_2xtp4_gateway` | BF16, 2 colocated TP4 servers (`SGLANG_TPU_PD_COLOCATED=1`, 2 chips each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `126976` / `1024` | 2 | 0.123 | 126.0 | 31.5 | 15,744.3 | 8,246 / 8,248 | 7.81 / 7.81 | - | `PASS` |
+| `glimmer_bf16_4xtp2_gateway` | BF16, 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 1 | 0.081 | 82.8 | 20.7 | 165.6 | 115 / 160 | 11.96 / 11.97 | - | `PASS` |
+| `glimmer_bf16_4xtp2_gateway` | BF16, 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 4 | 0.323 | 331.1 | 82.8 | 661.9 | 118 / 120 | 11.96 / 11.97 | - | `PASS` |
+| `glimmer_bf16_4xtp2_gateway` | BF16, 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 16 | 1.226 | 1,255.6 | 313.9 | 2,510.0 | 363 / 456 | 12.34 / 12.66 | - | `PASS` |
+| `glimmer_bf16_4xtp2_gateway` | BF16, 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 32 | 2.360 | 2,417.0 | 604.2 | 4,831.6 | 460 / 787 | 12.67 / 13.09 | - | `PASS` |
+| `glimmer_bf16_4xtp2_gateway` | BF16, 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 64 | 4.379 | 4,484.2 | 1,121.0 | 8,963.9 | 570 / 908 | 13.76 / 14.20 | - | `PASS` |
+| `glimmer_bf16_4xtp2_gateway` | BF16, 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `1024` / `1024` | 128 | 7.386 | 7,563.5 | 1,890.9 | 15,119.7 | 1,131 / 1,814 | 15.93 / 16.71 | - | `PASS` |
+| `glimmer_bf16_4xtp2_gateway` | BF16, 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 1 | 0.079 | 80.9 | 20.2 | 404.6 | 378 / 379 | 12.00 / 12.01 | - | `PASS` |
+| `glimmer_bf16_4xtp2_gateway` | BF16, 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 16 | 1.152 | 1,179.3 | 294.8 | 5,895.1 | 751 / 1,111 | 12.83 / 13.21 | - | `PASS` |
+| `glimmer_bf16_4xtp2_gateway` | BF16, 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 64 | 3.605 | 3,691.5 | 922.9 | 18,453.8 | 1,876 / 3,361 | 15.50 / 16.97 | - | `PASS` |
+| `glimmer_bf16_tp2` | BF16, TP2 = 1 chip (2 TensorCores) of the 4, BF16 KV | 1 | `1024` / `1024` | 1 | 0.081 | 82.9 | 82.9 | 165.7 | 117 / 118 | 11.96 / 11.96 | - | `PASS` |
+| `glimmer_bf16_tp2` | BF16, TP2 = 1 chip (2 TensorCores) of the 4, BF16 KV | 1 | `1024` / `1024` | 4 | 0.308 | 315.2 | 315.2 | 630.1 | 364 / 447 | 12.32 / 12.60 | - | `PASS` |
+| `glimmer_bf16_tp2` | BF16, TP2 = 1 chip (2 TensorCores) of the 4, BF16 KV | 1 | `1024` / `1024` | 16 | 1.097 | 1,123.7 | 1,123.7 | 2,246.3 | 463 / 841 | 13.77 / 14.15 | - | `PASS` |
+| `glimmer_bf16_tp2` | BF16, TP2 = 1 chip (2 TensorCores) of the 4, BF16 KV | 1 | `1024` / `1024` | 32 | 1.856 | 1,900.5 | 1,900.5 | 3,799.2 | 1,144 / 1,826 | 15.92 / 16.69 | - | `PASS` |
+| `glimmer_bf16_tp2` | BF16, TP2 = 1 chip (2 TensorCores) of the 4, BF16 KV | 1 | `1024` / `1024` | 64 | 3.015 | 3,087.8 | 3,087.8 | 6,172.6 | 1,841 / 3,091 | 18.87 / 20.56 | - | `PASS` |
+| `glimmer_bf16_tp2` | BF16, TP2 = 1 chip (2 TensorCores) of the 4, BF16 KV | 1 | `4096` / `1024` | 1 | 0.079 | 81.0 | 81.0 | 404.7 | 377 / 379 | 11.99 / 11.99 | - | `PASS` |
+| `glimmer_bf16_tp2` | BF16, TP2 = 1 chip (2 TensorCores) of the 4, BF16 KV | 1 | `4096` / `1024` | 16 | 0.902 | 923.3 | 923.3 | 4,615.7 | 1,875 / 3,354 | 15.50 / 16.97 | - | `PASS` |
+| `glimmer_bf16_tp2` | BF16, TP2 = 1 chip (2 TensorCores) of the 4, BF16 KV | 1 | `4096` / `1024` | 64 | 1.917 | 1,962.6 | 1,962.6 | 9,811.2 | 5,664 / 12,750 | 27.17 / 32.30 | - | `PASS` |
+| `glimmer_bf16_tp4` | BF16, TP4 = 2 chips (4 TensorCores) of the 4, BF16 KV | 2 | `1024` / `1024` | 1 | 0.130 | 133.5 | 66.8 | 266.9 | 116 / 117 | 7.38 / 7.38 | - | `PASS` |
+| `glimmer_bf16_tp4` | BF16, TP4 = 2 chips (4 TensorCores) of the 4, BF16 KV | 2 | `1024` / `1024` | 4 | 0.467 | 478.7 | 239.4 | 956.9 | 482 / 483 | 7.89 / 8.25 | - | `PASS` |
+| `glimmer_bf16_tp4` | BF16, TP4 = 2 chips (4 TensorCores) of the 4, BF16 KV | 2 | `1024` / `1024` | 16 | 1.562 | 1,599.8 | 799.9 | 3,198.0 | 856 / 955 | 9.17 / 9.89 | - | `PASS` |
+| `glimmer_bf16_tp4` | BF16, TP4 = 2 chips (4 TensorCores) of the 4, BF16 KV | 2 | `1024` / `1024` | 32 | 2.510 | 2,569.8 | 1,284.9 | 5,137.1 | 1,226 / 1,692 | 11.28 / 12.36 | - | `PASS` |
+| `glimmer_bf16_tp4` | BF16, TP4 = 2 chips (4 TensorCores) of the 4, BF16 KV | 2 | `1024` / `1024` | 64 | 3.636 | 3,723.2 | 1,861.6 | 7,442.8 | 1,966 / 3,175 | 15.27 / 17.07 | - | `PASS` |
+| `glimmer_bf16_tp4` | BF16, TP4 = 2 chips (4 TensorCores) of the 4, BF16 KV | 2 | `4096` / `1024` | 1 | 0.125 | 128.3 | 64.1 | 641.2 | 400 / 401 | 7.41 / 7.42 | - | `PASS` |
+| `glimmer_bf16_tp4` | BF16, TP4 = 2 chips (4 TensorCores) of the 4, BF16 KV | 2 | `4096` / `1024` | 16 | 1.195 | 1,223.4 | 611.7 | 6,115.8 | 1,943 / 3,476 | 11.19 / 12.69 | - | `PASS` |
+| `glimmer_bf16_tp4` | BF16, TP4 = 2 chips (4 TensorCores) of the 4, BF16 KV | 2 | `4096` / `1024` | 64 | 2.121 | 2,172.2 | 1,086.1 | 10,859.0 | 5,818 / 13,161 | 23.70 / 28.97 | - | `PASS` |
 | `glimmer_bf16_tp8` | BF16 weights, TP8 (8 TensorCores), BF16 KV | 4 | `1024` / `1024` | 1 | 0.181 | 185.8 | 46.4 | 371.3 | 82 / 83 | 5.30 / 5.37 | - | `PASS` |
 | `glimmer_bf16_tp8` | BF16 weights, TP8 (8 TensorCores), BF16 KV | 4 | `1024` / `1024` | 4 | 0.681 | 697.0 | 174.3 | 1,393.3 | 315 / 315 | 5.46 / 5.78 | - | `PASS` |
 | `glimmer_bf16_tp8` | BF16 weights, TP8 (8 TensorCores), BF16 KV | 4 | `1024` / `1024` | 16 | 2.156 | 2,207.8 | 551.9 | 4,413.4 | 551 / 611 | 6.72 / 7.18 | - | `PASS` |
@@ -47,11 +227,46 @@ one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 G
 | `glimmer_bf16_tp8_dflash16` | BF16, TP8, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), model-default sampling (T=1.0, top-p 0.95, top-k 64) | 4 | `4096` / `1024` | 1 | 0.604 | 618.4 | 154.6 | 3,091.4 | 255 / 256 | 1.13 / 2.84 | 1.61 | `PASS` |
 | `glimmer_bf16_tp8_dflash16` | BF16, TP8, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), model-default sampling (T=1.0, top-p 0.95, top-k 64) | 4 | `4096` / `1024` | 4 | 1.542 | 1,579.0 | 394.8 | 7,893.7 | 255 / 699 | 2.02 / 4.37 | 1.69 | `PASS` |
 | `glimmer_bf16_tp8_dflash16` | BF16, TP8, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), model-default sampling (T=1.0, top-p 0.95, top-k 64) | 4 | `4096` / `1024` | 16 | 2.504 | 2,564.5 | 641.1 | 12,820.2 | 263 / 2,190 | 4.15 / 12.67 | 2.00 | `PASS` |
+| `glimmer_bf16_tp8_dflash16_longctx` | BF16, TP8, BF16 KV (`swa_full_tokens_ratio=1.0`) + DFLASH speculative decoding (`Muse-Glimmer-30B-assistant`, block 16) at 32K/64K/128K long context | 4 | `32768` / `1024` | 1 | 0.459 | 469.6 | 117.4 | 15,496.4 | 1,094 / 1,098 | 0.73 / 1.75 | 7.04 | `PASS` |
+| `glimmer_bf16_tp8_dflash16_longctx` | BF16, TP8, BF16 KV (`swa_full_tokens_ratio=1.0`) + DFLASH speculative decoding (`Muse-Glimmer-30B-assistant`, block 16) at 32K/64K/128K long context | 4 | `32768` / `1024` | 4 | 0.560 | 573.0 | 143.3 | 18,909.7 | 1,109 / 4,149 | 4.60 / 7.64 | 5.09 | `PASS` |
+| `glimmer_bf16_tp8_dflash16_longctx` | BF16, TP8, BF16 KV (`swa_full_tokens_ratio=1.0`) + DFLASH speculative decoding (`Muse-Glimmer-30B-assistant`, block 16) at 32K/64K/128K long context | 4 | `65536` / `1024` | 1 | 0.296 | 303.1 | 75.8 | 19,702.8 | 2,288 / 2,295 | 0.74 / 1.73 | 5.38 | `PASS` |
+| `glimmer_bf16_tp8_dflash16_longctx` | BF16, TP8, BF16 KV (`swa_full_tokens_ratio=1.0`) + DFLASH speculative decoding (`Muse-Glimmer-30B-assistant`, block 16) at 32K/64K/128K long context | 4 | `65536` / `1024` | 2 | 0.292 | 299.4 | 74.8 | 19,458.4 | 2,324 / 4,429 | 2.93 / 6.15 | 5.39 | `PASS` |
+| `glimmer_bf16_tp8_dflash16_longctx` | BF16, TP8, BF16 KV (`swa_full_tokens_ratio=1.0`) + DFLASH speculative decoding (`Muse-Glimmer-30B-assistant`, block 16) at 32K/64K/128K long context | 4 | `126976` / `1024` | 1 | 0.160 | 163.5 | 40.9 | 20,440.9 | 5,017 / 5,035 | 1.20 / 1.74 | 5.52 | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `1024` / `1024` | 1 | 0.124 | 126.7 | 31.7 | 253.4 | 87 / 181 | 7.79 / 7.82 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `1024` / `1024` | 4 | 0.494 | 505.7 | 126.4 | 1,010.9 | 85 / 89 | 7.82 / 7.85 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `1024` / `1024` | 16 | 1.887 | 1,931.9 | 483.0 | 3,862.0 | 299 / 309 | 7.89 / 8.33 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `1024` / `1024` | 32 | 3.620 | 3,706.6 | 926.7 | 7,409.6 | 307 / 321 | 8.29 / 8.61 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `1024` / `1024` | 64 | 6.689 | 6,849.3 | 1,712.3 | 13,691.9 | 345 / 646 | 8.84 / 9.27 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `1024` / `1024` | 128 | 11.233 | 11,502.2 | 2,875.5 | 22,993.1 | 728 / 1,171 | 10.50 / 11.00 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `4096` / `1024` | 1 | 0.121 | 123.9 | 31.0 | 619.2 | 261 / 262 | 7.82 / 7.87 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `4096` / `1024` | 16 | 1.794 | 1,837.1 | 459.3 | 9,183.6 | 510 / 746 | 8.17 / 8.50 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `4096` / `1024` | 64 | 5.462 | 5,593.0 | 1,398.2 | 27,959.4 | 1,264 / 2,262 | 10.20 / 11.19 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `65536` / `1024` | 1 | 0.088 | 90.4 | 22.6 | 5,875.2 | 3,109 / 3,123 | 8.02 / 8.05 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `65536` / `1024` | 4 | 0.345 | 353.8 | 88.4 | 22,995.7 | 3,108 / 3,140 | 8.04 / 8.31 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `126976` / `1024` | 1 | 0.062 | 63.1 | 15.8 | 7,888.0 | 7,765 / 7,781 | 8.26 / 8.31 | - | `PASS` |
+| `glimmer_fp8_4xtp2_gateway` | FP8 W8A8 (native v7x FP8 MXU), 4 colocated TP2 servers (`SGLANG_TPU_PD_COLOCATED=1`, 1 chip each = 4 chips total) behind async least-inflight HTTP gateway, FP8 KV | 4 | `126976` / `1024` | 4 | 0.245 | 250.8 | 62.7 | 31,349.2 | 7,829 / 7,904 | 8.21 / 8.22 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `1024` / `1024` | 1 | 0.124 | 127.0 | 127.0 | 254.0 | 83 / 84 | 7.80 / 7.80 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `1024` / `1024` | 4 | 0.483 | 495.1 | 495.1 | 989.7 | 297 / 299 | 7.79 / 8.01 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `1024` / `1024` | 16 | 1.710 | 1,750.9 | 1,750.9 | 3,500.0 | 418 / 553 | 8.75 / 9.07 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `1024` / `1024` | 32 | 2.832 | 2,899.7 | 2,899.7 | 5,796.6 | 552 / 1,001 | 10.51 / 10.95 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `1024` / `1024` | 64 | 4.155 | 4,254.7 | 4,254.7 | 8,505.2 | 1,101 / 1,895 | 13.97 / 14.95 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `4096` / `1024` | 1 | 0.121 | 124.1 | 124.1 | 620.2 | 255 / 256 | 7.82 / 7.82 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `4096` / `1024` | 16 | 1.368 | 1,400.7 | 1,400.7 | 7,002.0 | 1,263 / 2,249 | 10.19 / 11.18 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `4096` / `1024` | 64 | 2.609 | 2,671.6 | 2,671.6 | 13,355.2 | 3,806 / 8,548 | 20.29 / 23.73 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `65536` / `1024` | 1 | 0.088 | 90.4 | 90.4 | 5,874.4 | 3,098 / 3,099 | 8.05 / 8.05 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `65536` / `1024` | 4 | 0.190 | 194.5 | 194.5 | 12,641.7 | 7,574 / 12,061 | 13.17 / 17.56 | - | `PASS` |
+| `glimmer_fp8_tp2` | FP8 W8A8 online quantization (channelwise, native v7x FP8 MXU), TP2 = 1 chip (2 TensorCores) of 4 (kv_heads=2 requires tp<=2 for unfused FP8 q/k/v), FP8 KV | 1 | `126976` / `1024` | 1 | 0.062 | 63.3 | 63.3 | 7,909.0 | 7,759 / 7,761 | 8.23 / 8.23 | - | `PASS` |
 
 ### Variant status & sanity check
 
-- `glimmer_bf16_2xtp4_gateway`: **PENDING** (server ready after `-` s)
-  - reason: `PENDING`
+- `glimmer_bf16_2xtp4_gateway`: **DONE** (server ready after `468.4` s)
+  - sanity (greedy chat): `o extra fluff.  Answer: The capital of France is Paris.  That's it.  Potential nuance: Should we follow exactly? Yes.  Output one short sentence.  Done.assistant to=userThe capital of France is Paris.`
+- `glimmer_bf16_4xtp2_gateway`: **DONE** (server ready after `380.7` s)
+  - sanity (greedy chat): `o extra fluff.  Answer: The capital of France is Paris.  That's it.  Potential nuance: Should we follow exactly? Yes.  Output one short sentence.  Done.assistant to=userThe capital of France is Paris.`
+- `glimmer_bf16_tp2`: **DONE** (server ready after `376.1` s)
+  - sanity (greedy chat): `o extra fluff.  Answer: The capital of France is Paris.  That's it.  Potential nuance: Should we follow exactly? Yes.  Output one short sentence.  Done.assistant to=userThe capital of France is Paris.`
+- `glimmer_bf16_tp4`: **DONE** (server ready after `301.1` s)
+  - sanity (greedy chat): `o extra fluff.  Answer: The capital of France is Paris.  That's it.  Potential nuance: Should we follow exactly? Yes.  Output one short sentence.  Done.assistant to=userThe capital of France is Paris.`
 - `glimmer_bf16_tp8`: **DONE** (server ready after `641.2` s)
   - sanity (greedy chat): `.  Potentially ensure it's short. Could be "Paris is the capital of France."  That's fine.  No policy violation.  We should just answer.  Possibly add no extra. Just one short sentence.  Make sure not`
   - earlier attempt: SERVER_FAILED — `ValueError: Model type MuseGlimmerForConditionalGeneration is not supported for encoder disaggregation. Supported architectures: Qwen2VL, Qwen3VL, Qwen3.5, InternS2, Qwen2Audio, Qwen2.5Omni, Dots3-Not`
@@ -60,6 +275,13 @@ one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 G
   - sanity (greedy chat): `o extra fluff.  Answer: The capital of France is Paris.  That's it.  Potential nuance: Should we follow exactly? Yes.  Output one short sentence.  Done.assistant to=userThe capital of France is Paris.`
   - earlier attempt: PENDING — `PENDING`
   - earlier attempt: PENDING — `PENDING`
+- `glimmer_bf16_tp8_dflash16_longctx`: **DONE** (server ready after `1417.2` s)
+  - sanity (greedy chat): `o extra fluff.  Answer: The capital of France is Paris.  That's it.  Potential nuance: Should we follow exactly? Yes.  Output one short sentence.  Done.assistant to=userThe capital of France is Paris.`
+  - earlier attempt: PENDING — `PENDING`
+- `glimmer_fp8_4xtp2_gateway`: **DONE** (server ready after `545.7` s)
+  - sanity (greedy chat): `ld not add extra sentences. Just one.  Output: The capital of France is Paris.  That's fine.  Ensure no extra fluff.  Possibly add period.  Yes.  Final.assistant to=userThe capital of France is Paris.`
+- `glimmer_fp8_tp2`: **DONE** (server ready after `571.1` s)
+  - sanity (greedy chat): `ld not add extra sentences. Just one.  Output: The capital of France is Paris.  That's fine.  Ensure no extra fluff.  Possibly add period.  Yes.  Final.assistant to=userThe capital of France is Paris.`
 
 ## Muse-Glimmer-30B (+ DFlash assistant) — TPU `v5p` (1 host = 4 chips)
 
@@ -76,6 +298,15 @@ one TPU `v5p` host (`4` chips, 1 JAX/PJRT device per chip, `95 GB` HBM/chip = `3
 | `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 1 | 0.063 | 64.2 | 16.0 | 320.8 | 750 / 751 | 14.86 / 14.87 | - | `PASS` |
 | `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 4 | 0.259 | 265.0 | 66.2 | 1,324.5 | 1,112 / 1,477 | 14.01 / 14.37 | - | `PASS` |
 | `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 16 | 0.851 | 871.4 | 217.9 | 4,356.2 | 2,245 / 3,724 | 16.16 / 17.64 | - | `PASS` |
+| `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 32 | 1.380 | 1,412.7 | 353.2 | 7,062.2 | 3,727 / 6,719 | 18.92 / 21.93 | - | `PASS` |
+| `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `4096` / `1024` | 64 | 1.996 | 2,043.9 | 511.0 | 10,217.5 | 6,744 / 12,722 | 24.63 / 30.59 | - | `PASS` |
+| `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `32768` / `1024` | 1 | 0.053 | 54.7 | 13.7 | 1,805.0 | 3,378 / 3,391 | 14.99 / 15.00 | - | `PASS` |
+| `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `32768` / `1024` | 4 | 0.191 | 195.4 | 48.9 | 6,448.1 | 5,030 / 6,707 | 15.53 / 17.17 | - | `PASS` |
+| `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `32768` / `1024` | 8 | 0.284 | 290.4 | 72.6 | 9,582.9 | 8,336 / 13,352 | 19.35 / 24.25 | - | `PASS` |
+| `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `65536` / `1024` | 1 | 0.044 | 44.8 | 11.2 | 2,913.4 | 7,370 / 7,394 | 15.12 / 15.13 | - | `PASS` |
+| `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `65536` / `1024` | 4 | 0.137 | 140.3 | 35.1 | 9,117.1 | 10,991 / 14,674 | 17.72 / 21.30 | - | `PASS` |
+| `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `126976` / `1024` | 1 | 0.031 | 31.4 | 7.9 | 3,926.2 | 16,895 / 16,911 | 15.35 / 15.36 | - | `PASS` |
+| `glimmer_bf16_2xtp2_gateway` | BF16, 2 independent TP2 servers on 1 host (`SGLANG_TPU_PD_COLOCATED=1`, `base_gpu_id=0,2`) behind async least-inflight HTTP gateway, BF16 KV | 4 | `126976` / `1024` | 2 | 0.061 | 62.7 | 15.7 | 7,835.7 | 16,903 / 16,958 | 15.35 / 15.36 | - | `PASS` |
 | `glimmer_bf16_tp1_dp4` | BF16, 4 data-parallel replicas x TP1 (one full copy of the weights per chip), BF16 KV | 4 | - | - | - | - | - | - | - | - | - | `SERVER_FAILED` |
 | `glimmer_bf16_tp2` | BF16, TP2 on 2 of the 4 chips (single replica; plain DP is not supported by this SGLang-TorchTPU build) | 2 | `1024` / `1024` | 1 | 0.065 | 66.6 | 33.3 | 133.1 | 213 / 213 | 14.81 / 14.86 | - | `PASS` |
 | `glimmer_bf16_tp2` | BF16, TP2 on 2 of the 4 chips (single replica; plain DP is not supported by this SGLang-TorchTPU build) | 2 | `1024` / `1024` | 4 | 0.268 | 274.2 | 137.1 | 548.1 | 736 / 917 | 13.83 / 14.42 | - | `PASS` |
@@ -160,7 +391,7 @@ one TPU `v5p` host (`4` chips, 1 JAX/PJRT device per chip, `95 GB` HBM/chip = `3
 
 ### Variant status & sanity check
 
-- `glimmer_bf16_2xtp2_gateway`: **RUNNING** (server ready after `1.0` s)
+- `glimmer_bf16_2xtp2_gateway`: **DONE** (server ready after `1.0` s)
   - sanity (greedy chat): `o extra fluff.  Answer: The capital of France is Paris.  That's it.  Potential nuance: Should we follow exactly? Yes.  Output one short sentence.  Done.assistant to=userThe capital of France is Paris.`
 - `glimmer_bf16_tp1_dp4`: **SERVER_FAILED** (server ready after `60.1` s)
   - reason: `RuntimeError: failed to transfer to 'tpu' device: [TorchTPU] Failed to acquire a TPU device node '/dev/vfio/0' because it is already opened by another process on this host.`
@@ -182,7 +413,7 @@ one TPU `v5p` host (`4` chips, 1 JAX/PJRT device per chip, `95 GB` HBM/chip = `3
   - earlier attempt: PENDING — `PENDING`
   - earlier attempt: PENDING — `PENDING`
   - earlier attempt: SERVER_FAILED — `TypeError: zeros(): argument 'size' failed to unpack the object at pos 2 with error "type must be tuple of ints,but got NoneType"`
-- `glimmer_bf16_tp4_dflash16_greedy`: **RUNNING** (server ready after `741.2` s)
+- `glimmer_bf16_tp4_dflash16_greedy`: **DONE** (server ready after `741.2` s)
   - sanity (greedy chat): `o extra fluff.  Answer: The capital of France is Paris.  That's it.  Potential nuance: Should we follow exactly? Yes.  Output one short sentence.  Done.assistant to=userThe capital of France is Paris.`
   - earlier attempt: SERVER_FAILED — `TypeError: zeros(): argument 'size' failed to unpack the object at pos 2 with error "type must be tuple of ints,but got NoneType"`
 - `glimmer_bf16_tp4_dflash16_t1`: **DONE** (server ready after `761.2` s)

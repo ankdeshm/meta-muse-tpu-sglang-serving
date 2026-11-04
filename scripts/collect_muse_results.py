@@ -11,6 +11,7 @@ import datetime as dt
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 
 DEFAULT_BUCKET = os.environ.get("MUSE_RESULTS_BUCKET", "gs://YOUR_GCS_BUCKET/benchmark-results")
@@ -23,6 +24,31 @@ SECTION_TITLES = {
 }
 SECTION_ORDER = ["v7x_spark", "v5p32_spark", "v7x", "v5p"]
 
+KEEP_METRICS = (
+    "completed",
+    "duration",
+    "request_throughput",
+    "input_throughput",
+    "output_throughput",
+    "total_throughput",
+    "mean_ttft_ms",
+    "median_ttft_ms",
+    "p99_ttft_ms",
+    "mean_tpot_ms",
+    "median_tpot_ms",
+    "p99_tpot_ms",
+    "mean_itl_ms",
+    "median_itl_ms",
+    "p99_itl_ms",
+    "mean_e2e_latency_ms",
+    "median_e2e_latency_ms",
+    "accept_length",
+    "spec_accept_length",
+    "total_input_tokens",
+    "total_output_tokens",
+    "max_concurrency",
+)
+
 
 def sh(cmd: list[str]) -> str:
     env = {**os.environ, "CLOUDSDK_METRICS_ENVIRONMENT": "datacloud.jetski"}
@@ -31,6 +57,13 @@ def sh(cmd: list[str]) -> str:
 
 def fmt(v, nd=1) -> str:
     return "-" if v is None else (f"{v:,.{nd}f}" if isinstance(v, (int, float)) else str(v))
+
+
+def sanitize_text(s: str) -> str:
+    s = s.replace("YOUR_GCP_PROJECT_ID", "YOUR_GCP_PROJECT")
+    s = s.replace("YOUR_GCS_BUCKET", "YOUR_GCS_BUCKET")
+    s = re.sub(r"hf_[A-Za-z0-9]{16,}", "hf_REDACTED", s)
+    return s
 
 
 def short_reason(rec: dict) -> str:
@@ -53,6 +86,47 @@ def short_reason(rec: dict) -> str:
 
 def valid_cell_count(v: dict) -> int:
     return sum(1 for c in v.get("cells", []) if c.get("return_code") == 0 and c.get("metrics"))
+
+
+def try_backfill_variant(run_dir: str, rec: dict) -> None:
+    """Recover cells or sanity JSON written by post-run backfill hooks in the same GCS run directory."""
+    vname = rec.get("name", "")
+    for c in rec.get("cells", []):
+        if c.get("return_code") == 0 and c.get("metrics"):
+            continue
+        inp, out_len, conc = c.get("input_len"), c.get("output_len"), c.get("concurrency")
+        uri = f"{run_dir}bench_{vname}_i{inp}_o{out_len}_c{conc}.jsonl"
+        try:
+            raw = sh(["gcloud", "storage", "cat", uri])
+            lines = [ln for ln in raw.splitlines() if ln.strip()]
+            if not lines:
+                continue
+            full = json.loads(lines[-1])
+            extracted = {k: full[k] for k in KEEP_METRICS if k in full}
+            if extracted.get("output_throughput"):
+                c["metrics"] = extracted
+                c["return_code"] = 0
+                c.pop("error_tail", None)
+                if "duration" in full:
+                    c["wall_s"] = round(float(full["duration"]), 1)
+        except Exception:
+            continue
+
+    sanity = rec.get("sanity") or {}
+    if not sanity.get("ok"):
+        candidates = [f"{run_dir}backfill_sanity_{vname}.json"]
+        if vname == "spark_bf16_v5p32_tp32_ep32":
+            candidates.append(f"{run_dir}backfill_sanity_tp32_ep32.json")
+        for cand in candidates:
+            try:
+                sj = json.loads(sh(["gcloud", "storage", "cat", cand]))
+                if sj.get("ok"):
+                    txt = sj.get("content") or sj.get("reasoning_content") or ""
+                    sj["content_tail"] = txt[-240:]
+                    rec["sanity"] = sj
+                    break
+            except Exception:
+                continue
 
 
 def main() -> int:
@@ -84,6 +158,7 @@ def main() -> int:
         hw = (s.get("hardware") or {}).get("name", "?")
         for v in s.get("variants", []):
             rec = dict(v)
+            try_backfill_variant(d, rec)
             rec["source"] = d
             rec["hardware"] = hw
             rec["hardware_desc"] = (s.get("hardware") or {}).get("desc", "")
@@ -103,15 +178,15 @@ def main() -> int:
             history.setdefault(key, []).append(
                 {
                     "source": d,
-                    "status": v.get("status"),
-                    "reason": short_reason(rec) if not v.get("cells") else "",
+                    "status": rec.get("status"),
+                    "reason": short_reason(rec) if not rec.get("cells") else "",
                 }
             )
             prev = latest.get(key)
             if prev is None:
                 latest[key] = rec
             else:
-                new_cnt = valid_cell_count(v)
+                new_cnt = valid_cell_count(rec)
                 prev_cnt = valid_cell_count(prev)
                 if new_cnt >= prev_cnt and (new_cnt > 0 or prev_cnt == 0):
                     latest[key] = rec
@@ -124,16 +199,15 @@ def main() -> int:
         return (hw_idx, r["hardware"], r["name"])
 
     merged = sorted(latest.values(), key=sort_key)
-    (out / "summary.json").write_text(
-        json.dumps(
-            {
-                "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
-                "runs": [d for d, _ in runs],
-                "records": merged,
-            },
-            indent=2,
-        )
+    raw_json = json.dumps(
+        {
+            "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+            "runs": [d for d, _ in runs],
+            "records": merged,
+        },
+        indent=2,
     )
+    (out / "summary.json").write_text(sanitize_text(raw_json) + "\n")
 
     md = [
         "# Meta Muse (`Muse-Spark-Open-816B-A42B` & `Muse-Glimmer-30B`) on Cloud TPU (`v7x` & `v5p`) — Measured SGLang-TorchTPU Results",
@@ -189,7 +263,7 @@ def main() -> int:
                 line += f"\n  - reason: `{short_reason(r)}`"
             if r.get("sanity", {}).get("ok"):
                 s = r["sanity"]
-                txt = (s.get("content_tail") or (s.get("content") or "")[-200:]).replace("\n", " ")
+                txt = (s.get("content_tail") or (s.get("content") or s.get("reasoning_content") or "")[-200:]).replace("\n", " ")
                 line += f"\n  - sanity (greedy chat): `{txt[-200:]}`"
             earlier = [a for a in r.get("attempts", [])[:-1] if a.get("reason")]
             for a in earlier:
@@ -197,7 +271,7 @@ def main() -> int:
             md.append(line)
         md.append("")
 
-    (out / "SUMMARY.md").write_text("\n".join(md) + "\n")
+    (out / "SUMMARY.md").write_text(sanitize_text("\n".join(md)) + "\n")
     print(f"wrote {out/'summary.json'} and {out/'SUMMARY.md'} ({len(merged)} variant records from {len(runs)} runs)")
     return 0
 
