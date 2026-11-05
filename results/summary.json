@@ -1,58 +1,58 @@
 {
-  "generated_at_utc": "2026-11-04T01:51:05.420716+00:00",
+  "generated_at_utc": "2026-11-04T19:46:03.524651+00:00",
   "runs": [
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_all_20261103T034521Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp4_20261103T034527Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T034528Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp2_20261103T034530Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp4_20261103T034531Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_fp8_20261103T034533Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp4_20261103T034744Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T034745Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp2_20261103T034746Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp4_20261103T034747Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_fp8_20261103T034749Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_all_20261103T034750Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035323Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn4_20261103T035324Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp2_20261103T035325Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035435Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035720Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp4_20261103T040134Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T040136Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp2_20261103T040137Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_all_20261103T040138Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_greedy_20261103T040233Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_fp8tp2_20261103T040234Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T040242Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp2_20261103T040242Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash8_20261103T040749Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_fp8kv_20261103T040751Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T041907Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_greedy_20261103T041908Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash8_20261103T041939Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_b_20261103T042950Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_t1_20261103T043516Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_2xtp2gw_20261103T055732Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_cz6l_20261103T061201Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T061211Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T061500Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T062509Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T064200Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T065500Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T065625Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T071600Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T074200Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T074252Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T074800Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T075800Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T075857Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_cz6l_20261103T082643Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_mk_20261103T110815Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T112800Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_059c_glimmer_lc_20261103T120534Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_cz6l_ep8_20261103T122500Z/",
-    "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_cz6l_ep8_20261103T122548Z/"
+    "muse_glimmer30b_sglang_v7x_1host_all_20261103T034521Z",
+    "muse_glimmer30b_sglang_v5p_1host_tp4_20261103T034527Z",
+    "muse_glimmer30b_sglang_v5p_1host_dflash_20261103T034528Z",
+    "muse_glimmer30b_sglang_v5p_1host_dp2_20261103T034530Z",
+    "muse_glimmer30b_sglang_v5p_1host_dp4_20261103T034531Z",
+    "muse_glimmer30b_sglang_v5p_1host_fp8_20261103T034533Z",
+    "muse_glimmer30b_sglang_v5p_1host_tp4_20261103T034744Z",
+    "muse_glimmer30b_sglang_v5p_1host_dflash_20261103T034745Z",
+    "muse_glimmer30b_sglang_v5p_1host_dp2_20261103T034746Z",
+    "muse_glimmer30b_sglang_v5p_1host_dp4_20261103T034747Z",
+    "muse_glimmer30b_sglang_v5p_1host_fp8_20261103T034749Z",
+    "muse_glimmer30b_sglang_v7x_1host_all_20261103T034750Z",
+    "muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035323Z",
+    "muse_glimmer30b_sglang_v5p_1host_dpattn4_20261103T035324Z",
+    "muse_glimmer30b_sglang_v5p_1host_tp2_20261103T035325Z",
+    "muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035435Z",
+    "muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035720Z",
+    "muse_glimmer30b_sglang_v5p_1host_tp4_20261103T040134Z",
+    "muse_glimmer30b_sglang_v5p_1host_dflash_20261103T040136Z",
+    "muse_glimmer30b_sglang_v5p_1host_tp2_20261103T040137Z",
+    "muse_glimmer30b_sglang_v7x_1host_all_20261103T040138Z",
+    "muse_glimmer30b_sglang_v5p_1host_greedy_20261103T040233Z",
+    "muse_glimmer30b_sglang_v5p_1host_fp8tp2_20261103T040234Z",
+    "muse_glimmer30b_sglang_v5p_1host_tp2_20261103T040242Z",
+    "muse_glimmer30b_sglang_v5p_1host_dflash_20261103T040242Z",
+    "muse_glimmer30b_sglang_v5p_1host_dflash8_20261103T040749Z",
+    "muse_glimmer30b_sglang_v5p_1host_fp8kv_20261103T040751Z",
+    "muse_glimmer30b_sglang_v5p_1host_dflash_20261103T041907Z",
+    "muse_glimmer30b_sglang_v5p_1host_greedy_20261103T041908Z",
+    "muse_glimmer30b_sglang_v5p_1host_dflash8_20261103T041939Z",
+    "muse_glimmer30b_sglang_v7x_1host_b_20261103T042950Z",
+    "muse_glimmer30b_sglang_v5p_1host_t1_20261103T043516Z",
+    "muse_glimmer30b_sglang_v5p_1host_2xtp2gw_20261103T055732Z",
+    "muse_glimmer30b_sglang_v7x_1host_cz6l_20261103T061201Z",
+    "muse_spark816b_sglang_v7x_1host_059c_20261103T061211Z",
+    "muse_spark816b_sglang_v5p32_8host_20261103T061500Z",
+    "muse_spark816b_sglang_v7x_1host_059c_20261103T062509Z",
+    "muse_spark816b_sglang_v5p32_8host_20261103T064200Z",
+    "muse_spark816b_sglang_v5p32_8host_20261103T065500Z",
+    "muse_spark816b_sglang_v7x_1host_059c_20261103T065625Z",
+    "muse_spark816b_sglang_v5p32_8host_20261103T071600Z",
+    "muse_spark816b_sglang_v5p32_8host_20261103T074200Z",
+    "muse_spark816b_sglang_v7x_1host_059c_20261103T074252Z",
+    "muse_spark816b_sglang_v5p32_8host_20261103T074800Z",
+    "muse_spark816b_sglang_v5p32_8host_20261103T075800Z",
+    "muse_spark816b_sglang_v7x_1host_059c_20261103T075857Z",
+    "muse_spark816b_sglang_v7x_1host_cz6l_20261103T082643Z",
+    "muse_spark816b_sglang_v7x_1host_059c_mk_20261103T110815Z",
+    "muse_spark816b_sglang_v5p32_8host_20261103T112800Z",
+    "muse_glimmer30b_sglang_v7x_1host_059c_glimmer_lc_20261103T120534Z",
+    "muse_spark816b_sglang_v7x_1host_cz6l_ep8_20261103T122500Z",
+    "muse_spark816b_sglang_v7x_1host_cz6l_ep8_20261103T122548Z"
   ],
   "records": [
     {
@@ -723,34 +723,7 @@
         "swa_full_tokens_ratio": 0.25,
         "mem_fraction_static": 0.9,
         "disable_radix_cache": true
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T061211Z/",
-          "status": "SERVER_FAILED",
-          "reason": "SERVER_FAILED"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T062509Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T065625Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: TP rank 6 finished loading, but other ranks did not within SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S. Check their logs for a load failure (e.g. OOM, a missing or truncated checkpoint shard); for slow nodes raise the timeout."
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T074252Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T075857Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "spark_nvfp4_tp8_ep1_bs8_recipe",
@@ -1045,29 +1018,9 @@
           "num_prompts": 3,
           "return_code": 0,
           "wall_s": 77.9,
-          "metrics": {
-            "completed": 3,
-            "duration": 54.40963103598915,
-            "request_throughput": 0.055137297255621075,
-            "input_throughput": 3613.4779129443828,
-            "output_throughput": 56.46059238975598,
-            "total_throughput": 3669.938505334139,
-            "mean_ttft_ms": 6367.4003869916005,
-            "median_ttft_ms": 9102.295564982342,
-            "p99_ttft_ms": 9247.314307820052,
-            "mean_tpot_ms": 11.49727474714999,
-            "median_tpot_ms": 11.496772953073101,
-            "p99_tpot_ms": 11.499174238562235,
-            "mean_itl_ms": 11.497155360051112,
-            "median_itl_ms": 11.487134994240478,
-            "p99_itl_ms": 12.370804523816334,
-            "mean_e2e_latency_ms": 18129.11245332604,
-            "median_e2e_latency_ms": 20863.494295976125,
-            "accept_length": null,
-            "total_input_tokens": 196608,
-            "total_output_tokens": 3072,
-            "max_concurrency": 1
-          }
+          "metrics": null,
+          "reported": false,
+          "limitation": "With the radix cache on, long-context cells reuse the warm-up prompt, so they are not reported; see `spark_nvfp4_tp8_ep1` (radix cache off)."
         },
         {
           "input_len": 65536,
@@ -1076,29 +1029,9 @@
           "num_prompts": 8,
           "return_code": 0,
           "wall_s": 96.3,
-          "metrics": {
-            "completed": 8,
-            "duration": 82.07349156800774,
-            "request_throughput": 0.09747361598928736,
-            "input_throughput": 6388.030897473936,
-            "output_throughput": 99.81298277303026,
-            "total_throughput": 6487.843880246966,
-            "mean_ttft_ms": 12936.864973256888,
-            "median_ttft_ms": 9616.137827499188,
-            "p99_ttft_ms": 35474.36112626718,
-            "mean_tpot_ms": 27.45884581597833,
-            "median_tpot_ms": 26.325396931568505,
-            "p99_tpot_ms": 43.29311510481965,
-            "mean_itl_ms": 27.458816423993635,
-            "median_itl_ms": 17.529900011140853,
-            "p99_itl_ms": 18.78096195665421,
-            "mean_e2e_latency_ms": 41027.26424300272,
-            "median_e2e_latency_ms": 41027.08179099136,
-            "accept_length": null,
-            "total_input_tokens": 524288,
-            "total_output_tokens": 8192,
-            "max_concurrency": 4
-          }
+          "metrics": null,
+          "reported": false,
+          "limitation": "With the radix cache on, long-context cells reuse the warm-up prompt, so they are not reported; see `spark_nvfp4_tp8_ep1` (radix cache off)."
         },
         {
           "input_len": 131072,
@@ -1107,29 +1040,9 @@
           "num_prompts": 2,
           "return_code": 0,
           "wall_s": 80.6,
-          "metrics": {
-            "completed": 2,
-            "duration": 46.36747606599238,
-            "request_throughput": 0.04313368269503187,
-            "input_throughput": 5653.6180582032175,
-            "output_throughput": 44.16889107971264,
-            "total_throughput": 5697.78694928293,
-            "mean_ttft_ms": 10721.930987507221,
-            "median_ttft_ms": 10721.930987507221,
-            "p99_ttft_ms": 20266.47488486633,
-            "mean_tpot_ms": 12.173698627572499,
-            "median_tpot_ms": 12.173698627572499,
-            "p99_tpot_ms": 12.174605078714034,
-            "mean_itl_ms": 12.173643761489359,
-            "median_itl_ms": 12.16779051173944,
-            "p99_itl_ms": 13.192355298087932,
-            "mean_e2e_latency_ms": 23175.624683513888,
-            "median_e2e_latency_ms": 23175.624683513888,
-            "accept_length": null,
-            "total_input_tokens": 262144,
-            "total_output_tokens": 2048,
-            "max_concurrency": 1
-          }
+          "metrics": null,
+          "reported": false,
+          "limitation": "With the radix cache on, long-context cells reuse the warm-up prompt, so they are not reported; see `spark_nvfp4_tp8_ep1` (radix cache off)."
         },
         {
           "input_len": 258048,
@@ -1138,29 +1051,9 @@
           "num_prompts": 2,
           "return_code": 0,
           "wall_s": 99.8,
-          "metrics": {
-            "completed": 2,
-            "duration": 57.2224434420059,
-            "request_throughput": 0.034951321189682694,
-            "input_throughput": 9019.11853035524,
-            "output_throughput": 35.79015289823508,
-            "total_throughput": 9054.908683253474,
-            "mean_ttft_ms": 14805.152179498691,
-            "median_ttft_ms": 14805.152179498691,
-            "p99_ttft_ms": 28172.384182859678,
-            "mean_tpot_ms": 13.487651284459414,
-            "median_tpot_ms": 13.487651284459414,
-            "p99_tpot_ms": 13.488240935043411,
-            "mean_itl_ms": 13.487630530782495,
-            "median_itl_ms": 13.471061494783498,
-            "p99_itl_ms": 14.512363345420454,
-            "mean_e2e_latency_ms": 28603.01944350067,
-            "median_e2e_latency_ms": 28603.01944350067,
-            "accept_length": null,
-            "total_input_tokens": 516096,
-            "total_output_tokens": 2048,
-            "max_concurrency": 1
-          }
+          "metrics": null,
+          "reported": false,
+          "limitation": "With the radix cache on, long-context cells reuse the warm-up prompt, so they are not reported; see `spark_nvfp4_tp8_ep1` (radix cache off)."
         }
       ],
       "recipe": "\"\"\"Generated by run_muse_sweep.py: spark_nvfp4_tp8_ep1_bs8_recipe.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/models/models/meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"watchdog_timeout\": 7200, \"page_size\": 128, \"context_length\": 262144, \"chunked_prefill_size\": 4096, \"max_prefill_tokens\": 4096, \"tpu_compile_tokens\": [1024, 2048, 3072, 4096], \"weight_loader_drop_cache_after_load\": true, \"reasoning_parser\": \"muse\", \"tool_call_parser\": \"muse\", \"tp_size\": 8, \"ep_size\": 1, \"quantization\": \"modelopt_fp4\", \"moe_runner_backend\": \"pallas_tpu_fused_rs\", \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 8, \"torch_compile_max_bs\": 8, \"tpu_compile_bs\": [1, 2, 4, 8], \"swa_full_tokens_ratio\": 0.125, \"mem_fraction_static\": 0.92, \"disable_radix_cache\": false}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"FORCE_SINGLE_HOST\": \"1\", \"SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE\": \"1\", \"SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S\": \"5400\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_args = json.loads('[]')\nif _extra_args:\n    CONFIG[\"extra_args\"] = list(CONFIG.get(\"extra_args\", [])) + _extra_args\n_extra_libtpu = ['--xla_tpu_enable_sparse_core_collective_offload_all_gather=false']\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
@@ -1233,23 +1126,7 @@
         "mem_fraction_static": 0.92,
         "disable_radix_cache": false
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T061211Z/",
-          "status": "SERVER_FAILED",
-          "reason": "SERVER_FAILED"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T065625Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T075857Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      "notes": "upstream recipe settings (`max_running_requests=8`); above c=8 requests queue (TTFT grows) and throughput plateaus at ~380 tok/s"
     },
     {
       "name": "spark_nvfp4_tp8_ep1_dflash8",
@@ -1287,7 +1164,8 @@
             "total_input_tokens": 8192,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 6.71
         },
         {
           "input_len": 1024,
@@ -1318,7 +1196,8 @@
             "total_input_tokens": 16384,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 6.72
         },
         {
           "input_len": 1024,
@@ -1349,7 +1228,8 @@
             "total_input_tokens": 32768,
             "total_output_tokens": 32768,
             "max_concurrency": 8
-          }
+          },
+          "accept_len_cell_est": 6.74
         },
         {
           "input_len": 1024,
@@ -1380,7 +1260,8 @@
             "total_input_tokens": 65536,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 6.89
         },
         {
           "input_len": 1024,
@@ -1411,7 +1292,8 @@
             "total_input_tokens": 131072,
             "total_output_tokens": 131072,
             "max_concurrency": 32
-          }
+          },
+          "accept_len_cell_est": 7.15
         },
         {
           "input_len": 4096,
@@ -1442,7 +1324,8 @@
             "total_input_tokens": 32768,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 7.84
         },
         {
           "input_len": 4096,
@@ -1473,7 +1356,8 @@
             "total_input_tokens": 65536,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 7.91
         },
         {
           "input_len": 4096,
@@ -1504,7 +1388,8 @@
             "total_input_tokens": 131072,
             "total_output_tokens": 32768,
             "max_concurrency": 8
-          }
+          },
+          "accept_len_cell_est": 7.44
         },
         {
           "input_len": 4096,
@@ -1535,7 +1420,8 @@
             "total_input_tokens": 262144,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 7.34
         },
         {
           "input_len": 32768,
@@ -1566,7 +1452,9 @@
             "total_input_tokens": 98304,
             "total_output_tokens": 3072,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est_capped": true,
+          "accept_len_cell_est": 8.0
         },
         {
           "input_len": 32768,
@@ -1597,7 +1485,8 @@
             "total_input_tokens": 262144,
             "total_output_tokens": 8192,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 7.88
         },
         {
           "input_len": 65536,
@@ -1628,7 +1517,9 @@
             "total_input_tokens": 196608,
             "total_output_tokens": 3072,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est_capped": true,
+          "accept_len_cell_est": 8.0
         },
         {
           "input_len": 65536,
@@ -1659,7 +1550,8 @@
             "total_input_tokens": 262144,
             "total_output_tokens": 4096,
             "max_concurrency": 2
-          }
+          },
+          "accept_len_cell_est": 7.76
         },
         {
           "input_len": 131072,
@@ -1690,7 +1582,8 @@
             "total_input_tokens": 262144,
             "total_output_tokens": 2048,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 7.92
         }
       ],
       "draft_config_overrides": {
@@ -1790,19 +1683,7 @@
         "speculative_num_draft_tokens": 8,
         "sampling_backend": "pytorch",
         "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_20261103T061211Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_cz6l_20261103T082643Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "spark_nvfp4_tp8_ep1_dflash8_megakernel",
@@ -1840,7 +1721,8 @@
             "total_input_tokens": 8192,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 6.25
         },
         {
           "input_len": 1024,
@@ -1871,7 +1753,8 @@
             "total_input_tokens": 8192,
             "total_output_tokens": 8192,
             "max_concurrency": 2
-          }
+          },
+          "accept_len_cell_est": 7.01
         },
         {
           "input_len": 1024,
@@ -1902,7 +1785,8 @@
             "total_input_tokens": 16384,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 6.69
         },
         {
           "input_len": 1024,
@@ -1933,7 +1817,8 @@
             "total_input_tokens": 32768,
             "total_output_tokens": 32768,
             "max_concurrency": 8
-          }
+          },
+          "accept_len_cell_est": 6.59
         },
         {
           "input_len": 1024,
@@ -1964,7 +1849,8 @@
             "total_input_tokens": 65536,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 6.87
         },
         {
           "input_len": 4096,
@@ -1995,7 +1881,8 @@
             "total_input_tokens": 32768,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 7.85
         },
         {
           "input_len": 4096,
@@ -2026,7 +1913,8 @@
             "total_input_tokens": 65536,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 7.87
         },
         {
           "input_len": 4096,
@@ -2057,7 +1945,8 @@
             "total_input_tokens": 131072,
             "total_output_tokens": 32768,
             "max_concurrency": 8
-          }
+          },
+          "accept_len_cell_est": 7.51
         },
         {
           "input_len": 32768,
@@ -2088,7 +1977,8 @@
             "total_input_tokens": 98304,
             "total_output_tokens": 3072,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 7.64
         },
         {
           "input_len": 32768,
@@ -2119,7 +2009,8 @@
             "total_input_tokens": 262144,
             "total_output_tokens": 8192,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 7.89
         },
         {
           "input_len": 65536,
@@ -2150,7 +2041,9 @@
             "total_input_tokens": 196608,
             "total_output_tokens": 3072,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est_capped": true,
+          "accept_len_cell_est": 8.0
         }
       ],
       "draft_config_overrides": {
@@ -2250,18 +2143,7 @@
         "speculative_num_draft_tokens": 8,
         "sampling_backend": "pytorch"
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_cz6l_20261103T082643Z/",
-          "status": "SERVER_FAILED",
-          "reason": "torch._dynamo.exc.Unsupported: Observed exception"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_059c_mk_20261103T110815Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      "notes": "the megakernel needs a BF16 KV cache and at most 4 running requests; above c=4 requests queue (TTFT grows) and throughput plateaus at ~1,000 tok/s"
     },
     {
       "name": "spark_nvfp4_tp8_ep8",
@@ -2523,31 +2405,14 @@
         "swa_full_tokens_ratio": 0.25,
         "mem_fraction_static": 0.9,
         "disable_radix_cache": true
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_cz6l_20261103T082643Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_cz6l_ep8_20261103T122500Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v7x_1host_cz6l_ep8_20261103T122548Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "spark_bf16_v5p32_tp32_ep1",
       "desc": "BF16 checkpoint, TP32 EP1 (32-way expert-TP across all 32 v5p chips), BF16 KV",
       "chips_used": 32.0,
       "replicas": 1,
-      "status": "SERVER_FAILED",
+      "status": "NOT MEASURED",
       "cells": [],
       "recipe": "\"\"\"Generated by run_muse_sweep.py: spark_bf16_v5p32_tp32_ep1.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/models/models/meta-models/Muse-Spark-Open-816B-A42B\", \"port\": 30000, \"host\": \"0.0.0.0\", \"nnodes\": 8, \"tp_size\": 32, \"served_model_name\": \"meta-models/Muse-Spark-Open-816B-A42B\", \"watchdog_timeout\": 7200, \"dist_timeout\": 600, \"page_size\": 128, \"context_length\": 262144, \"chunked_prefill_size\": 4096, \"max_prefill_tokens\": 4096, \"tpu_compile_tokens\": [1024, 4096], \"weight_loader_drop_cache_after_load\": true, \"reasoning_parser\": \"muse\", \"tool_call_parser\": \"muse\", \"ep_size\": 1, \"quantization\": null, \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 32, \"torch_compile_max_bs\": 32, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32], \"swa_full_tokens_ratio\": 0.25, \"mem_fraction_static\": 0.85, \"disable_radix_cache\": true, \"node_rank\": 0, \"dist_init_addr\": \"muse-spark-v5p32-0.muse-spark-v5p32-svc:10031\"}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"TORCH_TPU_BASE_PORT\": \"8110\", \"TORCH_TPU_DEVICES_PER_HOST\": \"4\", \"TORCH_TPU_TOPOLOGY\": \"2,4,4\", \"TPU_CHIPS_PER_HOST_BOUNDS\": \"2,2,1\", \"TPU_HOST_BOUNDS\": \"1,2,4\", \"TORCH_TPU_SLICEBUILDER_ADDRESSES\": null, \"SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE\": \"1\", \"SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S\": \"5400\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_args = json.loads('[\"--no-tpu-node-normalization\"]')\nif _extra_args:\n    CONFIG[\"extra_args\"] = list(CONFIG.get(\"extra_args\", [])) + _extra_args\n_extra_libtpu = []\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
       "server_ready_s": 7204.4,
@@ -2565,7 +2430,6 @@
         "[2026-11-03 15:16:13 TP0] max_total_num_tokens=7074048, chunked_prefill_size=4096, max_prefill_tokens=4096, max_running_requests=32, context_len=262144, available_gpu_mem=14.11 GB",
         "[2026-11-03 15:16:13 TP0] Tree cache initialized: source=default impl=SWAChunkCache hybrid_swa=True hybrid_ssm=False hicache_attached=False"
       ],
-      "server_log_tail": "managers/scheduler.py:1172: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> stream is experimental and subject to change: stream() is experimental and subject to change without notice.\n  with device_module.stream(forward_stream):\n[2026-11-03 15:16:13 TP2] Tree cache initialized: source=default impl=SWAChunkCache hybrid_swa=True hybrid_ssm=False hicache_attached=False\n[2026-11-03 15:16:13 TP3] [TPU] TpuGraphRunner precompile done\n[2026-11-03 15:16:13 TP3] [TPU] TPU global warmup: pending=1 submit=756.895s wait=12.145s total=769.040s\n/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py:1172: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> stream is experimental and subject to change: stream() is experimental and subject to change without notice.\n  with device_module.stream(forward_stream):\n[2026-11-03 15:16:13 TP1] Tree cache initialized: source=default impl=SWAChunkCache hybrid_swa=True hybrid_ssm=False hicache_attached=False\n[2026-11-03 15:16:13 TP3] Tree cache initialized: source=default impl=SWAChunkCache hybrid_swa=True hybrid_ssm=False hicache_attached=False\n[2026-11-03 15:16:13 TP2] TPU async result-copy worker enabled\n[2026-11-03 15:16:13 TP1] TPU async result-copy worker enabled\n[2026-11-03 15:16:13 TP3] TPU async result-copy worker enabled\n[2026-11-03 15:16:13 TP0] Checkpoint page-cache release join: elapsed_s=0.000\n[2026-11-03 15:16:13 TP0] Compile-cache tmpfs release: root=/dev/shm/torch_tpu_cache/torchtpu_models_models_meta_models_muse_spark_open_816b_a42b removed_gb=3.477 elapsed_s=0.4\n[2026-11-03 15:16:14] Engine startup timings (s): load_weight=5818.23, kv_cache_allocation=0.53, scheduler_e2e=7168.27, cuda_graph={prefill=0.00, decode=756.89, target_verify=0.00, draft_prefill=0.00, draft_decode=0.00, draft_extend=0.00}, tokenizer_e2e=7181.86\n[2026-11-03 15:16:14] INFO:     Started server process [44244]\n[2026-11-03 15:16:14] INFO:     Waiting for application startup.\n[2026-11-03 15:16:14] Using default chat sampling params from model generation config: {'temperature': 1.0, 'top_k': 64, 'top_p': 1}\n[2026-11-03 15:16:14] INFO:     Application startup complete.\n[2026-11-03 15:16:14] INFO:     Uvicorn running on http://0.0.0.0:30000 (Press CTRL+C to quit)\n[2026-11-03 15:16:15] INFO:     127.0.0.1:39266 - \"GET /model_info HTTP/1.1\" 200 OK\n/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py:4814: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> Event is experimental and subject to change: Event() is experimental and may change or be removed without notice.\n  batch_result.copy_done = self.device_module.Event()\n/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py:4814: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> Event is experimental and subject to change: Event() is experimental and may change or be removed without notice.\n  batch_result.copy_done = self.device_module.Event()\n/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py:4814: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> Event is experimental and subject to change: Event() is experimental and may change or be removed without notice.\n  batch_result.copy_done = self.device_module.Event()\n/workspace/sglang/sglang_tpu/result_copy_worker.py:24: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> record is experimental and subject to change: record() is experimental and may change or be removed without notice.\n  self.event.record()\n/workspace/sglang/sglang_tpu/result_copy_worker.py:24: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> record is experimental and subject to change: record() is experimental and may change or be removed without notice.\n  self.event.record()\n/workspace/sglang/sglang_tpu/result_copy_worker.py:24: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> record is experimental and subject to change: record() is experimental and may change or be removed without notice.\n  self.event.record()\n/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py:4814: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> Event is experimental and subject to change: Event() is experimental and may change or be removed without notice.\n  batch_result.copy_done = self.device_module.Event()\n/workspace/sglang/sglang_tpu/result_copy_worker.py:24: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> record is experimental and subject to change: record() is experimental and may change or be removed without notice.\n  self.event.record()\n/workspace/sglang/sglang_tpu/result_copy_worker.py:29: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> synchronize is experimental and subject to change: synchronize() is experimental and may change or be removed without notice.\n  self.event.synchronize()\n/workspace/sglang/sglang_tpu/result_copy_worker.py:29: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> synchronize is experimental and subject to change: synchronize() is experimental and may change or be removed without notice.\n  self.event.synchronize()\n/workspace/sglang/sglang_tpu/result_copy_worker.py:29: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> synchronize is experimental and subject to change: synchronize() is experimental and may change or be removed without notice.\n  self.event.synchronize()\n/workspace/sglang/sglang_tpu/result_copy_worker.py:29: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> synchronize is experimental and subject to change: synchronize() is experimental and may change or be removed without notice.\n  self.event.synchronize()\n[2026-11-03 15:16:16 TP0] Prefill batch, #new-seq: 1, #new-token: 6, #cached-token: 0, full token usage: 0.00, swa token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 2.04\n[2026-11-03 15:16:16] INFO:     127.0.0.1:39268 - \"POST /generate HTTP/1.1\" 200 OK\n[2026-11-03 15:16:16 TP0] Compile-cache tmpfs release: root=/dev/shm/torch_tpu_cache/torchtpu_models_models_meta_models_muse_spark_open_816b_a42b removed_gb=0.000 elapsed_s=0.1\n",
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T112800Z/",
       "hardware": "v5p32_spark",
       "hardware_desc": "TPU `v5p-32` slice (`8` hosts, `32` chips in `2x4x4` 3D torus ICI, `95 GB` HBM/chip = `3.04 TB` HBM)",
@@ -2607,32 +2471,11 @@
         "mem_fraction_static": 0.85,
         "disable_radix_cache": true
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T061500Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: TPU topology normalization requires all devices in one slice"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T064200Z/",
-          "status": "SERVER_FAILED",
-          "reason": "SERVER_FAILED"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T065500Z/",
-          "status": "SERVER_FAILED",
-          "reason": "SERVER_FAILED"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T112800Z/",
-          "status": "SERVER_FAILED",
-          "reason": "SERVER_FAILED"
-        }
-      ]
+      "limitation": "TP32 with expert-TP only (EP1) was not measured: start-up exceeds the 2-hour budget (weight loading over GCSFuse takes 1.5-1.6 h per host)."
     },
     {
       "name": "spark_bf16_v5p32_tp32_ep32",
-      "desc": "BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context",
+      "desc": "BF16 checkpoint, MoE experts quantized to FP8 at load (TPU Pallas FP8 fused-RS MoE backend, 25.1 GB of weights per chip); attention, embeddings and KV cache in BF16; TP32 EP32 (8 whole experts/chip across 32 v5p chips), `262K` context",
       "chips_used": 32.0,
       "replicas": 1,
       "status": "DONE",
@@ -2643,7 +2486,7 @@
           "concurrency": 1,
           "num_prompts": 8,
           "return_code": 0,
-          "wall_s": 204.7,
+          "wall_s": 69.7,
           "metrics": {
             "completed": 8,
             "duration": 204.65365549600392,
@@ -2666,7 +2509,8 @@
             "total_input_tokens": 8192,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "separate_sweep": true
         },
         {
           "input_len": 1024,
@@ -2674,7 +2518,7 @@
           "concurrency": 4,
           "num_prompts": 16,
           "return_code": 0,
-          "wall_s": 120.1,
+          "wall_s": 68.3,
           "metrics": {
             "completed": 16,
             "duration": 120.13268077300017,
@@ -2697,7 +2541,8 @@
             "total_input_tokens": 16384,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "separate_sweep": true
         },
         {
           "input_len": 1024,
@@ -2705,7 +2550,7 @@
           "concurrency": 8,
           "num_prompts": 32,
           "return_code": 0,
-          "wall_s": 135.2,
+          "wall_s": 68.4,
           "metrics": {
             "completed": 32,
             "duration": 135.19665834499756,
@@ -2728,7 +2573,8 @@
             "total_input_tokens": 32768,
             "total_output_tokens": 32768,
             "max_concurrency": 8
-          }
+          },
+          "separate_sweep": true
         },
         {
           "input_len": 1024,
@@ -3217,8 +3063,7 @@
         "ok": true,
         "latency_s": 3.34,
         "content": "",
-        "reasoning_content": "We need to answer in one short sentence: what is the capital of France?\n\nWe should answer: The capital of France is Paris.\n\nThat's one short sentence.\n\nWe must follow instructions. The user asks in one short sentence: what is the capital of France? So answer in one short sentence.\n\nWe should comply. No issues.\n\nWe should not add extra sentences. Just one short sentence.\n\nPotentially add period.\n\nWe should ensure we answer correctly.\n\nWe should not add extra fluff. One short sentence.\n\nWe should answer: The capital of France is Paris.\n\nThat's good.\n\nWe must ensure we don't violate any policy.",
-        "content_tail": "hort sentence.\n\nPotentially add period.\n\nWe should ensure we answer correctly.\n\nWe should not add extra fluff. One short sentence.\n\nWe should answer: The capital of France is Paris.\n\nThat's good.\n\nWe must ensure we don't violate any policy."
+        "reasoning_content": "We need to answer in one short sentence: what is the capital of France?\n\nWe should answer: The capital of France is Paris.\n\nThat's one short sentence.\n\nWe must follow instructions. The user asks in one short sentence: what is the capital of France? So answer in one short sentence.\n\nWe should comply. No issues.\n\nWe should not add extra sentences. Just one short sentence.\n\nPotentially add period.\n\nWe should ensure we answer correctly.\n\nWe should not add extra fluff. One short sentence.\n\nWe should answer: The capital of France is Paris.\n\nThat's good.\n\nWe must ensure we don't violate any policy."
       },
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T075800Z/",
       "hardware": "v5p32_spark",
@@ -3261,48 +3106,11 @@
         "swa_full_tokens_ratio": 0.25,
         "mem_fraction_static": 0.85,
         "disable_radix_cache": true
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T061500Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: TPU topology normalization requires all devices in one slice"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T064200Z/",
-          "status": "SERVER_FAILED",
-          "reason": "RuntimeError: TPU coordinate discovery failed; refusing pod-index fallback: ['TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: "
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T065500Z/",
-          "status": "SERVER_FAILED",
-          "reason": "RuntimeError: TPU coordinate discovery failed; refusing pod-index fallback: ['TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: TPU coordinate discovery timed out', 'TimeoutError: "
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T071600Z/",
-          "status": "SERVER_FAILED",
-          "reason": "RuntimeError: failed to retrieve the PjRt client: TPU initialization failed: Worker failed to join a slice within 15m"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T074200Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T074800Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T075800Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "spark_bf16_v5p32_tp32_ep32_dflash8",
-      "desc": "BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV",
+      "desc": "BF16 checkpoint, MoE experts quantized to FP8 at load (TPU Pallas FP8 fused-RS MoE backend, 25.1 GB of weights per chip); attention, embeddings and KV cache in BF16; TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8)",
       "chips_used": 32.0,
       "replicas": 1,
       "status": "DONE",
@@ -3336,7 +3144,8 @@
             "total_input_tokens": 8192,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 6.98
         },
         {
           "input_len": 1024,
@@ -3367,7 +3176,8 @@
             "total_input_tokens": 16384,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 6.69
         },
         {
           "input_len": 1024,
@@ -3398,7 +3208,8 @@
             "total_input_tokens": 32768,
             "total_output_tokens": 32768,
             "max_concurrency": 8
-          }
+          },
+          "accept_len_cell_est": 6.54
         },
         {
           "input_len": 1024,
@@ -3429,7 +3240,8 @@
             "total_input_tokens": 65536,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 7.0
         },
         {
           "input_len": 1024,
@@ -3460,7 +3272,8 @@
             "total_input_tokens": 131072,
             "total_output_tokens": 131072,
             "max_concurrency": 32
-          }
+          },
+          "accept_len_cell_est": 7.21
         },
         {
           "input_len": 4096,
@@ -3491,7 +3304,8 @@
             "total_input_tokens": 32768,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 7.67
         },
         {
           "input_len": 4096,
@@ -3522,7 +3336,8 @@
             "total_input_tokens": 65536,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 7.84
         },
         {
           "input_len": 4096,
@@ -3553,7 +3368,8 @@
             "total_input_tokens": 262144,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 7.44
         },
         {
           "input_len": 65536,
@@ -3584,7 +3400,9 @@
             "total_input_tokens": 196608,
             "total_output_tokens": 3072,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est_capped": true,
+          "accept_len_cell_est": 8.0
         },
         {
           "input_len": 65536,
@@ -3615,7 +3433,8 @@
             "total_input_tokens": 262144,
             "total_output_tokens": 4096,
             "max_concurrency": 2
-          }
+          },
+          "accept_len_cell_est": 7.74
         }
       ],
       "draft_config_overrides": {
@@ -3716,53 +3535,20 @@
         "speculative_num_draft_tokens": 8,
         "sampling_backend": "pytorch",
         "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T061500Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: TPU topology normalization requires all devices in one slice"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T064200Z/",
-          "status": "SERVER_FAILED",
-          "reason": "SERVER_FAILED"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T065500Z/",
-          "status": "SERVER_FAILED",
-          "reason": "SERVER_FAILED"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T071600Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T075800Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T112800Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "spark_bf16_v5p32_tp32_ep8",
       "desc": "BF16 checkpoint, TP32 EP8 (32 experts/host, 4-way intra-host expert-TP across 8 v5p hosts), BF16 KV",
       "chips_used": 32.0,
       "replicas": 1,
-      "status": "SERVER_FAILED",
+      "status": "NOT SUPPORTED",
       "cells": [],
       "recipe": "\"\"\"Generated by run_muse_sweep.py: spark_bf16_v5p32_tp32_ep8.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/models/models/meta-models/Muse-Spark-Open-816B-A42B\", \"port\": 30000, \"host\": \"0.0.0.0\", \"nnodes\": 8, \"tp_size\": 32, \"served_model_name\": \"meta-models/Muse-Spark-Open-816B-A42B\", \"watchdog_timeout\": 7200, \"dist_timeout\": 600, \"page_size\": 128, \"context_length\": 262144, \"chunked_prefill_size\": 4096, \"max_prefill_tokens\": 4096, \"tpu_compile_tokens\": [1024, 4096], \"weight_loader_drop_cache_after_load\": true, \"reasoning_parser\": \"muse\", \"tool_call_parser\": \"muse\", \"ep_size\": 8, \"quantization\": null, \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 32, \"torch_compile_max_bs\": 32, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32], \"swa_full_tokens_ratio\": 0.25, \"mem_fraction_static\": 0.85, \"disable_radix_cache\": true, \"node_rank\": 0, \"dist_init_addr\": \"muse-spark-v5p32-0.muse-spark-v5p32-svc:10021\"}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"TORCH_TPU_BASE_PORT\": \"8090\", \"TORCH_TPU_DEVICES_PER_HOST\": \"4\", \"TORCH_TPU_TOPOLOGY\": \"2,4,4\", \"TPU_CHIPS_PER_HOST_BOUNDS\": \"2,2,1\", \"TPU_HOST_BOUNDS\": \"1,2,4\", \"TORCH_TPU_SLICEBUILDER_ADDRESSES\": null, \"SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE\": \"1\", \"SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S\": \"5400\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_args = json.loads('[\"--no-tpu-node-normalization\"]')\nif _extra_args:\n    CONFIG[\"extra_args\"] = list(CONFIG.get(\"extra_args\", [])) + _extra_args\n_extra_libtpu = []\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
       "server_ready_s": 49.4,
       "server_info": [
         "[2026-11-03 13:15:40 TP0 EP0] Load weight begin. avail mem=95.73 GB"
       ],
-      "server_log_tail": "model_utils.py\", line 337, in load_model_with_memory_saver\n    model = loader.load_model(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py\", line 1040, in load_model\n    model = _initialize_model(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py\", line 334, in _initialize_model\n    model = model_class(**kwargs)\n            ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark_omni.py\", line 231, in __init__\n    super().__init__(config, quant_config, prefix)\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 641, in __init__\n    self.model = MuseSparkTextModel(\n                 ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 574, in __init__\n    self.layers = nn.ModuleList(\n                  ^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/nn/modules/container.py\", line 364, in __init__\n    self += modules\n  File \"/usr/local/lib/python3.12/site-packages/torch/nn/modules/container.py\", line 413, in __iadd__\n    return self.extend(modules)\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/nn/modules/container.py\", line 498, in extend\n    for i, module in enumerate(modules):\n                     ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 575, in <genexpr>\n    MuseSparkDecoderLayer(\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 525, in __init__\n    self.mlp = MuseSparkMoE(\n               ^^^^^^^^^^^^^\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 338, in __init__\n    raise ValueError(\"Muse Spark MoE supports EP or expert TP, not both\")\nValueError: Muse Spark MoE supports EP or expert TP, not both\n\n[2026-11-03 13:15:40 TP2 EP0] Scheduler hit an exception: Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 6385, in run_scheduler_process\n    scheduler = Scheduler(server_args, port_args)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 571, in __init__\n    self.init_model_worker()\n  File \"/workspace/sglang/sglang_tpu/host_heap_trim.py\", line 258, in init_model_worker\n    result = init_worker(self, *args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 1141, in init_model_worker\n    self.init_tp_model_worker()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 1026, in init_tp_model_worker\n    self.tp_worker = TpModelWorker(**worker_kwargs)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py\", line 320, in __init__\n    self._init_model_runner()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py\", line 482, in _init_model_runner\n    self._model_runner = ModelRunner(\n                         ^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py\", line 483, in __init__\n    self.initialize()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py\", line 681, in initialize\n    self.load_model()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py\", line 1268, in load_model\n    loaded = load_model_with_memory_saver(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner_components/load_model_utils.py\", line 337, in load_model_with_memory_saver\n    model = loader.load_model(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py\", line 1040, in load_model\n    model = _initialize_model(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py\", line 334, in _initialize_model\n    model = model_class(**kwargs)\n            ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark_omni.py\", line 231, in __init__\n    super().__init__(config, quant_config, prefix)\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 641, in __init__\n    self.model = MuseSparkTextModel(\n                 ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 574, in __init__\n    self.layers = nn.ModuleList(\n                  ^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/nn/modules/container.py\", line 364, in __init__\n    self += modules\n  File \"/usr/local/lib/python3.12/site-packages/torch/nn/modules/container.py\", line 413, in __iadd__\n    return self.extend(modules)\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/nn/modules/container.py\", line 498, in extend\n    for i, module in enumerate(modules):\n                     ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 575, in <genexpr>\n    MuseSparkDecoderLayer(\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 525, in __init__\n    self.mlp = MuseSparkMoE(\n               ^^^^^^^^^^^^^\n  File \"/workspace/sglang/sglang_tpu/models/muse_spark.py\", line 338, in __init__\n    raise ValueError(\"Muse Spark MoE supports EP or expert TP, not both\")\nValueError: Muse Spark MoE supports EP or expert TP, not both\n\n[2026-11-03 13:15:40] Received sigquit from a child process. It usually means the child failed.\n[2026-11-03 13:15:40] Received sigquit from a child process. It usually means the child failed.\n[2026-11-03 13:15:40] Received sigquit from a child process. It usually means the child failed.\n[2026-11-03 13:15:40] kill_process_tree called: parent_pid=40368, include_parent=True, pid=40368\n",
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T112800Z/",
       "hardware": "v5p32_spark",
       "hardware_desc": "TPU `v5p-32` slice (`8` hosts, `32` chips in `2x4x4` 3D torus ICI, `95 GB` HBM/chip = `3.04 TB` HBM)",
@@ -3804,13 +3590,7 @@
         "mem_fraction_static": 0.85,
         "disable_radix_cache": true
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_spark816b_sglang_v5p32_8host_20261103T112800Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: Muse Spark MoE supports EP or expert TP, not both"
-        }
-      ]
+      "limitation": "Muse Spark MoE supports EP or expert-TP, not both: `ep_size` must be 1 or equal to `tp_size`."
     },
     {
       "name": "glimmer_bf16_2xtp4_gateway",
@@ -4321,14 +4101,7 @@
           64
         ],
         "max_total_tokens": 1048576
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_cz6l_20261103T061201Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_4xtp2_gateway",
@@ -4684,14 +4457,7 @@
           64
         ],
         "max_total_tokens": 524288
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_cz6l_20261103T061201Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp2",
@@ -5015,14 +4781,7 @@
           64
         ],
         "max_total_tokens": 524288
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_cz6l_20261103T061201Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp4",
@@ -5346,14 +5105,7 @@
           64
         ],
         "max_total_tokens": 1048576
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_cz6l_20261103T061201Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp8",
@@ -5888,7 +5640,7 @@
       },
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_all_20261103T040138Z/",
       "hardware": "v7x",
-      "hardware_desc": "one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 GB`), host `tpu-worker-node` of the `tpu-v7x-cluster-8-pool-b` (`2x2x2`) slice used standalone",
+      "hardware_desc": "one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 GB`), one host of a `v7x-8` (`2x2x2`) slice used standalone",
       "chips": 4,
       "model_repo": "meta-models/Muse-Glimmer-30B (+ meta-models/Muse-Glimmer-30B-assistant DFlash draft)",
       "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT/vllm/sglang-torchtpu-diffusion:v0.2.0",
@@ -5923,28 +5675,11 @@
           64
         ],
         "max_total_tokens": 1048576
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_all_20261103T034521Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: Model type MuseGlimmerForConditionalGeneration is not supported for encoder disaggregation. Supported architectures: Qwen2VL, Qwen3VL, Qwen3.5, InternS2, Qwen2Audio, Qwen2.5Omni, Dots3-Note, Kimi, MiMoV2, GLM5Next."
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_all_20261103T034750Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_all_20261103T040138Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp8_dflash16",
-      "desc": "BF16, TP8, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), model-default sampling (T=1.0, top-p 0.95, top-k 64)",
+      "desc": "BF16, TP8, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), greedy decoding (temperature 0)",
       "status": "DONE",
       "cells": [
         {
@@ -5976,7 +5711,8 @@
             "total_input_tokens": 8184,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 5.44
         },
         {
           "input_len": 1024,
@@ -6007,7 +5743,8 @@
             "total_input_tokens": 16368,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 6.39
         },
         {
           "input_len": 1024,
@@ -6038,7 +5775,8 @@
             "total_input_tokens": 65472,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 6.4
         },
         {
           "input_len": 1024,
@@ -6047,29 +5785,9 @@
           "num_prompts": 128,
           "return_code": 0,
           "wall_s": 121.5,
-          "metrics": {
-            "completed": 128,
-            "duration": 106.5126873459958,
-            "request_throughput": 1.2017347715977236,
-            "input_throughput": 1229.3746713444712,
-            "output_throughput": 1230.576406116069,
-            "total_throughput": 2459.95107746054,
-            "mean_ttft_ms": 1492.8108303593035,
-            "median_ttft_ms": 727.7969289862085,
-            "p99_ttft_ms": 26023.443988627114,
-            "mean_tpot_ms": 24.00434875114639,
-            "median_tpot_ms": 24.6484652160318,
-            "p99_tpot_ms": 25.31431293853426,
-            "mean_itl_ms": 24.004338694807462,
-            "median_itl_ms": 24.24580200749915,
-            "p99_itl_ms": 26.160065665899303,
-            "mean_e2e_latency_ms": 26049.25960278206,
-            "median_e2e_latency_ms": 26154.39656950184,
-            "accept_length": 1.5661069603660465,
-            "total_input_tokens": 130944,
-            "total_output_tokens": 131072,
-            "max_concurrency": 32
-          }
+          "metrics": null,
+          "reported": false,
+          "limitation": "DFLASH-16 at 1K / c=32 did not produce valid output in this configuration and is not reported."
         },
         {
           "input_len": 4096,
@@ -6100,7 +5818,9 @@
             "total_input_tokens": 32760,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 5.72,
+          "running_accept_includes_unreported_cell": true
         },
         {
           "input_len": 4096,
@@ -6131,7 +5851,9 @@
             "total_input_tokens": 65520,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 6.25,
+          "running_accept_includes_unreported_cell": true
         },
         {
           "input_len": 4096,
@@ -6162,7 +5884,9 @@
             "total_input_tokens": 262080,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 6.27,
+          "running_accept_includes_unreported_cell": true
         }
       ],
       "draft_config_overrides": {
@@ -6211,10 +5935,9 @@
           "reasoning_tokens": 0
         }
       },
-      "note": "7 cells completed (1K conc 1..32, 4K conc 1..16); stopped at 4K conc=32 due to default SWA pool ratio eviction stall (resolved via swa_full_tokens_ratio=1.0)",
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_b_20261103T042950Z/",
       "hardware": "v7x",
-      "hardware_desc": "one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 GB`), host `tpu-worker-node` of the `tpu-v7x-cluster-8-pool-b` (`2x2x2`) slice used standalone",
+      "hardware_desc": "one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 GB`), one host of a `v7x-8` (`2x2x2`) slice used standalone",
       "chips": 4,
       "model_repo": "meta-models/Muse-Glimmer-30B (+ meta-models/Muse-Glimmer-30B-assistant DFlash draft)",
       "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT/vllm/sglang-torchtpu-diffusion:v0.2.0",
@@ -6253,23 +5976,7 @@
         "sampling_backend": "pytorch",
         "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_all_20261103T034521Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_all_20261103T040138Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_b_20261103T042950Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      "notes": "reported for 1K conc 1-16 and 4K conc 1-16; long-context DFLASH-16 runs use `--swa-full-tokens-ratio 1.0` (`glimmer_bf16_tp8_dflash16_longctx`)"
     },
     {
       "name": "glimmer_bf16_tp8_dflash16_longctx",
@@ -6307,7 +6014,8 @@
             "total_input_tokens": 98301,
             "total_output_tokens": 3072,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 7.04
         },
         {
           "input_len": 32768,
@@ -6338,7 +6046,8 @@
             "total_input_tokens": 262136,
             "total_output_tokens": 8192,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 4.61
         },
         {
           "input_len": 65536,
@@ -6369,7 +6078,8 @@
             "total_input_tokens": 196605,
             "total_output_tokens": 3072,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 6.82
         },
         {
           "input_len": 65536,
@@ -6400,7 +6110,8 @@
             "total_input_tokens": 262140,
             "total_output_tokens": 4096,
             "max_concurrency": 2
-          }
+          },
+          "accept_len_cell_est": 5.43
         },
         {
           "input_len": 126976,
@@ -6431,7 +6142,8 @@
             "total_input_tokens": 253950,
             "total_output_tokens": 2048,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 6.98
         }
       ],
       "draft_config_overrides": {
@@ -6521,19 +6233,7 @@
         "speculative_num_draft_tokens": 16,
         "sampling_backend": "pytorch",
         "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_cz6l_20261103T061201Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_059c_glimmer_lc_20261103T120534Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_fp8_4xtp2_gateway",
@@ -7014,14 +6714,7 @@
           64
         ],
         "max_total_tokens": 524288
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_cz6l_20261103T061201Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_fp8_tp2",
@@ -7439,14 +7132,7 @@
           64
         ],
         "max_total_tokens": 524288
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v7x_1host_cz6l_20261103T061201Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_2xtp2_gateway",
@@ -8037,24 +7723,16 @@
       "server_args_effective": {
         "tp_size": 2,
         "dp_size": 2
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_2xtp2gw_20261103T055732Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp1_dp4",
       "desc": "BF16, 4 data-parallel replicas x TP1 (one full copy of the weights per chip), BF16 KV",
-      "status": "SERVER_FAILED",
+      "status": "NOT SUPPORTED",
       "cells": [],
       "recipe": "\"\"\"Generated by run_muse_sweep.py: glimmer_bf16_tp1_dp4.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/dev/shm/models/Muse-Glimmer-30B\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Glimmer-30B\", \"watchdog_timeout\": 3600, \"page_size\": 128, \"context_length\": 131072, \"chunked_prefill_size\": 8192, \"max_prefill_tokens\": 8192, \"tpu_compile_tokens\": [512, 2048, 8192], \"mem_fraction_static\": 0.92, \"disable_radix_cache\": true, \"tp_size\": 1, \"dp_size\": 4, \"quantization\": \"unquant\", \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 32, \"torch_compile_max_bs\": 32, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32], \"max_total_tokens\": 196608}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"FORCE_SINGLE_HOST\": \"1\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_libtpu = []\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
       "server_ready_s": 60.1,
       "server_info": [],
-      "server_log_tail": "ning: <TorchTpu/ApiStage/ExperimentalApi/> the TORCH_TPU_SLICEBUILDER_ADDRESSES environment variable is an experimental feature and may change or be removed without notice. (Triggered internally at ./csrc/common/env_vars.h:405.)\n  t = torch.tensor(rank, device=device, dtype=torch.int64)\n/usr/local/lib/python3.12/site-packages/sglang/srt/layers/dp_attention.py:1384: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> the TORCH_TPU_TOPOLOGY environment variable is an experimental feature and may change or be removed without notice. (Triggered internally at ./csrc/common/env_vars.h:405.)\n  t = torch.tensor(rank, device=device, dtype=torch.int64)\n[2026-11-03 03:49:10 DP1] Scheduler hit an exception: Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 6385, in run_scheduler_process\n    scheduler = Scheduler(server_args, port_args)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 544, in __init__\n    bootstrap.init_layer_runtime(model_config=self.model_config)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/distributed/bootstrap.py\", line 358, in init_layer_runtime\n    init_dp_gathered_buffer(model_config)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/layers/dp_attention.py\", line 458, in init_dp_gathered_buffer\n    _init_rank_tensors(torch.device(get_device().device))\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/layers/dp_attention.py\", line 1384, in _init_rank_tensors\n    t = torch.tensor(rank, device=device, dtype=torch.int64)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: failed to transfer to 'tpu' device: [TorchTPU] Failed to acquire a TPU device node '/dev/vfio/0' because it is already opened by another process on this host.\n\nColliding process(es):\n  - PID 953 (sglang::scheduler_DP0)\n\n\nRemediation:\nWhen running multiple processes on a single TPU host, each process must be allocated a distinct device. Please set the TPU_VISIBLE_DEVICES environment variable for each process, e.g.:\n  Process 0: export TPU_VISIBLE_DEVICES=0\n  Process 1: export TPU_VISIBLE_DEVICES=1\n\n/usr/local/lib/python3.12/site-packages/sglang/srt/layers/dp_attention.py:1384: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> the TORCH_TPU_SLICEBUILDER_ADDRESSES environment variable is an experimental feature and may change or be removed without notice. (Triggered internally at ./csrc/common/env_vars.h:405.)\n  t = torch.tensor(rank, device=device, dtype=torch.int64)\n/usr/local/lib/python3.12/site-packages/sglang/srt/layers/dp_attention.py:1384: UserWarning: <TorchTpu/ApiStage/ExperimentalApi/> the TORCH_TPU_TOPOLOGY environment variable is an experimental feature and may change or be removed without notice. (Triggered internally at ./csrc/common/env_vars.h:405.)\n  t = torch.tensor(rank, device=device, dtype=torch.int64)\n[2026-11-03 03:49:11 DP3] Init parallel begin.\n/workspace/sglang/sglang_tpu/patches.py:394: UserWarning: <TorchTpu/ApiStage/InternalApi/> set_device is internal to TorchTPU and may change or be removed without notice. Use torch.accelerator.set_device_index instead.\n  return orig_set_device(device)\n[2026-11-03 03:49:11 DP3] [TPU] TPU set_device(idx=3) skipped: Cannot set TPU device to index 3, current process is bound to device index 0. Changing the active TPU device within a process is not supported.\n[2026-11-03 03:49:11 DP3] Init parallel ends. elapsed=0.01 s\nWARNING: All log messages before absl::InitializeLog() is called are written to STDERR\nW0000 00:00:1793677751.490383     958 environment.cc:70] libtpu_init_args contains --xla_tpu_use_enhanced_launch_barrier=true, this can cause distributed hangs. Rewriting environment variable to false.\n[2026-11-03 03:49:15] kill_process_tree called: parent_pid=326, include_parent=False, pid=326\nTraceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1957, in _wait_for_scheduler_ready\n    data = scheduler_pipe_readers[i].recv()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 250, in recv\n    buf = self._recv_bytes()\n          ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 430, in _recv_bytes\n    buf = self._recv(4)\n          ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 399, in _recv\n    raise EOFError\nEOFError\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/usr/local/lib/python3.12/site-packages/sglang/launch_server.py\", line 84, in <module>\n    run_server(server_args)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/launch_server.py\", line 67, in run_server\n    launch_server(server_args)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/http_server.py\", line 2932, in launch_server\n    ) = engine_class._launch_subprocesses(\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1266, in _launch_subprocesses\n    scheduler_init_result.wait_for_ready()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 954, in wait_for_ready\n    infos = _wait_for_scheduler_ready(scheduler_pipe_readers, scheduler_procs)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1959, in _wait_for_scheduler_ready\n    raise _scheduler_died_error(i, scheduler_procs[i])\nRuntimeError: Rank 0 scheduler died during initialization (exit code: -3). If exit code is -9 (SIGKILL), a common cause is the OS OOM killer. Run `dmesg -T | grep -i oom` to check.\n",
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp4_20261103T034747Z/",
       "hardware": "v5p",
       "hardware_desc": "one TPU `v5p` host (`4` chips, 1 JAX/PJRT device per chip, `95 GB` HBM/chip = `380 GB`), a single host of the `v5p-32` (`2x4x4`) slice used as a standalone 2x2x1 sub-slice",
@@ -8092,18 +7770,7 @@
         ],
         "max_total_tokens": 196608
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp4_20261103T034531Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: Model type MuseGlimmerForConditionalGeneration is not supported for encoder disaggregation. Supported architectures: Qwen2VL, Qwen3VL, Qwen3.5, InternS2, Qwen2Audio, Qwen2.5Omni, Dots3-Note, Kimi, MiMoV2, GLM5Next."
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp4_20261103T034747Z/",
-          "status": "SERVER_FAILED",
-          "reason": "RuntimeError: failed to transfer to 'tpu' device: [TorchTPU] Failed to acquire a TPU device node '/dev/vfio/0' because it is already opened by another process on this host."
-        }
-      ]
+      "limitation": "`--dp-size` replicas inside one server are not supported for Glimmer in this build; colocated replicas behind the gateway are (`*_gateway` variants)."
     },
     {
       "name": "glimmer_bf16_tp2",
@@ -8487,34 +8154,16 @@
           64
         ],
         "max_total_tokens": 524288
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp2_20261103T035325Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp2_20261103T040137Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp2_20261103T040242Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp2_dp2",
       "desc": "BF16, 2 data-parallel replicas x TP2 (2 chips each), BF16 KV",
-      "status": "SERVER_FAILED",
+      "status": "NOT SUPPORTED",
       "cells": [],
       "recipe": "\"\"\"Generated by run_muse_sweep.py: glimmer_bf16_tp2_dp2.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/dev/shm/models/Muse-Glimmer-30B\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Glimmer-30B\", \"watchdog_timeout\": 3600, \"page_size\": 128, \"context_length\": 131072, \"chunked_prefill_size\": 8192, \"max_prefill_tokens\": 8192, \"tpu_compile_tokens\": [512, 2048, 8192], \"mem_fraction_static\": 0.85, \"disable_radix_cache\": true, \"tp_size\": 2, \"dp_size\": 2, \"quantization\": \"unquant\", \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 64, \"torch_compile_max_bs\": 64, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32, 64], \"max_total_tokens\": 524288}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"FORCE_SINGLE_HOST\": \"1\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_libtpu = []\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
       "server_ready_s": 60.2,
       "server_info": [],
-      "server_log_tail": "/site-packages/sglang/srt/distributed/bootstrap.py\", line 329, in _init_parallel_groups\n    init_distributed_environment(\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/distributed/parallel_state.py\", line 2542, in init_distributed_environment\n    torch.distributed.init_process_group(\n  File \"/usr/local/lib/python3.12/site-packages/torch/distributed/c10d_logger.py\", line 83, in wrapper\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/distributed/c10d_logger.py\", line 97, in wrapper\n    func_return = func(*args, **kwargs)\n                  ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py\", line 1899, in init_process_group\n    default_pg, _ = _new_process_group_helper(\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py\", line 2246, in _new_process_group_helper\n    backend_class = creator_fn(\n                    ^^^^^^^^^^^\nRuntimeError: [TorchTPU] Failed to acquire a TPU device node '/dev/vfio/1' because it is already opened by another process on this host.\n\nColliding process(es):\n  - PID 744 (sglang::scheduler_DP1_TP1)\n\n\nRemediation:\nWhen running multiple processes on a single TPU host, each process must be allocated a distinct device. Please set the TPU_VISIBLE_DEVICES environment variable for each process, e.g.:\n  Process 0: export TPU_VISIBLE_DEVICES=0\n  Process 1: export TPU_VISIBLE_DEVICES=1\n\n[2026-11-03 03:49:05 DP0 TP0] Scheduler hit an exception: Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 6385, in run_scheduler_process\n    scheduler = Scheduler(server_args, port_args)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 539, in __init__\n    self.distributed_init_time = bootstrap.init_parallel_runtime(\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/distributed/bootstrap.py\", line 150, in init_parallel_runtime\n    _init_parallel_groups(\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/distributed/bootstrap.py\", line 329, in _init_parallel_groups\n    init_distributed_environment(\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/distributed/parallel_state.py\", line 2542, in init_distributed_environment\n    torch.distributed.init_process_group(\n  File \"/usr/local/lib/python3.12/site-packages/torch/distributed/c10d_logger.py\", line 83, in wrapper\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/distributed/c10d_logger.py\", line 97, in wrapper\n    func_return = func(*args, **kwargs)\n                  ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py\", line 1899, in init_process_group\n    default_pg, _ = _new_process_group_helper(\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py\", line 2246, in _new_process_group_helper\n    backend_class = creator_fn(\n                    ^^^^^^^^^^^\nRuntimeError: [TorchTPU] Failed to acquire a TPU device node '/dev/vfio/0' because it is already opened by another process on this host.\n\nColliding process(es):\n  - PID 742 (sglang::scheduler_DP1_TP0)\n\n\nRemediation:\nWhen running multiple processes on a single TPU host, each process must be allocated a distinct device. Please set the TPU_VISIBLE_DEVICES environment variable for each process, e.g.:\n  Process 0: export TPU_VISIBLE_DEVICES=0\n  Process 1: export TPU_VISIBLE_DEVICES=1\n\n[2026-11-03 03:49:09] kill_process_tree called: parent_pid=324, include_parent=False, pid=324\nTraceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1957, in _wait_for_scheduler_ready\n    data = scheduler_pipe_readers[i].recv()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 250, in recv\n    buf = self._recv_bytes()\n          ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 430, in _recv_bytes\n    buf = self._recv(4)\n          ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 399, in _recv\n    raise EOFError\nEOFError\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/usr/local/lib/python3.12/site-packages/sglang/launch_server.py\", line 84, in <module>\n    run_server(server_args)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/launch_server.py\", line 67, in run_server\n    launch_server(server_args)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/http_server.py\", line 2932, in launch_server\n    ) = engine_class._launch_subprocesses(\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1266, in _launch_subprocesses\n    scheduler_init_result.wait_for_ready()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 954, in wait_for_ready\n    infos = _wait_for_scheduler_ready(scheduler_pipe_readers, scheduler_procs)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1959, in _wait_for_scheduler_ready\n    raise _scheduler_died_error(i, scheduler_procs[i])\nRuntimeError: Rank 0 scheduler died during initialization (exit code: -3). If exit code is -9 (SIGKILL), a common cause is the OS OOM killer. Run `dmesg -T | grep -i oom` to check.\n",
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp2_20261103T034746Z/",
       "hardware": "v5p",
       "hardware_desc": "one TPU `v5p` host (`4` chips, 1 JAX/PJRT device per chip, `95 GB` HBM/chip = `380 GB`), a single host of the `v5p-32` (`2x4x4`) slice used as a standalone 2x2x1 sub-slice",
@@ -8553,18 +8202,7 @@
         ],
         "max_total_tokens": 524288
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp2_20261103T034530Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: Model type MuseGlimmerForConditionalGeneration is not supported for encoder disaggregation. Supported architectures: Qwen2VL, Qwen3VL, Qwen3.5, InternS2, Qwen2Audio, Qwen2.5Omni, Dots3-Note, Kimi, MiMoV2, GLM5Next."
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dp2_20261103T034746Z/",
-          "status": "SERVER_FAILED",
-          "reason": "RuntimeError: [TorchTPU] Failed to acquire a TPU device node '/dev/vfio/1' because it is already opened by another process on this host."
-        }
-      ]
+      "limitation": "`--dp-size` replicas inside one server are not supported for Glimmer in this build; colocated replicas behind the gateway are (`*_gateway` variants)."
     },
     {
       "name": "glimmer_bf16_tp4",
@@ -9134,28 +8772,11 @@
           64
         ],
         "max_total_tokens": 1048576
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp4_20261103T034527Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: Model type MuseGlimmerForConditionalGeneration is not supported for encoder disaggregation. Supported architectures: Qwen2VL, Qwen3VL, Qwen3.5, InternS2, Qwen2Audio, Qwen2.5Omni, Dots3-Note, Kimi, MiMoV2, GLM5Next."
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp4_20261103T034744Z/",
-          "status": "SERVER_FAILED",
-          "reason": "torch._dynamo.exc.Unsupported: Unsupported method call"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_tp4_20261103T040134Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp4_dflash16",
-      "desc": "BF16, TP4, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), model-default sampling (T=1.0, top-p 0.95, top-k 64)",
+      "desc": "BF16, TP4, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), greedy decoding (temperature 0)",
       "status": "DONE",
       "cells": [
         {
@@ -9187,7 +8808,8 @@
             "total_input_tokens": 8184,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 5.64
         },
         {
           "input_len": 1024,
@@ -9218,7 +8840,8 @@
             "total_input_tokens": 16368,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 6.39
         },
         {
           "input_len": 1024,
@@ -9249,7 +8872,8 @@
             "total_input_tokens": 65472,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 6.1
         },
         {
           "input_len": 1024,
@@ -9280,7 +8904,8 @@
             "total_input_tokens": 130944,
             "total_output_tokens": 131072,
             "max_concurrency": 32
-          }
+          },
+          "accept_len_cell_est": 5.43
         },
         {
           "input_len": 4096,
@@ -9311,7 +8936,8 @@
             "total_input_tokens": 32760,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 6.1
         },
         {
           "input_len": 4096,
@@ -9342,7 +8968,8 @@
             "total_input_tokens": 65520,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 6.02
         },
         {
           "input_len": 4096,
@@ -9373,7 +9000,8 @@
             "total_input_tokens": 262080,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 6.01
         },
         {
           "input_len": 4096,
@@ -9404,7 +9032,8 @@
             "total_input_tokens": 524160,
             "total_output_tokens": 131072,
             "max_concurrency": 32
-          }
+          },
+          "accept_len_cell_est": 5.29
         },
         {
           "input_len": 32768,
@@ -9435,7 +9064,8 @@
             "total_input_tokens": 98301,
             "total_output_tokens": 3072,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 6.53
         },
         {
           "input_len": 32768,
@@ -9466,7 +9096,8 @@
             "total_input_tokens": 262136,
             "total_output_tokens": 8192,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 5.45
         }
       ],
       "draft_config_overrides": {
@@ -9555,34 +9186,7 @@
         "speculative_num_draft_tokens": 16,
         "sampling_backend": "pytorch",
         "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T034528Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T034745Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T040136Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T040242Z/",
-          "status": "SERVER_FAILED",
-          "reason": "TypeError: zeros(): argument 'size' failed to unpack the object at pos 2 with error \"type must be tuple of ints,but got NoneType\""
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash_20261103T041907Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp4_dflash16_greedy",
@@ -9618,7 +9222,8 @@
             "total_input_tokens": 8184,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 5.64
         },
         {
           "input_len": 1024,
@@ -9649,7 +9254,8 @@
             "total_input_tokens": 16368,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 6.52
         },
         {
           "input_len": 1024,
@@ -9680,7 +9286,8 @@
             "total_input_tokens": 65472,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 6.13
         }
       ],
       "draft_config_overrides": {
@@ -9770,18 +9377,7 @@
         "sampling_backend": "pytorch",
         "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_greedy_20261103T040233Z/",
-          "status": "SERVER_FAILED",
-          "reason": "TypeError: zeros(): argument 'size' failed to unpack the object at pos 2 with error \"type must be tuple of ints,but got NoneType\""
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_greedy_20261103T041908Z/",
-          "status": "RUNNING",
-          "reason": ""
-        }
-      ]
+      "notes": "repeat of `glimmer_bf16_tp4_dflash16` with an explicit `--temperature 0` (1K conc 1-16)"
     },
     {
       "name": "glimmer_bf16_tp4_dflash16_t1",
@@ -9817,7 +9413,8 @@
             "total_input_tokens": 8184,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 2.62
         },
         {
           "input_len": 1024,
@@ -9848,7 +9445,8 @@
             "total_input_tokens": 16368,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 3.2
         },
         {
           "input_len": 1024,
@@ -9879,7 +9477,8 @@
             "total_input_tokens": 65472,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 3.34
         },
         {
           "input_len": 1024,
@@ -9910,7 +9509,8 @@
             "total_input_tokens": 130944,
             "total_output_tokens": 131072,
             "max_concurrency": 32
-          }
+          },
+          "accept_len_cell_est": 3.39
         },
         {
           "input_len": 4096,
@@ -9941,7 +9541,8 @@
             "total_input_tokens": 32760,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 3.1
         },
         {
           "input_len": 4096,
@@ -9972,7 +9573,8 @@
             "total_input_tokens": 262080,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 3.71
         }
       ],
       "draft_config_overrides": {
@@ -10061,18 +9663,11 @@
         "speculative_num_draft_tokens": 16,
         "sampling_backend": "pytorch",
         "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_t1_20261103T043516Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp4_dflash8",
-      "desc": "BF16, TP4, BF16 KV + DFLASH (assistant draft) verifying 8 draft tokens per step (speculative_num_draft_tokens=8, checkpoint block 16), model-default sampling",
+      "desc": "BF16, TP4, BF16 KV + DFLASH (assistant draft) verifying 8 draft tokens per step (speculative_num_draft_tokens=8, checkpoint block 16), greedy decoding (temperature 0)",
       "status": "DONE",
       "cells": [
         {
@@ -10104,7 +9699,8 @@
             "total_input_tokens": 8184,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 4.7
         },
         {
           "input_len": 1024,
@@ -10135,7 +9731,8 @@
             "total_input_tokens": 16368,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 5.36
         },
         {
           "input_len": 1024,
@@ -10166,7 +9763,8 @@
             "total_input_tokens": 65472,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 5.08
         },
         {
           "input_len": 1024,
@@ -10197,7 +9795,8 @@
             "total_input_tokens": 130944,
             "total_output_tokens": 131072,
             "max_concurrency": 32
-          }
+          },
+          "accept_len_cell_est": 4.69
         },
         {
           "input_len": 4096,
@@ -10228,7 +9827,8 @@
             "total_input_tokens": 32760,
             "total_output_tokens": 8192,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 4.95
         },
         {
           "input_len": 4096,
@@ -10259,7 +9859,8 @@
             "total_input_tokens": 65520,
             "total_output_tokens": 16384,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 5.04
         },
         {
           "input_len": 4096,
@@ -10290,7 +9891,8 @@
             "total_input_tokens": 262080,
             "total_output_tokens": 65536,
             "max_concurrency": 16
-          }
+          },
+          "accept_len_cell_est": 5.0
         },
         {
           "input_len": 4096,
@@ -10321,7 +9923,8 @@
             "total_input_tokens": 524160,
             "total_output_tokens": 131072,
             "max_concurrency": 32
-          }
+          },
+          "accept_len_cell_est": 4.5
         },
         {
           "input_len": 32768,
@@ -10352,7 +9955,8 @@
             "total_input_tokens": 98301,
             "total_output_tokens": 3072,
             "max_concurrency": 1
-          }
+          },
+          "accept_len_cell_est": 5.29
         },
         {
           "input_len": 32768,
@@ -10383,7 +9987,8 @@
             "total_input_tokens": 262136,
             "total_output_tokens": 8192,
             "max_concurrency": 4
-          }
+          },
+          "accept_len_cell_est": 4.22
         }
       ],
       "draft_config_overrides": {
@@ -10472,24 +10077,12 @@
         "speculative_num_draft_tokens": 8,
         "sampling_backend": "pytorch",
         "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash8_20261103T040749Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dflash8_20261103T041939Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_bf16_tp4_dpattn2",
       "desc": "BF16, DP-attention: 2 attention replicas x attention-TP2 (no KV-head replication), MLP TP4, BF16 KV; text-only (language_model_only=true: vision tower not built, required because VisionAttention does not support attn-TP < TP)",
-      "status": "SERVER_FAILED",
+      "status": "NOT SUPPORTED",
       "cells": [],
       "recipe": "\"\"\"Generated by run_muse_sweep.py: glimmer_bf16_tp4_dpattn2.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/dev/shm/models/Muse-Glimmer-30B\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Glimmer-30B\", \"watchdog_timeout\": 3600, \"page_size\": 128, \"context_length\": 131072, \"chunked_prefill_size\": 8192, \"max_prefill_tokens\": 8192, \"tpu_compile_tokens\": [512, 2048, 8192], \"mem_fraction_static\": 0.85, \"disable_radix_cache\": true, \"tp_size\": 4, \"dp_size\": 2, \"enable_dp_attention\": true, \"quantization\": \"unquant\", \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 64, \"torch_compile_max_bs\": 64, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32, 64], \"max_total_tokens\": 1048576, \"enable_dp_lm_head\": true, \"json_model_override_args\": \"{\\\\\"language_model_only\\\\\": true}\"}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"FORCE_SINGLE_HOST\": \"1\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_libtpu = []\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
       "server_ready_s": 120.2,
@@ -10504,7 +10097,6 @@
         "[2026-11-03 03:59:11 DP0 TP0] Capture target decode TPU graph begin. backend=disabled, num_tokens_per_req=1, bs=[2, 4, 8, 12, 16, 24, 32], avail mem=74.53 GB",
         "[2026-11-03 03:59:12 DP0 TP0] [TPU] [decoder compile policy] _install_forward_shim for MuseGlimmerForConditionalGeneration (is_draft=False, is_eagle3_draft=False, shim_target=forward)"
       ],
-      "server_log_tail": "270_1, %arg271_1, %arg272_1, %arg273_1, %arg274_1, %arg275_1, %arg276_1, %arg277_1, %arg278_1, %arg279_1, %arg280_1, %arg281_1, %arg282_1, %arg283_1, %arg284_1, %arg285_1, %arg286_1, %arg287_1, %arg288_1, %arg289_1, %arg290_1, %arg291_1, %arg292_1, %arg293_1, %arg294_1, %arg295_1, %arg296_1, %arg297_1, %arg298_1, %arg299_1, %arg300_1, %arg301_1, %arg302_1, %arg303_1, %arg304_1, %arg305_1, %arg306_1, %arg307_1, %arg308_1, %arg309_1, %arg310_1, %arg311_1, %arg312_1, %arg313_1, %arg314_1, %arg315_1, %arg316_1, %arg317_1, %arg318_1, %arg319_1, %arg320_1, %arg321_1, %arg322_1, %arg323_1, %arg324_1, %arg325_1, %arg326_1, %arg327_1, %arg328_1, %arg329_1, %arg330_1, %arg331_1, %arg332_1, %arg333_1, %arg334_1, %arg335_1, %arg336_1, %arg337_1, %arg338_1, %arg339_1, %arg340_1, %arg341_1, %arg342_1, %arg343_1, %arg344_1, %arg345_1, %arg346_1, %arg347_1, %arg348_1, %arg349_1, %arg350_1, %arg351_1, %arg352_1, %arg353_1, %arg354_1, %arg355_1, %arg356_1, %arg357_1, %arg358_1, %arg359_1, %arg360_1, %arg361_1, %arg362_1, %arg363_1, %arg364_1, %arg365_1, %arg366_1, %arg367_1, %arg368_1, %arg369_1, %arg370_1, %arg371_1, %arg372_1, %arg373_1, %arg374_1, %arg375_1, %arg376_1, %arg377_1, %arg378_1, %arg379_1, %arg380_1, %arg381_1, %arg382_1, %arg383_1, %arg384_1, %arg385_1, %arg386_1, %arg387_1, %arg388_1, %arg389_1, %arg390_1, %arg391_1, %arg392_1, %arg393_1, %arg394_1, %arg395_1, %arg396_1, %arg397_1, %arg398_1, %arg399_1, %arg400_1, %arg401_1, %arg402_1, %arg403_1, %arg404_1, %arg405_1, %arg406_1, %arg407_1, %arg408_1, %arg409_1, %arg410_1, %arg411_1, %arg412_1, %arg413_1, %arg414_1, %arg415_1, %arg416_1, %arg417_1, %arg418_1, %arg419_1, %arg420_1, %arg421_1, %arg422_1, %arg423_1, %arg424_1, %arg425_1, %arg426_1, %arg427_1, %arg428_1, %arg429_1, %arg430_1, %arg431_1, %arg432_1, %arg433_1, %arg434_1, %arg435_1, %arg436_1, %arg437_1, %arg438_1, %arg439_1, %arg440_1, %arg441_1, %arg442_1, %arg443_1, %arg444_1, %arg445_1, %arg446_1, %arg447_1, %arg448_1, %arg449_1, %arg450_1, %arg451_1, %arg452_1, %arg453_1, %arg454_1, %arg455_1, %arg456_1, %arg457_1, %arg458_1, %arg459_1, %arg460_1, %arg461_1, %arg462_1, %arg463_1, %arg464_1, %arg465_1, %arg466_1, %arg467_1, %arg468_1, %arg469_1, %arg470_1, %arg471_1, %arg472_1, %arg473_1, %arg474_1, %arg475_1, %arg476_1, %arg477_1, %arg478_1, %arg479_1, %arg480_1, %arg481_1, %arg482_1, %arg483_1, %arg484_1, %arg485_1, %arg486_1, %arg487_1, %arg488_1, %arg489_1, %arg490_1, %arg491_1, %arg492_1, %arg493_1, %arg494_1, %arg495_1, %arg496_1, %arg497_1, %arg498_1, %arg499_1, %arg500_1, %arg501_1, %arg502_1, %arg503_1, %arg504_1, %arg505_1, %arg506_1, %arg507_1, %arg508_1, %arg509_1, %arg510_1, %arg511_1, %arg512_1, %arg513_1, %arg514_1, %arg515_1, %arg516_1, %arg517_1, %arg518_1, %arg519_1, %arg520_1, %arg521_1, %arg522_1, %arg523_1, %arg524_1, %arg525_1, %arg526_1, %arg527_1, %arg528_1, %arg529_1, %arg530_1, %arg531_1, %arg532_1, %arg533_1, %arg534_1, %arg535_1, %arg536_1, %arg537_1, %arg538_1, %arg539_1, %arg540_1, %arg541_1, %arg542_1, %arg543_1, %arg544_1, %arg545_1, %arg546_1, %arg547_1, %arg548_1, %arg549_1, %arg550_1, %arg551_1, %arg552_1, %arg553_1, %arg554_1, %arg555_1, %arg556_1, %arg557_1, %arg558_1, %arg559_1, %arg560_1, %arg561_1, %arg562_1, %arg563_1, %arg564_1, %arg565_1, %arg566_1, %arg567_1, %arg568_1, %arg569_1, %arg570_1, %arg571_1, %arg572_1, %arg573_1, %arg574_1, %arg575_1, %arg576_1, %arg577_1, %arg578_1, %arg579_1, %arg580_1, %arg581_1, %arg582_1, %arg583_1, %arg584_1, %arg585_1), kwargs = {})\nOriginal traceback:\nNone\nUse tlparse to see full graph. (https://github.com/pytorch/tlparse?tab=readme-ov-file#tlparse-parse-structured-pt2-logs)\n\nSet TORCHDYNAMO_VERBOSE=1 for the internal stack trace (please do this especially if you're reporting a bug to PyTorch). For even more developer context, set TORCH_LOGS=\"+dynamo\"\n\n\n[2026-11-03 03:59:40] kill_process_tree called: parent_pid=322, include_parent=False, pid=322\nTraceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1957, in _wait_for_scheduler_ready\n    data = scheduler_pipe_readers[i].recv()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 250, in recv\n    buf = self._recv_bytes()\n          ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 430, in _recv_bytes\n    buf = self._recv(4)\n          ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 399, in _recv\n    raise EOFError\nEOFError\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/usr/local/lib/python3.12/site-packages/sglang/launch_server.py\", line 84, in <module>\n    run_server(server_args)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/launch_server.py\", line 67, in run_server\n    launch_server(server_args)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/http_server.py\", line 2932, in launch_server\n    ) = engine_class._launch_subprocesses(\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1266, in _launch_subprocesses\n    scheduler_init_result.wait_for_ready()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 954, in wait_for_ready\n    infos = _wait_for_scheduler_ready(scheduler_pipe_readers, scheduler_procs)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1959, in _wait_for_scheduler_ready\n    raise _scheduler_died_error(i, scheduler_procs[i])\nRuntimeError: Rank 0 scheduler died during initialization (exit code: -3). If exit code is -9 (SIGKILL), a common cause is the OS OOM killer. Run `dmesg -T | grep -i oom` to check.\n",
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035720Z/",
       "hardware": "v5p",
       "hardware_desc": "one TPU `v5p` host (`4` chips, 1 JAX/PJRT device per chip, `95 GB` HBM/chip = `380 GB`), a single host of the `v5p-32` (`2x4x4`) slice used as a standalone 2x2x1 sub-slice",
@@ -10546,28 +10138,12 @@
         "enable_dp_lm_head": true,
         "json_model_override_args": "{\"language_model_only\": true}"
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035323Z/",
-          "status": "PENDING",
-          "reason": "PENDING"
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035435Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: VisionAttention shards over the attention TP group (2 ranks) but all-reduces over the full TP group (4 ranks), so it does not support --attn-dp-size 2 yet. Use --attn-dp-size equal to --tp-size, or drop --attn-dp-size 2, or --mm-enable-dp-encoder where the model supports it."
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn2_20261103T035720Z/",
-          "status": "SERVER_FAILED",
-          "reason": "RuntimeError: Rank 0 scheduler died during initialization (exit code: -3). If exit code is -9 (SIGKILL), a common cause is the OS OOM killer. Run `dmesg -T | grep -i oom` to check."
-        }
-      ]
+      "limitation": "DP-attention is not supported for Glimmer in this build."
     },
     {
       "name": "glimmer_bf16_tp4_dpattn4",
       "desc": "BF16, DP-attention: 4 attention replicas x attention-TP1, MLP TP4, BF16 KV",
-      "status": "SERVER_FAILED",
+      "status": "NOT SUPPORTED",
       "cells": [],
       "recipe": "\"\"\"Generated by run_muse_sweep.py: glimmer_bf16_tp4_dpattn4.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/dev/shm/models/Muse-Glimmer-30B\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Glimmer-30B\", \"watchdog_timeout\": 3600, \"page_size\": 128, \"context_length\": 131072, \"chunked_prefill_size\": 8192, \"max_prefill_tokens\": 8192, \"tpu_compile_tokens\": [512, 2048, 8192], \"mem_fraction_static\": 0.85, \"disable_radix_cache\": true, \"tp_size\": 4, \"dp_size\": 4, \"enable_dp_attention\": true, \"quantization\": \"unquant\", \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 64, \"torch_compile_max_bs\": 64, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32, 64], \"max_total_tokens\": 1048576}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"FORCE_SINGLE_HOST\": \"1\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_libtpu = []\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
       "server_ready_s": 120.2,
@@ -10582,7 +10158,6 @@
         "[2026-11-03 03:55:16 DP0 TP0] Capture target decode TPU graph begin. backend=disabled, num_tokens_per_req=1, bs=[1, 2, 4, 8, 12, 16], avail mem=66.43 GB",
         "[2026-11-03 03:55:17 DP0 TP0] [TPU] [decoder compile policy] _install_forward_shim for MuseGlimmerForConditionalGeneration (is_draft=False, is_eagle3_draft=False, shim_target=forward)"
       ],
-      "server_log_tail": "1, %arg294_1, %arg295_1, %arg296_1, %arg297_1, %arg298_1, %arg299_1, %arg300_1, %arg301_1, %arg302_1, %arg303_1, %arg304_1, %arg305_1, %arg306_1, %arg307_1, %arg308_1, %arg309_1, %arg310_1, %arg311_1, %arg312_1, %arg313_1, %arg314_1, %arg315_1, %arg316_1, %arg317_1, %arg318_1, %arg319_1, %arg320_1, %arg321_1, %arg322_1, %arg323_1, %arg324_1, %arg325_1, %arg326_1, %arg327_1, %arg328_1, %arg329_1, %arg330_1, %arg331_1, %arg332_1, %arg333_1, %arg334_1, %arg335_1, %arg336_1, %arg337_1, %arg338_1, %arg339_1, %arg340_1, %arg341_1, %arg342_1, %arg343_1, %arg344_1, %arg345_1, %arg346_1, %arg347_1, %arg348_1, %arg349_1, %arg350_1, %arg351_1, %arg352_1, %arg353_1, %arg354_1, %arg355_1, %arg356_1, %arg357_1, %arg358_1, %arg359_1, %arg360_1, %arg361_1, %arg362_1, %arg363_1, %arg364_1, %arg365_1, %arg366_1, %arg367_1, %arg368_1, %arg369_1, %arg370_1, %arg371_1, %arg372_1, %arg373_1, %arg374_1, %arg375_1, %arg376_1, %arg377_1, %arg378_1, %arg379_1, %arg380_1, %arg381_1, %arg382_1, %arg383_1, %arg384_1, %arg385_1, %arg386_1, %arg387_1, %arg388_1, %arg389_1, %arg390_1, %arg391_1, %arg392_1, %arg393_1, %arg394_1, %arg395_1, %arg396_1, %arg397_1, %arg398_1, %arg399_1, %arg400_1, %arg401_1, %arg402_1, %arg403_1, %arg404_1, %arg405_1, %arg406_1, %arg407_1, %arg408_1, %arg409_1, %arg410_1, %arg411_1, %arg412_1, %arg413_1, %arg414_1, %arg415_1, %arg416_1, %arg417_1, %arg418_1, %arg419_1, %arg420_1, %arg421_1, %arg422_1, %arg423_1, %arg424_1, %arg425_1, %arg426_1, %arg427_1, %arg428_1, %arg429_1, %arg430_1, %arg431_1, %arg432_1, %arg433_1, %arg434_1, %arg435_1, %arg436_1, %arg437_1, %arg438_1, %arg439_1, %arg440_1, %arg441_1, %arg442_1, %arg443_1, %arg444_1, %arg445_1, %arg446_1, %arg447_1, %arg448_1, %arg449_1, %arg450_1, %arg451_1, %arg452_1, %arg453_1, %arg454_1, %arg455_1, %arg456_1, %arg457_1, %arg458_1, %arg459_1, %arg460_1, %arg461_1, %arg462_1, %arg463_1, %arg464_1, %arg465_1, %arg466_1, %arg467_1, %arg468_1, %arg469_1, %arg470_1, %arg471_1, %arg472_1, %arg473_1, %arg474_1, %arg475_1, %arg476_1, %arg477_1, %arg478_1, %arg479_1, %arg480_1, %arg481_1, %arg482_1, %arg483_1, %arg484_1, %arg485_1, %arg486_1, %arg487_1, %arg488_1, %arg489_1, %arg490_1, %arg491_1, %arg492_1, %arg493_1, %arg494_1, %arg495_1, %arg496_1, %arg497_1, %arg498_1, %arg499_1, %arg500_1, %arg501_1, %arg502_1, %arg503_1, %arg504_1, %arg505_1, %arg506_1, %arg507_1, %arg508_1, %arg509_1, %arg510_1, %arg511_1, %arg512_1, %arg513_1, %arg514_1, %arg515_1, %arg516_1, %arg517_1, %arg518_1, %arg519_1, %arg520_1, %arg521_1, %arg522_1, %arg523_1, %arg524_1, %arg525_1, %arg526_1, %arg527_1, %arg528_1, %arg529_1, %arg530_1, %arg531_1, %arg532_1, %arg533_1, %arg534_1, %arg535_1, %arg536_1, %arg537_1, %arg538_1, %arg539_1, %arg540_1, %arg541_1, %arg542_1, %arg543_1, %arg544_1, %arg545_1, %arg546_1, %arg547_1, %arg548_1, %arg549_1, %arg550_1, %arg551_1, %arg552_1, %arg553_1, %arg554_1, %arg555_1, %arg556_1, %arg557_1, %arg558_1, %arg559_1, %arg560_1, %arg561_1, %arg562_1, %arg563_1, %arg564_1, %arg565_1, %arg566_1, %arg567_1, %arg568_1, %arg569_1, %arg570_1, %arg571_1, %arg572_1, %arg573_1, %arg574_1, %arg575_1, %arg576_1, %arg577_1, %arg578_1, %arg579_1, %arg580_1, %arg581_1, %arg582_1, %arg583_1, %arg584_1, %arg586_1, %arg587_1), kwargs = {})\nOriginal traceback:\nNone\nUse tlparse to see full graph. (https://github.com/pytorch/tlparse?tab=readme-ov-file#tlparse-parse-structured-pt2-logs)\n\nSet TORCHDYNAMO_VERBOSE=1 for the internal stack trace (please do this especially if you're reporting a bug to PyTorch). For even more developer context, set TORCH_LOGS=\"+dynamo\"\n\n\n/usr/local/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.\n  return func(*args, **kwargs)\n[2026-11-03 03:55:44] kill_process_tree called: parent_pid=325, include_parent=False, pid=325\nTraceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1957, in _wait_for_scheduler_ready\n    data = scheduler_pipe_readers[i].recv()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 250, in recv\n    buf = self._recv_bytes()\n          ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 430, in _recv_bytes\n    buf = self._recv(4)\n          ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/multiprocessing/connection.py\", line 399, in _recv\n    raise EOFError\nEOFError\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/usr/local/lib/python3.12/site-packages/sglang/launch_server.py\", line 84, in <module>\n    run_server(server_args)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/launch_server.py\", line 67, in run_server\n    launch_server(server_args)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/http_server.py\", line 2932, in launch_server\n    ) = engine_class._launch_subprocesses(\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1266, in _launch_subprocesses\n    scheduler_init_result.wait_for_ready()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 954, in wait_for_ready\n    infos = _wait_for_scheduler_ready(scheduler_pipe_readers, scheduler_procs)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py\", line 1959, in _wait_for_scheduler_ready\n    raise _scheduler_died_error(i, scheduler_procs[i])\nRuntimeError: Rank 0 scheduler died during initialization (exit code: -3). If exit code is -9 (SIGKILL), a common cause is the OS OOM killer. Run `dmesg -T | grep -i oom` to check.\n",
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn4_20261103T035324Z/",
       "hardware": "v5p",
       "hardware_desc": "one TPU `v5p` host (`4` chips, 1 JAX/PJRT device per chip, `95 GB` HBM/chip = `380 GB`), a single host of the `v5p-32` (`2x4x4`) slice used as a standalone 2x2x1 sub-slice",
@@ -10622,13 +10197,7 @@
         ],
         "max_total_tokens": 1048576
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_dpattn4_20261103T035324Z/",
-          "status": "SERVER_FAILED",
-          "reason": "RuntimeError: Rank 0 scheduler died during initialization (exit code: -3). If exit code is -9 (SIGKILL), a common cause is the OS OOM killer. Run `dmesg -T | grep -i oom` to check."
-        }
-      ]
+      "limitation": "DP-attention is not supported for Glimmer in this build."
     },
     {
       "name": "glimmer_bf16w_fp8kv_tp4",
@@ -11043,14 +10612,7 @@
           64
         ],
         "max_total_tokens": 1048576
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_fp8kv_20261103T040751Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_fp8_tp2",
@@ -11435,26 +10997,18 @@
           64
         ],
         "max_total_tokens": 524288
-      },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_fp8tp2_20261103T040234Z/",
-          "status": "DONE",
-          "reason": ""
-        }
-      ]
+      }
     },
     {
       "name": "glimmer_fp8_tp4",
       "desc": "FP8 W8A8 online quantization (channelwise, emulated on v5p which has no FP8 MXU), TP4, FP8 KV",
-      "status": "SERVER_FAILED",
+      "status": "NOT SUPPORTED",
       "cells": [],
       "recipe": "\"\"\"Generated by run_muse_sweep.py: glimmer_fp8_tp4.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/dev/shm/models/Muse-Glimmer-30B\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Glimmer-30B\", \"watchdog_timeout\": 3600, \"page_size\": 128, \"context_length\": 131072, \"chunked_prefill_size\": 8192, \"max_prefill_tokens\": 8192, \"tpu_compile_tokens\": [512, 2048, 8192], \"mem_fraction_static\": 0.85, \"disable_radix_cache\": true, \"tp_size\": 4, \"quantization\": \"fp8\", \"tpu_fp8_runtime\": \"channelwise\", \"kv_cache_dtype\": \"fp8_e4m3\", \"max_running_requests\": 64, \"torch_compile_max_bs\": 64, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32, 64], \"max_total_tokens\": 1048576}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"FORCE_SINGLE_HOST\": \"1\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_libtpu = []\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
       "server_ready_s": 60.1,
       "server_info": [
         "[2026-11-03 03:49:36 TP0] Load weight begin. avail mem=95.73 GB"
       ],
-      "server_log_tail": " self._init_model_runner()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py\", line 482, in _init_model_runner\n    self._model_runner = ModelRunner(\n                         ^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py\", line 483, in __init__\n    self.initialize()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py\", line 681, in initialize\n    self.load_model()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py\", line 1268, in load_model\n    loaded = load_model_with_memory_saver(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner_components/load_model_utils.py\", line 337, in load_model_with_memory_saver\n    model = loader.load_model(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py\", line 1040, in load_model\n    model = _initialize_model(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py\", line 334, in _initialize_model\n    model = model_class(**kwargs)\n            ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 956, in __init__\n    super().__init__(config, quant_config=quant_config, prefix=prefix)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 824, in __init__\n    self.model = MuseGlimmerModel(\n                 ^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 390, in __init__\n    MuseGlimmerDecoderLayer(\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 335, in __init__\n    self.self_attn = MuseGlimmerAttention(\n                     ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 197, in __init__\n    raise ValueError(\nValueError: Muse Glimmer unfused q/k/v needs num_key_value_heads >= tp_size (got 2 kv heads, tp_size=4); the KV-head replication QKVParallelLinear does is not reproduced here.\n\n[2026-11-03 03:49:36 TP1] Scheduler hit an exception: Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 6385, in run_scheduler_process\n    scheduler = Scheduler(server_args, port_args)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 571, in __init__\n    self.init_model_worker()\n  File \"/workspace/sglang/sglang_tpu/host_heap_trim.py\", line 258, in init_model_worker\n    result = init_worker(self, *args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 1141, in init_model_worker\n    self.init_tp_model_worker()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py\", line 1026, in init_tp_model_worker\n    self.tp_worker = TpModelWorker(**worker_kwargs)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py\", line 320, in __init__\n    self._init_model_runner()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py\", line 482, in _init_model_runner\n    self._model_runner = ModelRunner(\n                         ^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py\", line 483, in __init__\n    self.initialize()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py\", line 681, in initialize\n    self.load_model()\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py\", line 1268, in load_model\n    loaded = load_model_with_memory_saver(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner_components/load_model_utils.py\", line 337, in load_model_with_memory_saver\n    model = loader.load_model(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py\", line 1040, in load_model\n    model = _initialize_model(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py\", line 334, in _initialize_model\n    model = model_class(**kwargs)\n            ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 956, in __init__\n    super().__init__(config, quant_config=quant_config, prefix=prefix)\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 824, in __init__\n    self.model = MuseGlimmerModel(\n                 ^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 390, in __init__\n    MuseGlimmerDecoderLayer(\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 335, in __init__\n    self.self_attn = MuseGlimmerAttention(\n                     ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sglang/srt/models/muse_glimmer.py\", line 197, in __init__\n    raise ValueError(\nValueError: Muse Glimmer unfused q/k/v needs num_key_value_heads >= tp_size (got 2 kv heads, tp_size=4); the KV-head replication QKVParallelLinear does is not reproduced here.\n\n[2026-11-03 03:49:36] Received sigquit from a child process. It usually means the child failed.\n[2026-11-03 03:49:36] Received sigquit from a child process. It usually means the child failed.\n[2026-11-03 03:49:36] Received sigquit from a child process. It usually means the child failed.\n[2026-11-03 03:49:36] kill_process_tree called: parent_pid=339, include_parent=True, pid=339\n",
       "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_fp8_20261103T034749Z/",
       "hardware": "v5p",
       "hardware_desc": "one TPU `v5p` host (`4` chips, 1 JAX/PJRT device per chip, `95 GB` HBM/chip = `380 GB`), a single host of the `v5p-32` (`2x4x4`) slice used as a standalone 2x2x1 sub-slice",
@@ -11493,18 +11047,7 @@
         ],
         "max_total_tokens": 1048576
       },
-      "attempts": [
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_fp8_20261103T034533Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: Model type MuseGlimmerForConditionalGeneration is not supported for encoder disaggregation. Supported architectures: Qwen2VL, Qwen3VL, Qwen3.5, InternS2, Qwen2Audio, Qwen2.5Omni, Dots3-Note, Kimi, MiMoV2, GLM5Next."
-        },
-        {
-          "source": "gs://YOUR_GCS_BUCKET/benchmark-results/muse_glimmer30b_sglang_v5p_1host_fp8_20261103T034749Z/",
-          "status": "SERVER_FAILED",
-          "reason": "ValueError: Muse Glimmer unfused q/k/v needs num_key_value_heads >= tp_size (got 2 kv heads, tp_size=4); the KV-head replication QKVParallelLinear does is not reproduced here."
-        }
-      ]
+      "limitation": "FP8 W8A8 needs KV heads >= TP (Glimmer has 2 KV heads), so FP8 runs use TP2."
     }
   ]
 }
