@@ -1,0 +1,871 @@
+{
+  "updated_at_utc": "2026-11-03T10:32:17.339202+00:00",
+  "title": "Meta Muse-Spark-Open-816B-A42B BF16 (MuseSparkForConditionalGeneration: 816B total / 42B active MoE, 256 experts top-8, 62 layers = 46 SWA-2048 + 16 global GQA, 128 Q / 16 KV heads, text-only serving) on TPU v5p-32 slice (8 hosts = 32 chips, 2x4x4 ICI, 3.04 TB HBM) with SGLang-TorchTPU",
+  "model_repo": "meta-models/Muse-Spark-Open-816B-A42B (+ RadixArk/Muse-Spark-Open-DFlash2 draft)",
+  "model_gb": 1644.4,
+  "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT/vllm/sglang-torchtpu-diffusion:v0.2.0",
+  "hardware": {
+    "name": "v5p32_spark",
+    "chips": 32,
+    "desc": "TPU `v5p-32` slice (`8` hosts, `32` chips in `2x4x4` 3D torus ICI, `95 GB` HBM/chip = `3.04 TB` HBM)"
+  },
+  "plan": {
+    "tag": "muse_spark816b_sglang_v5p32_8host",
+    "title": "Meta Muse-Spark-Open-816B-A42B BF16 (MuseSparkForConditionalGeneration: 816B total / 42B active MoE, 256 experts top-8, 62 layers = 46 SWA-2048 + 16 global GQA, 128 Q / 16 KV heads, text-only serving) on TPU v5p-32 slice (8 hosts = 32 chips, 2x4x4 ICI, 3.04 TB HBM) with SGLang-TorchTPU",
+    "model_repo": "meta-models/Muse-Spark-Open-816B-A42B (+ RadixArk/Muse-Spark-Open-DFlash2 draft)",
+    "model_gb": 1644.4,
+    "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT/vllm/sglang-torchtpu-diffusion:v0.2.0",
+    "nnodes": 8,
+    "use_gcsfuse": true,
+    "hardware": {
+      "name": "v5p32_spark",
+      "chips": 32,
+      "desc": "TPU `v5p-32` slice (`8` hosts, `32` chips in `2x4x4` 3D torus ICI, `95 GB` HBM/chip = `3.04 TB` HBM)"
+    },
+    "model_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Spark-Open-816B-A42B",
+    "port": 30000,
+    "cell_timeout_s": 1800,
+    "extra_args": [
+      "--no-tpu-node-normalization"
+    ],
+    "server_args": {
+      "host": "0.0.0.0",
+      "nnodes": 8,
+      "tp_size": 32,
+      "served_model_name": "meta-models/Muse-Spark-Open-816B-A42B",
+      "watchdog_timeout": 7200,
+      "dist_timeout": 600,
+      "page_size": 128,
+      "context_length": 262144,
+      "chunked_prefill_size": 4096,
+      "max_prefill_tokens": 4096,
+      "tpu_compile_tokens": [
+        1024,
+        4096
+      ],
+      "weight_loader_drop_cache_after_load": true,
+      "reasoning_parser": "muse",
+      "tool_call_parser": "muse"
+    },
+    "runtime_env": {
+      "TORCH_TPU_DEVICES_PER_HOST": "4",
+      "TORCH_TPU_TOPOLOGY": "2,4,4",
+      "TPU_CHIPS_PER_HOST_BOUNDS": "2,2,1",
+      "TPU_HOST_BOUNDS": "1,2,4",
+      "TORCH_TPU_SLICEBUILDER_ADDRESSES": null,
+      "SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE": "1",
+      "SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S": "5400"
+    },
+    "workloads": [
+      [
+        1024,
+        1024,
+        [
+          1,
+          4,
+          8,
+          16,
+          32,
+          64
+        ]
+      ],
+      [
+        4096,
+        1024,
+        [
+          1,
+          4,
+          16,
+          32,
+          64
+        ]
+      ]
+    ],
+    "variants": [
+      {
+        "name": "spark_bf16_v5p32_tp32_ep32",
+        "desc": "BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context",
+        "chips_used": 32,
+        "ready_timeout_s": 7200,
+        "server_args": {
+          "tp_size": 32,
+          "ep_size": 32,
+          "quantization": null,
+          "kv_cache_dtype": "bfloat16",
+          "max_running_requests": 64,
+          "torch_compile_max_bs": 64,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32,
+            64
+          ],
+          "swa_full_tokens_ratio": 0.25,
+          "mem_fraction_static": 0.85,
+          "disable_radix_cache": true
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16,
+              32,
+              64
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              4,
+              16,
+              32,
+              64
+            ]
+          ],
+          [
+            32768,
+            1024,
+            [
+              1,
+              4
+            ]
+          ],
+          [
+            65536,
+            1024,
+            [
+              1,
+              4
+            ]
+          ],
+          [
+            131072,
+            1024,
+            [
+              1,
+              2
+            ]
+          ],
+          [
+            258048,
+            1024,
+            [
+              1
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "spark_bf16_v5p32_tp32_ep32_dflash8",
+        "desc": "BF16 checkpoint, TP32 EP32 + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8), BF16 KV",
+        "chips_used": 32,
+        "ready_timeout_s": 7200,
+        "draft_gcs": "gs://YOUR_GCS_BUCKET/models/RadixArk/Muse-Spark-Open-DFlash2",
+        "draft_config_overrides": {
+          "is_hybrid_swa": true,
+          "hybrid_layer_pattern": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "server_args": {
+          "tp_size": 32,
+          "ep_size": 32,
+          "quantization": null,
+          "kv_cache_dtype": "bfloat16",
+          "max_running_requests": 32,
+          "torch_compile_max_bs": 32,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "swa_full_tokens_ratio": 0.5,
+          "mem_fraction_static": 0.85,
+          "disable_radix_cache": true,
+          "speculative_algorithm": "DFLASH",
+          "speculative_num_draft_tokens": 8,
+          "sampling_backend": "pytorch",
+          "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
+        },
+        "runtime_env": {
+          "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+          "SGLANG_SPEC_TP_SYNC": "rng",
+          "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1",
+          "SGLANG_DFLASH_ROW_PARALLEL_FC": "1",
+          "SGLANG_DFLASH_CONV_MATMUL_EXPAND": "1"
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16,
+              32
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              4,
+              16
+            ]
+          ],
+          [
+            65536,
+            1024,
+            [
+              1,
+              2
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "spark_bf16_v5p32_tp32_ep8",
+        "desc": "BF16 checkpoint, TP32 EP8 (32 experts/host, 4-way intra-host expert-TP across 8 v5p hosts), BF16 KV",
+        "chips_used": 32,
+        "ready_timeout_s": 7200,
+        "server_args": {
+          "tp_size": 32,
+          "ep_size": 8,
+          "quantization": null,
+          "kv_cache_dtype": "bfloat16",
+          "max_running_requests": 32,
+          "torch_compile_max_bs": 32,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "swa_full_tokens_ratio": 0.25,
+          "mem_fraction_static": 0.85,
+          "disable_radix_cache": true
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              16,
+              32
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              16
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "spark_bf16_v5p32_tp32_ep1",
+        "desc": "BF16 checkpoint, TP32 EP1 (32-way expert-TP across all 32 v5p chips), BF16 KV",
+        "chips_used": 32,
+        "ready_timeout_s": 7200,
+        "server_args": {
+          "tp_size": 32,
+          "ep_size": 1,
+          "quantization": null,
+          "kv_cache_dtype": "bfloat16",
+          "max_running_requests": 32,
+          "torch_compile_max_bs": 32,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "swa_full_tokens_ratio": 0.25,
+          "mem_fraction_static": 0.85,
+          "disable_radix_cache": true
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              16,
+              32
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              16
+            ]
+          ]
+        ]
+      }
+    ]
+  },
+  "only": "",
+  "worker_hosts": [
+    "muse-spark-v5p32-0.muse-spark-v5p32-svc",
+    "muse-spark-v5p32-1.muse-spark-v5p32-svc",
+    "muse-spark-v5p32-2.muse-spark-v5p32-svc",
+    "muse-spark-v5p32-3.muse-spark-v5p32-svc",
+    "muse-spark-v5p32-4.muse-spark-v5p32-svc",
+    "muse-spark-v5p32-5.muse-spark-v5p32-svc",
+    "muse-spark-v5p32-6.muse-spark-v5p32-svc",
+    "muse-spark-v5p32-7.muse-spark-v5p32-svc"
+  ],
+  "variants": [
+    {
+      "name": "spark_bf16_v5p32_tp32_ep32",
+      "desc": "BF16 checkpoint (BF16 attn + online FP8 MoE experts at load), TP32 EP32 (8 whole experts/chip across 32 v5p chips), BF16 KV, `262K` context",
+      "chips_used": 32,
+      "replicas": 1,
+      "status": "DONE",
+      "cells": [
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 1,
+          "wall_s": 69.7,
+          "metrics": {}
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 16,
+          "return_code": 1,
+          "wall_s": 68.3,
+          "metrics": {}
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 8,
+          "num_prompts": 32,
+          "return_code": 1,
+          "wall_s": 68.4,
+          "metrics": {}
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 182.4,
+          "metrics": {
+            "completed": 64,
+            "duration": 158.1898794620065,
+            "request_throughput": 0.40457708304513434,
+            "input_throughput": 414.28693303821757,
+            "output_throughput": 414.28693303821757,
+            "total_throughput": 828.5738660764351,
+            "mean_ttft_ms": 1096.3897768594961,
+            "median_ttft_ms": 1127.8191309975227,
+            "p99_ttft_ms": 1827.2287620477437,
+            "mean_tpot_ms": 37.57234729350016,
+            "median_tpot_ms": 37.57275853616994,
+            "p99_tpot_ms": 38.40902593425741,
+            "mean_itl_ms": 37.572338030088915,
+            "median_itl_ms": 36.89789849886438,
+            "p99_itl_ms": 37.652299990077154,
+            "mean_e2e_latency_ms": 39532.901058110154,
+            "median_e2e_latency_ms": 39553.46967099831,
+            "accept_length": null,
+            "total_input_tokens": 65536,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 32,
+          "num_prompts": 128,
+          "return_code": 0,
+          "wall_s": 201.9,
+          "metrics": {
+            "completed": 128,
+            "duration": 185.5160527380067,
+            "request_throughput": 0.6899672460192262,
+            "input_throughput": 706.5264599236876,
+            "output_throughput": 706.5264599236876,
+            "total_throughput": 1413.0529198473753,
+            "mean_ttft_ms": 1926.6636881876593,
+            "median_ttft_ms": 1940.4436514996632,
+            "p99_ttft_ms": 3444.2671443688596,
+            "mean_tpot_ms": 43.4368982158631,
+            "median_tpot_ms": 43.429295024923334,
+            "p99_tpot_ms": 45.04731665880682,
+            "mean_itl_ms": 43.4368890851584,
+            "median_itl_ms": 41.951852002966916,
+            "p99_itl_ms": 42.771506436693016,
+            "mean_e2e_latency_ms": 46362.61056301561,
+            "median_e2e_latency_ms": 46363.978344001225,
+            "accept_length": null,
+            "total_input_tokens": 131072,
+            "total_output_tokens": 131072,
+            "max_concurrency": 32
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 64,
+          "num_prompts": 256,
+          "return_code": 0,
+          "wall_s": 250.2,
+          "metrics": {
+            "completed": 256,
+            "duration": 233.7379178629999,
+            "request_throughput": 1.0952437770496806,
+            "input_throughput": 1121.529627698873,
+            "output_throughput": 1121.529627698873,
+            "total_throughput": 2243.059255397746,
+            "mean_ttft_ms": 3604.9704811640595,
+            "median_ttft_ms": 3736.671118000231,
+            "p99_ttft_ms": 6703.663904150743,
+            "mean_tpot_ms": 53.57746683232902,
+            "median_tpot_ms": 53.49791213196549,
+            "p99_tpot_ms": 56.699370113101935,
+            "mean_itl_ms": 53.577457148299985,
+            "median_itl_ms": 50.49549950126675,
+            "p99_itl_ms": 51.27389257708274,
+            "mean_e2e_latency_ms": 58414.719050636646,
+            "median_e2e_latency_ms": 58458.16203950017,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 262144,
+            "max_concurrency": 64
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 225.8,
+          "metrics": {
+            "completed": 8,
+            "duration": 207.69210185499833,
+            "request_throughput": 0.03851855669304775,
+            "input_throughput": 157.77200821472357,
+            "output_throughput": 39.44300205368089,
+            "total_throughput": 197.21501026840446,
+            "mean_ttft_ms": 510.8935808730166,
+            "median_ttft_ms": 512.0188019973284,
+            "p99_ttft_ms": 526.2672632442991,
+            "mean_tpot_ms": 24.87316797299671,
+            "median_tpot_ms": 24.870730174486265,
+            "p99_tpot_ms": 24.919635166366085,
+            "mean_itl_ms": 24.87307809518601,
+            "median_itl_ms": 24.874003498553066,
+            "p99_itl_ms": 25.33813844798715,
+            "mean_e2e_latency_ms": 25956.14441724865,
+            "median_e2e_latency_ms": 25950.967267002852,
+            "accept_length": null,
+            "total_input_tokens": 32768,
+            "total_output_tokens": 8192,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 16,
+          "return_code": 0,
+          "wall_s": 142.5,
+          "metrics": {
+            "completed": 16,
+            "duration": 125.99561530200299,
+            "request_throughput": 0.1269885460827274,
+            "input_throughput": 520.1450847548514,
+            "output_throughput": 130.03627118871285,
+            "total_throughput": 650.1813559435643,
+            "mean_ttft_ms": 1179.6972572496998,
+            "median_ttft_ms": 1179.343723499187,
+            "p99_ttft_ms": 1887.289604848047,
+            "mean_tpot_ms": 29.62655028567828,
+            "median_tpot_ms": 29.656498067937076,
+            "p99_tpot_ms": 30.365920351465686,
+            "mean_itl_ms": 29.626518764234877,
+            "median_itl_ms": 28.966690002562245,
+            "p99_itl_ms": 29.566851611307357,
+            "mean_e2e_latency_ms": 31487.658199498583,
+            "median_e2e_latency_ms": 31478.57991699857,
+            "accept_length": null,
+            "total_input_tokens": 65536,
+            "total_output_tokens": 16384,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 199.5,
+          "metrics": {
+            "completed": 64,
+            "duration": 182.33825884899852,
+            "request_throughput": 0.3509960027259058,
+            "input_throughput": 1437.6796271653102,
+            "output_throughput": 359.41990679132755,
+            "total_throughput": 1797.0995339566377,
+            "mean_ttft_ms": 3955.286826859492,
+            "median_ttft_ms": 4079.643490498711,
+            "p99_ttft_ms": 7288.6879473722365,
+            "mean_tpot_ms": 40.67975370399633,
+            "median_tpot_ms": 40.640990811338014,
+            "p99_tpot_ms": 44.127645506732726,
+            "mean_itl_ms": 40.67972493746917,
+            "median_itl_ms": 37.43603650218574,
+            "p99_itl_ms": 38.12958570189949,
+            "mean_e2e_latency_ms": 45570.67486604774,
+            "median_e2e_latency_ms": 45591.84060450207,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 32,
+          "num_prompts": 128,
+          "return_code": 0,
+          "wall_s": 251.3,
+          "metrics": {
+            "completed": 128,
+            "duration": 234.57706409399543,
+            "request_throughput": 0.5456628954513225,
+            "input_throughput": 2235.035219768617,
+            "output_throughput": 558.7588049421543,
+            "total_throughput": 2793.7940247107713,
+            "mean_ttft_ms": 7513.554657710529,
+            "median_ttft_ms": 7471.658440499596,
+            "p99_ttft_ms": 14480.153959478703,
+            "mean_tpot_ms": 49.965826690753374,
+            "median_tpot_ms": 50.00789242570626,
+            "p99_tpot_ms": 56.84926402584036,
+            "mean_itl_ms": 49.96580521322847,
+            "median_itl_ms": 43.15719400256057,
+            "p99_itl_ms": 43.98882892841357,
+            "mean_e2e_latency_ms": 58628.59536235123,
+            "median_e2e_latency_ms": 58630.780787498225,
+            "accept_length": null,
+            "total_input_tokens": 524288,
+            "total_output_tokens": 131072,
+            "max_concurrency": 32
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 64,
+          "num_prompts": 256,
+          "return_code": 0,
+          "wall_s": 350.7,
+          "metrics": {
+            "completed": 256,
+            "duration": 333.8096299980025,
+            "request_throughput": 0.7669041782932742,
+            "input_throughput": 3141.239514289251,
+            "output_throughput": 785.3098785723128,
+            "total_throughput": 3926.549392861564,
+            "mean_ttft_ms": 13366.318304449265,
+            "median_ttft_ms": 12724.197681996884,
+            "p99_ttft_ms": 28132.758414651467,
+            "mean_tpot_ms": 68.46711959866816,
+            "median_tpot_ms": 68.99159137878974,
+            "p99_tpot_ms": 80.98258721896258,
+            "mean_itl_ms": 68.46709338129644,
+            "median_itl_ms": 53.00669700227445,
+            "p99_itl_ms": 53.8646258386143,
+            "mean_e2e_latency_ms": 83408.1816538868,
+            "median_e2e_latency_ms": 83356.76082300051,
+            "accept_length": null,
+            "total_input_tokens": 1048576,
+            "total_output_tokens": 262144,
+            "max_concurrency": 64
+          }
+        },
+        {
+          "input_len": 32768,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 3,
+          "return_code": 0,
+          "wall_s": 107.8,
+          "metrics": {
+            "completed": 3,
+            "duration": 88.23210285900132,
+            "request_throughput": 0.03400122974280834,
+            "input_throughput": 1114.1522962123436,
+            "output_throughput": 34.81725925663574,
+            "total_throughput": 1148.9695554689793,
+            "mean_ttft_ms": 3814.928339998005,
+            "median_ttft_ms": 3838.5382349952124,
+            "p99_ttft_ms": 3877.046711718722,
+            "mean_tpot_ms": 25.007715997395085,
+            "median_tpot_ms": 25.001258844576178,
+            "p99_tpot_ms": 25.02716961157675,
+            "mean_itl_ms": 25.00760985174485,
+            "median_itl_ms": 24.997895998239983,
+            "p99_itl_ms": 25.53442376491148,
+            "mean_e2e_latency_ms": 29397.821805333177,
+            "median_e2e_latency_ms": 29441.873700998258,
+            "accept_length": null,
+            "total_input_tokens": 98304,
+            "total_output_tokens": 3072,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 32768,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 112.3,
+          "metrics": {
+            "completed": 8,
+            "duration": 90.56931938699563,
+            "request_throughput": 0.08833013269997785,
+            "input_throughput": 2894.401788312874,
+            "output_throughput": 90.45005588477731,
+            "total_throughput": 2984.851844197651,
+            "mean_ttft_ms": 9453.941214124825,
+            "median_ttft_ms": 9475.914000999182,
+            "p99_ttft_ms": 15116.826687586654,
+            "mean_tpot_ms": 35.00370875574196,
+            "median_tpot_ms": 35.01911863489362,
+            "p99_tpot_ms": 40.487506526587005,
+            "mean_itl_ms": 35.00368626551783,
+            "median_itl_ms": 29.53110199814546,
+            "p99_itl_ms": 30.11229041207116,
+            "mean_e2e_latency_ms": 45262.73527124886,
+            "median_e2e_latency_ms": 45262.50450849693,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 8192,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 65536,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 3,
+          "return_code": 0,
+          "wall_s": 124.7,
+          "metrics": {
+            "completed": 3,
+            "duration": 100.58370938000007,
+            "request_throughput": 0.029825903404160158,
+            "input_throughput": 1954.67040549504,
+            "output_throughput": 30.54172508586,
+            "total_throughput": 1985.2121305809,
+            "mean_ttft_ms": 7778.133386666013,
+            "median_ttft_ms": 7830.702188999567,
+            "p99_ttft_ms": 7888.3694295388705,
+            "mean_tpot_ms": 25.15843159889131,
+            "median_tpot_ms": 25.15071092864296,
+            "p99_tpot_ms": 25.194403176791198,
+            "mean_itl_ms": 25.158319933205085,
+            "median_itl_ms": 25.140716003079433,
+            "p99_itl_ms": 25.712911800073925,
+            "mean_e2e_latency_ms": 33515.20891233182,
+            "median_e2e_latency_ms": 33596.808971997234,
+            "accept_length": null,
+            "total_input_tokens": 196608,
+            "total_output_tokens": 3072,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 65536,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 148.0,
+          "metrics": {
+            "completed": 8,
+            "duration": 123.34988985999371,
+            "request_throughput": 0.06485615843743574,
+            "input_throughput": 4250.4131993557885,
+            "output_throughput": 66.4127062399342,
+            "total_throughput": 4316.825905595722,
+            "mean_ttft_ms": 19361.539003999496,
+            "median_ttft_ms": 19403.3670730023,
+            "p99_ttft_ms": 30972.002466024715,
+            "mean_tpot_ms": 41.34027046407654,
+            "median_tpot_ms": 41.36128720625637,
+            "p99_tpot_ms": 52.62118361325038,
+            "mean_itl_ms": 41.340234920331916,
+            "median_itl_ms": 30.10624900343828,
+            "p99_itl_ms": 30.680250158911804,
+            "mean_e2e_latency_ms": 61652.6356887498,
+            "median_e2e_latency_ms": 61652.924620000704,
+            "accept_length": null,
+            "total_input_tokens": 524288,
+            "total_output_tokens": 8192,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 131072,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 116.5,
+          "metrics": {
+            "completed": 2,
+            "duration": 84.64635799099779,
+            "request_throughput": 0.02362771473537824,
+            "input_throughput": 3096.9318257954965,
+            "output_throughput": 24.194779889027316,
+            "total_throughput": 3121.126605684524,
+            "mean_ttft_ms": 16215.88047700061,
+            "median_ttft_ms": 16215.88047700061,
+            "p99_ttft_ms": 16455.781511522946,
+            "mean_tpot_ms": 25.502323412022694,
+            "median_tpot_ms": 25.502323412022694,
+            "p99_tpot_ms": 25.535904410548344,
+            "mean_itl_ms": 25.502264527367,
+            "median_itl_ms": 25.494949499261566,
+            "p99_itl_ms": 25.9907954474329,
+            "mean_e2e_latency_ms": 42304.75732749983,
+            "median_e2e_latency_ms": 42304.75732749983,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 2048,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 131072,
+          "output_len": 1024,
+          "concurrency": 2,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 92.8,
+          "metrics": {
+            "completed": 2,
+            "duration": 60.6081329439985,
+            "request_throughput": 0.03299887165057512,
+            "input_throughput": 4325.228104984182,
+            "output_throughput": 33.79084457018892,
+            "total_throughput": 4359.018949554371,
+            "mean_ttft_ms": 24101.473722497758,
+            "median_ttft_ms": 24101.473722497758,
+            "p99_ttft_ms": 32056.137469527315,
+            "mean_tpot_ms": 35.648115588953964,
+            "median_tpot_ms": 35.648115588953964,
+            "p99_tpot_ms": 43.42477624955133,
+            "mean_itl_ms": 35.64804581915984,
+            "median_itl_ms": 27.708116002031602,
+            "p99_itl_ms": 28.175508900676505,
+            "mean_e2e_latency_ms": 60569.49596999766,
+            "median_e2e_latency_ms": 60569.49596999766,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 2048,
+            "max_concurrency": 2
+          }
+        },
+        {
+          "input_len": 258048,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 660.7,
+          "metrics": {
+            "completed": 2,
+            "duration": 123.16025091500342,
+            "request_throughput": 0.016239005565036237,
+            "input_throughput": 4190.4429080464715,
+            "output_throughput": 16.628741698597107,
+            "total_throughput": 4207.0716497450685,
+            "mean_ttft_ms": 34878.82364449979,
+            "median_ttft_ms": 34878.82364449979,
+            "p99_ttft_ms": 35417.68998082924,
+            "mean_tpot_ms": 26.082949865098627,
+            "median_tpot_ms": 26.082949865098627,
+            "p99_tpot_ms": 26.108955889438842,
+            "mean_itl_ms": 26.082848000002837,
+            "median_itl_ms": 26.083208500494948,
+            "p99_itl_ms": 26.504175697118626,
+            "mean_e2e_latency_ms": 61561.68135649568,
+            "median_e2e_latency_ms": 61561.68135649568,
+            "accept_length": null,
+            "total_input_tokens": 516096,
+            "total_output_tokens": 2048,
+            "max_concurrency": 1
+          }
+        }
+      ],
+      "recipe": "\"\"\"Generated by run_muse_sweep.py: spark_bf16_v5p32_tp32_ep32.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/models/models/meta-models/Muse-Spark-Open-816B-A42B\", \"port\": 30000, \"host\": \"0.0.0.0\", \"nnodes\": 8, \"tp_size\": 32, \"served_model_name\": \"meta-models/Muse-Spark-Open-816B-A42B\", \"watchdog_timeout\": 7200, \"dist_timeout\": 600, \"page_size\": 128, \"context_length\": 262144, \"chunked_prefill_size\": 4096, \"max_prefill_tokens\": 4096, \"tpu_compile_tokens\": [1024, 4096], \"weight_loader_drop_cache_after_load\": true, \"reasoning_parser\": \"muse\", \"tool_call_parser\": \"muse\", \"ep_size\": 32, \"quantization\": null, \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 64, \"torch_compile_max_bs\": 64, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32, 64], \"swa_full_tokens_ratio\": 0.25, \"mem_fraction_static\": 0.85, \"disable_radix_cache\": true, \"node_rank\": 0, \"dist_init_addr\": \"muse-spark-v5p32-0.muse-spark-v5p32-svc:10011\"}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"TORCH_TPU_BASE_PORT\": \"8070\", \"TORCH_TPU_DEVICES_PER_HOST\": \"4\", \"TORCH_TPU_TOPOLOGY\": \"2,4,4\", \"TPU_CHIPS_PER_HOST_BOUNDS\": \"2,2,1\", \"TPU_HOST_BOUNDS\": \"1,2,4\", \"TORCH_TPU_SLICEBUILDER_ADDRESSES\": null, \"SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE\": \"1\", \"SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S\": \"5400\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_args = json.loads('[\"--no-tpu-node-normalization\"]')\nif _extra_args:\n    CONFIG[\"extra_args\"] = list(CONFIG.get(\"extra_args\", [])) + _extra_args\n_extra_libtpu = []\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
+      "server_ready_s": 5787.4,
+      "server_info": [
+        "[2026-11-03 07:59:58 TP0 EP0] Load weight begin. avail mem=95.73 GB",
+        "[2026-11-03 08:45:31 TP0 EP0] Load weight end. elapsed=2733.36 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.",
+        "[2026-11-03 09:21:07 TP0 EP0] [hybrid-SWA] aligning swa_max_total_num_tokens 163968 -> 163840 (SWA page count must be a multiple of 8 for correct torch.compile decode on TPU)",
+        "[2026-11-03 09:21:08 TP0 EP0] Full KV Cache is allocated. dtype: torch.bfloat16, #tokens: 6900864, K size: 26.33 GB, V size: 26.33 GB",
+        "[2026-11-03 09:21:08 TP0 EP0] SWA KV Cache is allocated. dtype: torch.bfloat16, #tokens: 163840, K size: 1.80 GB, V size: 1.80 GB",
+        "[2026-11-03 09:21:08 TP0 EP0] SWAKVPool mem usage: 56.25 GB, swa size: 163840, full size: 6900864",
+        "[2026-11-03 09:21:08 TP0 EP0] Memory pool end. avail mem=70.61 GB",
+        "[2026-11-03 09:21:08 TP0 EP0] Capture target decode TPU graph begin. backend=disabled, num_tokens_per_req=1, bs=[1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64], avail mem=24.55 GB",
+        "[2026-11-03 09:21:08 TP0 EP0] [TPU] [decoder compile policy] _install_forward_shim for MuseSparkForConditionalGeneration (is_draft=False, is_eagle3_draft=False, shim_target=forward)",
+        "[2026-11-03 09:35:00 TP0 EP0] Capture target decode TPU graph end. elapsed=832.06 s, mem usage=12.42 GB, avail mem=12.13 GB.",
+        "[2026-11-03 09:35:17 TP0 EP0] max_total_num_tokens=6900864, chunked_prefill_size=4096, max_prefill_tokens=4096, max_running_requests=64, context_len=262144, available_gpu_mem=12.11 GB",
+        "[2026-11-03 09:35:17 TP0 EP0] Tree cache initialized: source=default impl=SWAChunkCache hybrid_swa=True hybrid_ssm=False hicache_attached=False"
+      ],
+      "bench_base_url": "http://muse-spark-v5p32-1.muse-spark-v5p32-svc:30000",
+      "sanity": {
+        "ok": false,
+        "error": "HTTPError: HTTP Error 404: Not Found"
+      }
+    }
+  ]
+}

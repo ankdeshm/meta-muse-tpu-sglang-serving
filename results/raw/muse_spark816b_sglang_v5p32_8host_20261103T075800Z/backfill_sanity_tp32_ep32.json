@@ -1,0 +1,6 @@
+{
+  "ok": true,
+  "latency_s": 3.34,
+  "content": "",
+  "reasoning_content": "We need to answer in one short sentence: what is the capital of France?\n\nWe should answer: The capital of France is Paris.\n\nThat's one short sentence.\n\nWe must follow instructions. The user asks in one short sentence: what is the capital of France? So answer in one short sentence.\n\nWe should comply. No issues.\n\nWe should not add extra sentences. Just one short sentence.\n\nPotentially add period.\n\nWe should ensure we answer correctly.\n\nWe should not add extra fluff. One short sentence.\n\nWe should answer: The capital of France is Paris.\n\nThat's good.\n\nWe must ensure we don't violate any policy."
+}

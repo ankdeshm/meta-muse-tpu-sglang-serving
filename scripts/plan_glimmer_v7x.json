@@ -141,7 +141,7 @@
     },
     {
       "name": "glimmer_bf16_tp8_dflash16",
-      "desc": "BF16, TP8, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), model-default sampling (T=1.0, top-p 0.95, top-k 64)",
+      "desc": "BF16, TP8, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), greedy decoding (temperature 0)",
       "draft_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B-assistant",
       "server_args": {
         "tp_size": 8,
@@ -312,7 +312,7 @@
     },
     {
       "name": "glimmer_fp8_tp8_dflash16",
-      "desc": "FP8 W8A8 (channelwise), TP8, FP8 KV + DFLASH (assistant draft, block 16), model-default sampling",
+      "desc": "FP8 W8A8 (channelwise), TP8, FP8 KV + DFLASH (assistant draft, block 16), greedy decoding (temperature 0)",
       "draft_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B-assistant",
       "server_args": {
         "tp_size": 8,
@@ -423,7 +423,7 @@
     },
     {
       "name": "glimmer_fp8_tp2_dp4_dflash16",
-      "desc": "FP8 (channelwise), 4 replicas x TP2, FP8 KV + DFLASH (assistant draft, block 16), model-default sampling",
+      "desc": "FP8 (channelwise), 4 replicas x TP2, FP8 KV + DFLASH (assistant draft, block 16), greedy decoding (temperature 0)",
       "draft_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B-assistant",
       "server_args": {
         "tp_size": 2,

@@ -1,0 +1,15 @@
+[2026-11-03 08:44:04 TP0 EP0] Using TPU Pallas FP8 fused-RS MoE backend
+[2026-11-03 08:45:31 TP0 EP0] Load weight end. elapsed=2733.36 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[2026-11-03 09:21:08 TP0 EP0] Full KV Cache is allocated. dtype: torch.bfloat16, #tokens: 6900864, K size: 26.33 GB, V size: 26.33 GB
+[2026-11-03 09:21:08 TP0 EP0] SWA KV Cache is allocated. dtype: torch.bfloat16, #tokens: 163840, K size: 1.80 GB, V size: 1.80 GB
+[2026-11-03 09:35:17 TP0 EP0] max_total_num_tokens=6900864, chunked_prefill_size=4096, max_prefill_tokens=4096, max_running_requests=64, context_len=262144, available_gpu_mem=12.11 GB
+
+# Weight loading, every host of the slice
+[worker 0] [2026-11-03 08:45:31 TP0 EP0] Load weight end. elapsed=2733.36 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 1] [2026-11-03 09:09:39 TP4 EP4] Load weight end. elapsed=4181.26 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 2] [2026-11-03 09:12:11 TP8 EP8] Load weight end. elapsed=4333.83 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 3] [2026-11-03 09:14:24 TP12 EP12] Load weight end. elapsed=4466.65 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 4] [2026-11-03 09:13:43 TP19 EP19] Load weight end. elapsed=4425.48 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 5] [2026-11-03 09:12:10 TP22 EP22] Load weight end. elapsed=4332.61 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 6] [2026-11-03 09:15:04 TP27 EP27] Load weight end. elapsed=4506.86 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 7] [2026-11-03 08:49:24 TP31 EP31] Load weight end. elapsed=2966.29 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.

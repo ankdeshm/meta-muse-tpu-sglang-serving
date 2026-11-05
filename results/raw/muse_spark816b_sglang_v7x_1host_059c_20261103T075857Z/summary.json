@@ -1,0 +1,1550 @@
+{
+  "updated_at_utc": "2026-11-03T11:03:58.999485+00:00",
+  "title": "Meta Muse-Spark-Open-816B-A42B-NVFP4 (MuseSparkForConditionalGeneration: 816B total / 42B active MoE, 256 experts top-8, 62 layers = 46 SWA-2048 + 16 global GQA, 128 Q / 16 KV heads, text-only serving) on one TPU v7x host (4 chips = 8 TensorCores, 768 GB HBM) with SGLang-TorchTPU",
+  "model_repo": "meta-models/Muse-Spark-Open-816B-A42B-NVFP4 (+ RadixArk/Muse-Spark-Open-DFlash2 draft)",
+  "model_gb": 533.0,
+  "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT/vllm/sglang-torchtpu-diffusion:v0.2.0",
+  "hardware": {
+    "name": "v7x_spark",
+    "chips": 4,
+    "desc": "one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 GB` HBM)"
+  },
+  "plan": {
+    "tag": "muse_spark816b_sglang_v7x_1host",
+    "title": "Meta Muse-Spark-Open-816B-A42B-NVFP4 (MuseSparkForConditionalGeneration: 816B total / 42B active MoE, 256 experts top-8, 62 layers = 46 SWA-2048 + 16 global GQA, 128 Q / 16 KV heads, text-only serving) on one TPU v7x host (4 chips = 8 TensorCores, 768 GB HBM) with SGLang-TorchTPU",
+    "model_repo": "meta-models/Muse-Spark-Open-816B-A42B-NVFP4 (+ RadixArk/Muse-Spark-Open-DFlash2 draft)",
+    "model_gb": 533.0,
+    "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT/vllm/sglang-torchtpu-diffusion:v0.2.0",
+    "hardware": {
+      "name": "v7x_spark",
+      "chips": 4,
+      "desc": "one TPU `v7x` host (`4` chips = `8` TensorCore ranks, `192 GB` HBM/chip = `768 GB` HBM)"
+    },
+    "model_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Spark-Open-816B-A42B-NVFP4",
+    "use_gcsfuse": true,
+    "port": 30000,
+    "cell_timeout_s": 1800,
+    "extra_libtpu": [
+      "--xla_tpu_enable_sparse_core_collective_offload_all_gather=false"
+    ],
+    "server_args": {
+      "served_model_name": "meta-models/Muse-Spark-Open-816B-A42B-NVFP4",
+      "watchdog_timeout": 7200,
+      "page_size": 128,
+      "context_length": 262144,
+      "chunked_prefill_size": 4096,
+      "max_prefill_tokens": 4096,
+      "tpu_compile_tokens": [
+        1024,
+        2048,
+        4096
+      ],
+      "weight_loader_drop_cache_after_load": true,
+      "reasoning_parser": "muse",
+      "tool_call_parser": "muse"
+    },
+    "runtime_env": {
+      "SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE": "1",
+      "SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S": "5400"
+    },
+    "workloads": [
+      [
+        1024,
+        1024,
+        [
+          1,
+          4,
+          8,
+          16,
+          32,
+          64
+        ]
+      ],
+      [
+        4096,
+        1024,
+        [
+          1,
+          4,
+          8,
+          16,
+          32,
+          64
+        ]
+      ]
+    ],
+    "variants": [
+      {
+        "name": "spark_nvfp4_tp8_ep1",
+        "desc": "NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context",
+        "chips_used": 4,
+        "server_args": {
+          "tp_size": 8,
+          "ep_size": 1,
+          "quantization": "modelopt_fp4",
+          "moe_runner_backend": "pallas_tpu_fused_rs",
+          "kv_cache_dtype": "bfloat16",
+          "max_running_requests": 64,
+          "torch_compile_max_bs": 64,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32,
+            64
+          ],
+          "swa_full_tokens_ratio": 0.25,
+          "mem_fraction_static": 0.9,
+          "disable_radix_cache": true
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16,
+              32,
+              64
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16,
+              32,
+              64
+            ]
+          ],
+          [
+            32768,
+            1024,
+            [
+              1,
+              4
+            ]
+          ],
+          [
+            65536,
+            1024,
+            [
+              1,
+              4
+            ]
+          ],
+          [
+            131072,
+            1024,
+            [
+              1,
+              2
+            ]
+          ],
+          [
+            258048,
+            1024,
+            [
+              1
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "spark_nvfp4_tp8_ep1_bs8_recipe",
+        "desc": "NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`)",
+        "chips_used": 4,
+        "server_args": {
+          "tp_size": 8,
+          "ep_size": 1,
+          "quantization": "modelopt_fp4",
+          "moe_runner_backend": "pallas_tpu_fused_rs",
+          "kv_cache_dtype": "bfloat16",
+          "max_running_requests": 8,
+          "torch_compile_max_bs": 8,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "tpu_compile_tokens": [
+            1024,
+            2048,
+            3072,
+            4096
+          ],
+          "swa_full_tokens_ratio": 0.125,
+          "mem_fraction_static": 0.92,
+          "disable_radix_cache": false
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16,
+              32
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16
+            ]
+          ],
+          [
+            65536,
+            1024,
+            [
+              1,
+              4
+            ]
+          ],
+          [
+            131072,
+            1024,
+            [
+              1
+            ]
+          ],
+          [
+            258048,
+            1024,
+            [
+              1
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "spark_nvfp4_tp8_ep1_dflash8",
+        "desc": "NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), FP8 KV + DFLASH speculative decoding (`RadixArk/Muse-Spark-Open-DFlash2`, block 8)",
+        "chips_used": 4,
+        "draft_gcs": "gs://YOUR_GCS_BUCKET/models/RadixArk/Muse-Spark-Open-DFlash2",
+        "draft_config_overrides": {
+          "is_hybrid_swa": true,
+          "hybrid_layer_pattern": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "server_args": {
+          "tp_size": 8,
+          "ep_size": 1,
+          "quantization": "modelopt_fp4",
+          "moe_runner_backend": "pallas_tpu_fused_rs",
+          "kv_cache_dtype": "fp8_e4m3",
+          "max_running_requests": 32,
+          "torch_compile_max_bs": 32,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "swa_full_tokens_ratio": 0.5,
+          "mem_fraction_static": 0.9,
+          "disable_radix_cache": true,
+          "speculative_algorithm": "DFLASH",
+          "speculative_num_draft_tokens": 8,
+          "sampling_backend": "pytorch",
+          "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
+        },
+        "runtime_env": {
+          "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+          "SGLANG_SPEC_TP_SYNC": "rng",
+          "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1",
+          "SGLANG_DFLASH_ROW_PARALLEL_FC": "1",
+          "SGLANG_DFLASH_CONV_MATMUL_EXPAND": "1",
+          "SGLANG_TPU_DFLASH_FP8_DRAFT": "1"
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16,
+              32
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16
+            ]
+          ],
+          [
+            32768,
+            1024,
+            [
+              1,
+              4
+            ]
+          ],
+          [
+            65536,
+            1024,
+            [
+              1,
+              2
+            ]
+          ],
+          [
+            131072,
+            1024,
+            [
+              1
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "spark_nvfp4_tp8_ep1_dflash8_megakernel",
+        "desc": "NVFP4 (`modelopt_fp4`), TP8 EP1 + 62-layer Pallas Decode Megakernel (`SGLANG_TPU_MUSE_MEGAKERNEL=1`) + DFLASH-8 (`RadixArk/Muse-Spark-Open-DFlash2`), real draft acceptance",
+        "chips_used": 4,
+        "draft_gcs": "gs://YOUR_GCS_BUCKET/models/RadixArk/Muse-Spark-Open-DFlash2",
+        "draft_config_overrides": {
+          "is_hybrid_swa": true,
+          "hybrid_layer_pattern": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "server_args": {
+          "tp_size": 8,
+          "ep_size": 1,
+          "quantization": "modelopt_fp4",
+          "moe_runner_backend": "pallas_tpu_fused_rs",
+          "kv_cache_dtype": "fp8_e4m3",
+          "page_size": 256,
+          "attention_backend": "pallas_tpu_rpa_batched",
+          "speculative_draft_attention_backend": "pallas_tpu_rpa_v3",
+          "schedule_policy": "fcfs",
+          "max_running_requests": 6,
+          "torch_compile_max_bs": 6,
+          "tpu_compile_bs": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "swa_full_tokens_ratio": 0.125,
+          "mem_fraction_static": 0.93,
+          "disable_radix_cache": false,
+          "speculative_algorithm": "DFLASH",
+          "speculative_num_draft_tokens": 8,
+          "sampling_backend": "pytorch"
+        },
+        "runtime_env": {
+          "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+          "SGLANG_SPEC_TP_SYNC": "rng",
+          "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1",
+          "SGLANG_TPU_KV_PACK_HEADS": "1",
+          "SGLANG_TPU_USE_SEQ_ALONG_LANE_KV": "1",
+          "SGLANG_TPU_MUSE_MEGAKERNEL": "1",
+          "SGLANG_TPU_MUSE_MK_MAX_ROWS": "48",
+          "SGLANG_TPU_MUSE_MK_ATTN_SKIP_IDLE": "1",
+          "SGLANG_TPU_MUSE_MK_ATTN_COL_MASK": "1",
+          "SGLANG_TPU_MK_FOLD_ATTN_SCALE": "1",
+          "SGLANG_TPU_MK_Y_EARLY": "1",
+          "SGLANG_TPU_MK_Y_BLOCK_SEND": "1",
+          "SGLANG_TPU_MUSE_MK_SAL_SWA_CHUNK_TOKENS": "512",
+          "SGLANG_TPU_MK_SAL_FP8_DOT": "1",
+          "SGLANG_TPU_RPA_SKIP_FULL_TILE_MASK": "1",
+          "SGLANG_TPU_RPA_EXP2_SOFTMAX": "1",
+          "SGLANG_TPU_RPA_ONES_V": "1",
+          "SGLANG_TPU_RPA_TRANSPOSED": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_LOCAL_ROWS": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_TILED_REDUCE": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_SKIP_OUT_ZERO": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_FUSED_COMBINE": "1",
+          "SGLANG_TPU_FUSED_RS_STAGING_SLOTS": "8",
+          "SGLANG_DFLASH_ROW_PARALLEL_FC": "1",
+          "SGLANG_DFLASH_CONV_MATMUL_EXPAND": "1",
+          "SGLANG_TPU_DFLASH_FP8_DRAFT": "1",
+          "TPU_PREMAPPED_BUFFER_SIZE": "4294967296"
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16,
+              32
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              4,
+              16
+            ]
+          ],
+          [
+            65536,
+            1024,
+            [
+              1
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "spark_nvfp4_tp8_ep8",
+        "desc": "NVFP4 (`modelopt_fp4`), TP8 EP8 (32 whole experts per TensorCore rank vs `ep_size=1` expert-TP), FP8 KV",
+        "chips_used": 4,
+        "server_args": {
+          "tp_size": 8,
+          "ep_size": 8,
+          "quantization": "modelopt_fp4",
+          "kv_cache_dtype": "fp8_e4m3",
+          "max_running_requests": 32,
+          "torch_compile_max_bs": 32,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "swa_full_tokens_ratio": 0.25,
+          "mem_fraction_static": 0.9,
+          "disable_radix_cache": true
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              16,
+              32
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              16
+            ]
+          ]
+        ]
+      }
+    ]
+  },
+  "only": "spark_nvfp4_tp8_ep1,spark_nvfp4_tp8_ep1_bs8_recipe",
+  "variants": [
+    {
+      "name": "spark_nvfp4_tp8_ep1",
+      "desc": "NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs` expert-TP), BF16 KV, `262K` context",
+      "chips_used": 4,
+      "replicas": 1,
+      "status": "DONE",
+      "cells": [
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 109.4,
+          "metrics": {
+            "completed": 8,
+            "duration": 89.54828152898699,
+            "request_throughput": 0.08933728111142346,
+            "input_throughput": 91.48137585809762,
+            "output_throughput": 91.48137585809762,
+            "total_throughput": 182.96275171619524,
+            "mean_ttft_ms": 166.42818661421188,
+            "median_ttft_ms": 165.85520398803055,
+            "p99_ttft_ms": 172.14082237245748,
+            "mean_tpot_ms": 10.7759235690425,
+            "median_tpot_ms": 10.776103067457383,
+            "p99_tpot_ms": 10.778002753548648,
+            "mean_itl_ms": 10.775862365098856,
+            "median_itl_ms": 10.77180249558296,
+            "p99_itl_ms": 11.317404483270366,
+            "mean_e2e_latency_ms": 11190.19799774469,
+            "median_e2e_latency_ms": 11189.941145494231,
+            "accept_length": null,
+            "total_input_tokens": 8192,
+            "total_output_tokens": 8192,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 16,
+          "return_code": 0,
+          "wall_s": 76.2,
+          "metrics": {
+            "completed": 16,
+            "duration": 62.741065146023175,
+            "request_throughput": 0.25501639098350815,
+            "input_throughput": 261.13678436711234,
+            "output_throughput": 261.13678436711234,
+            "total_throughput": 522.2735687342247,
+            "mean_ttft_ms": 559.5295148141304,
+            "median_ttft_ms": 552.12799050787,
+            "p99_ttft_ms": 710.0666784332134,
+            "mean_tpot_ms": 14.778675347569408,
+            "median_tpot_ms": 14.783283635393673,
+            "p99_tpot_ms": 15.169319749966217,
+            "mean_itl_ms": 14.778659331072546,
+            "median_itl_ms": 14.75056451454293,
+            "p99_itl_ms": 15.255112210288644,
+            "mean_e2e_latency_ms": 15678.114395377634,
+            "median_e2e_latency_ms": 15707.812071501394,
+            "accept_length": null,
+            "total_input_tokens": 16384,
+            "total_output_tokens": 16384,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 8,
+          "num_prompts": 32,
+          "return_code": 0,
+          "wall_s": 101.8,
+          "metrics": {
+            "completed": 32,
+            "duration": 87.69780550000723,
+            "request_throughput": 0.36488940421658966,
+            "input_throughput": 373.6467499177878,
+            "output_throughput": 373.6467499177878,
+            "total_throughput": 747.2934998355756,
+            "mean_ttft_ms": 824.9353272212829,
+            "median_ttft_ms": 707.0157144917175,
+            "p99_ttft_ms": 1249.5032038239879,
+            "mean_tpot_ms": 20.615951557519413,
+            "median_tpot_ms": 20.639646771259905,
+            "p99_tpot_ms": 21.241449465336927,
+            "mean_itl_ms": 20.61594000742479,
+            "median_itl_ms": 20.332451502326876,
+            "p99_itl_ms": 21.758824144490067,
+            "mean_e2e_latency_ms": 21915.053770563645,
+            "median_e2e_latency_ms": 21955.008195494884,
+            "accept_length": null,
+            "total_input_tokens": 32768,
+            "total_output_tokens": 32768,
+            "max_concurrency": 8
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 139.6,
+          "metrics": {
+            "completed": 64,
+            "duration": 125.4744424810051,
+            "request_throughput": 0.5100640316428472,
+            "input_throughput": 522.3055684022755,
+            "output_throughput": 522.3055684022755,
+            "total_throughput": 1044.611136804551,
+            "mean_ttft_ms": 1359.4857071734623,
+            "median_ttft_ms": 1402.0436360005988,
+            "p99_ttft_ms": 2260.7744271479896,
+            "mean_tpot_ms": 29.32250130617319,
+            "median_tpot_ms": 29.348084836259876,
+            "p99_tpot_ms": 30.553869030056912,
+            "mean_itl_ms": 29.322479767928623,
+            "median_itl_ms": 28.483146990765817,
+            "p99_itl_ms": 30.302105936862063,
+            "mean_e2e_latency_ms": 31356.404543388635,
+            "median_e2e_latency_ms": 31470.772710003075,
+            "accept_length": null,
+            "total_input_tokens": 65536,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 32,
+          "num_prompts": 128,
+          "return_code": 0,
+          "wall_s": 190.9,
+          "metrics": {
+            "completed": 128,
+            "duration": 176.4800890510087,
+            "request_throughput": 0.725294284971738,
+            "input_throughput": 742.7013478110597,
+            "output_throughput": 742.7013478110597,
+            "total_throughput": 1485.4026956221194,
+            "mean_ttft_ms": 2400.0128213035623,
+            "median_ttft_ms": 2429.8376240039943,
+            "p99_ttft_ms": 4312.383839350077,
+            "mean_tpot_ms": 40.76713639453582,
+            "median_tpot_ms": 40.77188523313796,
+            "p99_tpot_ms": 43.224922548536846,
+            "mean_itl_ms": 40.76712869509818,
+            "median_itl_ms": 38.92062700469978,
+            "p99_itl_ms": 40.829486319271375,
+            "mean_e2e_latency_ms": 44104.7933529137,
+            "median_e2e_latency_ms": 44041.020257995115,
+            "accept_length": null,
+            "total_input_tokens": 131072,
+            "total_output_tokens": 131072,
+            "max_concurrency": 32
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 64,
+          "num_prompts": 256,
+          "return_code": 0,
+          "wall_s": 266.7,
+          "metrics": {
+            "completed": 256,
+            "duration": 252.99233675099094,
+            "request_throughput": 1.0118883571243082,
+            "input_throughput": 1036.1736776952916,
+            "output_throughput": 1036.1736776952916,
+            "total_throughput": 2072.3473553905833,
+            "mean_ttft_ms": 4509.784384596287,
+            "median_ttft_ms": 4662.173650009208,
+            "p99_ttft_ms": 8428.861564399267,
+            "mean_tpot_ms": 57.39911886653913,
+            "median_tpot_ms": 57.476973942338624,
+            "p99_tpot_ms": 61.711658117259965,
+            "mean_itl_ms": 57.39911221552984,
+            "median_itl_ms": 53.534448001300916,
+            "p99_itl_ms": 55.568689540668856,
+            "mean_e2e_latency_ms": 63229.08298506582,
+            "median_e2e_latency_ms": 63276.83160950255,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 262144,
+            "max_concurrency": 64
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 107.3,
+          "metrics": {
+            "completed": 8,
+            "duration": 93.26977603998967,
+            "request_throughput": 0.08577269443179512,
+            "input_throughput": 351.3249563926328,
+            "output_throughput": 87.8312390981582,
+            "total_throughput": 439.15619549079105,
+            "mean_ttft_ms": 535.9297795002931,
+            "median_ttft_ms": 535.8654970041243,
+            "p99_ttft_ms": 544.56228791998,
+            "mean_tpot_ms": 10.86950628079101,
+            "median_tpot_ms": 10.869362874874115,
+            "p99_tpot_ms": 10.872050343843632,
+            "mean_itl_ms": 10.86941922580026,
+            "median_itl_ms": 10.86149450566154,
+            "p99_itl_ms": 11.389019972120877,
+            "mean_e2e_latency_ms": 11655.434704749496,
+            "median_e2e_latency_ms": 11656.111845499254,
+            "accept_length": null,
+            "total_input_tokens": 32768,
+            "total_output_tokens": 8192,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 16,
+          "return_code": 0,
+          "wall_s": 84.6,
+          "metrics": {
+            "completed": 16,
+            "duration": 69.97559920302592,
+            "request_throughput": 0.22865113242657478,
+            "input_throughput": 936.5550384192503,
+            "output_throughput": 234.13875960481258,
+            "total_throughput": 1170.6937980240627,
+            "mean_ttft_ms": 1294.73812049946,
+            "median_ttft_ms": 1294.7797160013579,
+            "p99_ttft_ms": 2061.7960962088546,
+            "mean_tpot_ms": 15.826781157317823,
+            "median_tpot_ms": 15.862255341643996,
+            "p99_tpot_ms": 16.69757702819277,
+            "mean_itl_ms": 15.826755030666266,
+            "median_itl_ms": 15.092230489244685,
+            "p99_itl_ms": 15.716469541366678,
+            "mean_e2e_latency_ms": 17485.535244435596,
+            "median_e2e_latency_ms": 17448.189390997868,
+            "accept_length": null,
+            "total_input_tokens": 65536,
+            "total_output_tokens": 16384,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 8,
+          "num_prompts": 32,
+          "return_code": 0,
+          "wall_s": 116.5,
+          "metrics": {
+            "completed": 32,
+            "duration": 102.39720832402236,
+            "request_throughput": 0.3125085197512441,
+            "input_throughput": 1280.0348969010959,
+            "output_throughput": 320.00872422527397,
+            "total_throughput": 1600.04362112637,
+            "mean_ttft_ms": 2297.188262315103,
+            "median_ttft_ms": 2294.437870004913,
+            "p99_ttft_ms": 4096.532612356532,
+            "mean_tpot_ms": 22.769167509497617,
+            "median_tpot_ms": 22.807948256109704,
+            "p99_tpot_ms": 24.715943096595577,
+            "mean_itl_ms": 22.769155118586255,
+            "median_itl_ms": 21.017358492827043,
+            "p99_itl_ms": 22.643862571567297,
+            "mean_e2e_latency_ms": 25590.04662453117,
+            "median_e2e_latency_ms": 25552.904680007487,
+            "accept_length": null,
+            "total_input_tokens": 131072,
+            "total_output_tokens": 32768,
+            "max_concurrency": 8
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 168.6,
+          "metrics": {
+            "completed": 64,
+            "duration": 154.52571902799536,
+            "request_throughput": 0.41417053680497773,
+            "input_throughput": 1696.4425187531888,
+            "output_throughput": 424.1106296882972,
+            "total_throughput": 2120.553148441486,
+            "mean_ttft_ms": 4389.805929517934,
+            "median_ttft_ms": 4543.233086005785,
+            "p99_ttft_ms": 8140.526486720482,
+            "mean_tpot_ms": 33.46032561415674,
+            "median_tpot_ms": 33.380833698925045,
+            "p99_tpot_ms": 37.390609399793874,
+            "mean_itl_ms": 33.46031618366841,
+            "median_itl_ms": 29.836984002031386,
+            "p99_itl_ms": 31.68426583928522,
+            "mean_e2e_latency_ms": 38619.719032800276,
+            "median_e2e_latency_ms": 38691.70873850817,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 32,
+          "num_prompts": 128,
+          "return_code": 0,
+          "wall_s": 251.0,
+          "metrics": {
+            "completed": 128,
+            "duration": 236.2981427500199,
+            "request_throughput": 0.5416885571352601,
+            "input_throughput": 2218.7563300260254,
+            "output_throughput": 554.6890825065063,
+            "total_throughput": 2773.4454125325315,
+            "mean_ttft_ms": 8386.151838078831,
+            "median_ttft_ms": 8329.226909991121,
+            "p99_ttft_ms": 16187.44011384435,
+            "mean_tpot_ms": 49.53367824517259,
+            "median_tpot_ms": 49.55461210214928,
+            "p99_tpot_ms": 57.50719391269451,
+            "mean_itl_ms": 49.53366332045055,
+            "median_itl_ms": 41.859536489937454,
+            "p99_itl_ms": 43.828861059155315,
+            "mean_e2e_latency_ms": 59059.10468289039,
+            "median_e2e_latency_ms": 58953.00532299734,
+            "accept_length": null,
+            "total_input_tokens": 524288,
+            "total_output_tokens": 131072,
+            "max_concurrency": 32
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 64,
+          "num_prompts": 256,
+          "return_code": 0,
+          "wall_s": 389.8,
+          "metrics": {
+            "completed": 256,
+            "duration": 375.1281326559838,
+            "request_throughput": 0.6824334879590814,
+            "input_throughput": 2795.2475666803975,
+            "output_throughput": 698.8118916700994,
+            "total_throughput": 3494.0594583504967,
+            "mean_ttft_ms": 15007.005969383157,
+            "median_ttft_ms": 14243.60901399632,
+            "p99_ttft_ms": 32051.550411539203,
+            "mean_tpot_ms": 76.96465310311362,
+            "median_tpot_ms": 77.50271664614476,
+            "p99_tpot_ms": 91.08266906334495,
+            "mean_itl_ms": 76.96461555008294,
+            "median_itl_ms": 59.61474700598046,
+            "p99_itl_ms": 61.79754575685365,
+            "mean_e2e_latency_ms": 93741.84609386839,
+            "median_e2e_latency_ms": 93566.64037199516,
+            "accept_length": null,
+            "total_input_tokens": 1048576,
+            "total_output_tokens": 262144,
+            "max_concurrency": 64
+          }
+        },
+        {
+          "input_len": 32768,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 3,
+          "return_code": 0,
+          "wall_s": 65.6,
+          "metrics": {
+            "completed": 3,
+            "duration": 47.32563576402026,
+            "request_throughput": 0.0633905905661552,
+            "input_throughput": 2077.1828716717737,
+            "output_throughput": 64.91196473974293,
+            "total_throughput": 2142.0948364115166,
+            "mean_ttft_ms": 4340.949535670613,
+            "median_ttft_ms": 4363.873855007114,
+            "p99_ttft_ms": 4366.374423993402,
+            "mean_tpot_ms": 11.169219735427797,
+            "median_tpot_ms": 11.167942779081786,
+            "p99_tpot_ms": 11.174835371989703,
+            "mean_itl_ms": 11.169141305308365,
+            "median_itl_ms": 11.162034003064036,
+            "p99_itl_ms": 11.771200870862234,
+            "mean_e2e_latency_ms": 15767.06132501325,
+            "median_e2e_latency_ms": 15788.67931800778,
+            "accept_length": null,
+            "total_input_tokens": 98304,
+            "total_output_tokens": 3072,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 32768,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 86.2,
+          "metrics": {
+            "completed": 8,
+            "duration": 67.49714217497967,
+            "request_throughput": 0.11852353658560522,
+            "input_throughput": 3883.7792468371117,
+            "output_throughput": 121.36810146365974,
+            "total_throughput": 4005.1473483007717,
+            "mean_ttft_ms": 10763.637962001667,
+            "median_ttft_ms": 10787.359862515586,
+            "p99_ttft_ms": 17130.888722068048,
+            "mean_tpot_ms": 22.453677075267983,
+            "median_tpot_ms": 22.457862048392126,
+            "p99_tpot_ms": 28.756598217561848,
+            "mean_itl_ms": 22.453667104108614,
+            "median_itl_ms": 16.241186021943577,
+            "p99_itl_ms": 17.031940023880452,
+            "mean_e2e_latency_ms": 33733.749610000814,
+            "median_e2e_latency_ms": 33733.654955998645,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 8192,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 65536,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 3,
+          "return_code": 0,
+          "wall_s": 85.9,
+          "metrics": {
+            "completed": 3,
+            "duration": 62.9903380269825,
+            "request_throughput": 0.04762635181787597,
+            "input_throughput": 3121.2405927363197,
+            "output_throughput": 48.769384261504996,
+            "total_throughput": 3170.0099769978247,
+            "mean_ttft_ms": 9221.129079000093,
+            "median_ttft_ms": 9264.560695999535,
+            "p99_ttft_ms": 9275.463405738701,
+            "mean_tpot_ms": 11.502250603125688,
+            "median_tpot_ms": 11.498337863134912,
+            "p99_tpot_ms": 11.510130179196347,
+            "mean_itl_ms": 11.502157455837414,
+            "median_itl_ms": 11.500028980663046,
+            "p99_itl_ms": 12.062215731712058,
+            "mean_e2e_latency_ms": 20987.931445997674,
+            "median_e2e_latency_ms": 21038.485544006107,
+            "accept_length": null,
+            "total_input_tokens": 196608,
+            "total_output_tokens": 3072,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 65536,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 131.7,
+          "metrics": {
+            "completed": 8,
+            "duration": 108.75827052700333,
+            "request_throughput": 0.07355762427293931,
+            "input_throughput": 4820.672464351351,
+            "output_throughput": 75.32300725548986,
+            "total_throughput": 4895.9954716068405,
+            "mean_ttft_ms": 22870.001754752593,
+            "median_ttft_ms": 22936.03126150265,
+            "p99_ttft_ms": 36413.2481491589,
+            "mean_tpot_ms": 30.785773720427738,
+            "median_tpot_ms": 30.7212003318612,
+            "p99_tpot_ms": 44.12867459273551,
+            "mean_itl_ms": 30.78573800109818,
+            "median_itl_ms": 17.56290250341408,
+            "p99_itl_ms": 18.527770995278843,
+            "mean_e2e_latency_ms": 54363.84827075017,
+            "median_e2e_latency_ms": 54363.96042451088,
+            "accept_length": null,
+            "total_input_tokens": 524288,
+            "total_output_tokens": 8192,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 131072,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 100.8,
+          "metrics": {
+            "completed": 2,
+            "duration": 66.15441266499693,
+            "request_throughput": 0.03023229924401133,
+            "input_throughput": 3962.607926511053,
+            "output_throughput": 30.9578744258676,
+            "total_throughput": 3993.5658009369204,
+            "mean_ttft_ms": 20614.671341492794,
+            "median_ttft_ms": 20614.671341492794,
+            "p99_ttft_ms": 20754.671910514007,
+            "mean_tpot_ms": 12.168827319156081,
+            "median_tpot_ms": 12.168827319156081,
+            "p99_tpot_ms": 12.169391353204272,
+            "mean_itl_ms": 12.168770662276984,
+            "median_itl_ms": 12.16932199895382,
+            "p99_itl_ms": 12.56343209533952,
+            "mean_e2e_latency_ms": 33063.381688989466,
+            "median_e2e_latency_ms": 33063.381688989466,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 2048,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 131072,
+          "output_len": 1024,
+          "concurrency": 2,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 90.9,
+          "metrics": {
+            "completed": 2,
+            "duration": 56.3213664549985,
+            "request_throughput": 0.03551050206848277,
+            "input_throughput": 4654.432527120173,
+            "output_throughput": 36.362754118126354,
+            "total_throughput": 4690.795281238299,
+            "mean_ttft_ms": 30902.025217510527,
+            "median_ttft_ms": 30902.025217510527,
+            "p99_ttft_ms": 40842.96838876908,
+            "mean_tpot_ms": 24.82069459530313,
+            "median_tpot_ms": 24.82069459530313,
+            "p99_tpot_ms": 34.538949997090796,
+            "mean_itl_ms": 24.820629132950597,
+            "median_itl_ms": 14.905054005794227,
+            "p99_itl_ms": 15.545282950915862,
+            "mean_e2e_latency_ms": 56293.59578850563,
+            "median_e2e_latency_ms": 56293.59578850563,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 2048,
+            "max_concurrency": 2
+          }
+        },
+        {
+          "input_len": 258048,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 189.4,
+          "metrics": {
+            "completed": 2,
+            "duration": 126.11205538699869,
+            "request_throughput": 0.01585891209101796,
+            "input_throughput": 4092.360547263002,
+            "output_throughput": 16.23952598120239,
+            "total_throughput": 4108.600073244204,
+            "mean_ttft_ms": 49261.23651298985,
+            "median_ttft_ms": 49261.23651298985,
+            "p99_ttft_ms": 49515.391121255525,
+            "mean_tpot_ms": 13.473121420830694,
+            "median_tpot_ms": 13.473121420830694,
+            "p99_tpot_ms": 13.473825216505169,
+            "mean_itl_ms": 13.473063673994655,
+            "median_itl_ms": 13.4745659888722,
+            "p99_itl_ms": 13.927558898285495,
+            "mean_e2e_latency_ms": 63044.239726499654,
+            "median_e2e_latency_ms": 63044.239726499654,
+            "accept_length": null,
+            "total_input_tokens": 516096,
+            "total_output_tokens": 2048,
+            "max_concurrency": 1
+          }
+        }
+      ],
+      "recipe": "\"\"\"Generated by run_muse_sweep.py: spark_nvfp4_tp8_ep1.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/models/models/meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"watchdog_timeout\": 7200, \"page_size\": 128, \"context_length\": 262144, \"chunked_prefill_size\": 4096, \"max_prefill_tokens\": 4096, \"tpu_compile_tokens\": [1024, 2048, 4096], \"weight_loader_drop_cache_after_load\": true, \"reasoning_parser\": \"muse\", \"tool_call_parser\": \"muse\", \"tp_size\": 8, \"ep_size\": 1, \"quantization\": \"modelopt_fp4\", \"moe_runner_backend\": \"pallas_tpu_fused_rs\", \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 64, \"torch_compile_max_bs\": 64, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32, 64], \"swa_full_tokens_ratio\": 0.25, \"mem_fraction_static\": 0.9, \"disable_radix_cache\": true}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"FORCE_SINGLE_HOST\": \"1\", \"SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE\": \"1\", \"SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S\": \"5400\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_args = json.loads('[]')\nif _extra_args:\n    CONFIG[\"extra_args\"] = list(CONFIG.get(\"extra_args\", [])) + _extra_args\n_extra_libtpu = ['--xla_tpu_enable_sparse_core_collective_offload_all_gather=false']\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
+      "server_ready_s": 3241.3,
+      "server_info": [
+        "[2026-11-03 07:59:55 TP0] Load weight begin. avail mem=94.74 GB",
+        "[2026-11-03 08:30:38 TP0] Load weight end. elapsed=1842.99 s, type=MuseSparkForConditionalGeneration, quant=modelopt_fp4, quant_algo=NVFP4, avail mem=29.96 GB, mem usage=64.78 GB.",
+        "[2026-11-03 08:30:44 TP0] [hybrid-SWA] aligning swa_max_total_num_tokens 163968 -> 163840 (SWA page count must be a multiple of 8 for correct torch.compile decode on TPU)",
+        "[2026-11-03 08:30:44 TP0] Full KV Cache is allocated. dtype: torch.bfloat16, #tokens: 871168, K size: 6.65 GB, V size: 6.65 GB",
+        "[2026-11-03 08:30:44 TP0] SWA KV Cache is allocated. dtype: torch.bfloat16, #tokens: 163840, K size: 3.60 GB, V size: 3.60 GB",
+        "[2026-11-03 08:30:44 TP0] SWAKVPool mem usage: 20.49 GB, swa size: 163840, full size: 871168",
+        "[2026-11-03 08:30:44 TP0] Memory pool end. avail mem=29.96 GB",
+        "[2026-11-03 08:30:44 TP0] Capture target decode TPU graph begin. backend=disabled, num_tokens_per_req=1, bs=[1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64], avail mem=12.44 GB",
+        "[2026-11-03 08:30:45 TP0] [TPU] [decoder compile policy] _install_forward_shim for MuseSparkForConditionalGeneration (is_draft=False, is_eagle3_draft=False, shim_target=forward)",
+        "[2026-11-03 08:52:21 TP0] Capture target decode TPU graph end. elapsed=1296.81 s, mem usage=3.43 GB, avail mem=9.01 GB.",
+        "[2026-11-03 08:52:40 TP0] max_total_num_tokens=871168, chunked_prefill_size=4096, max_prefill_tokens=4096, max_running_requests=64, context_len=262144, available_gpu_mem=8.98 GB",
+        "[2026-11-03 08:52:40 TP0] Tree cache initialized: source=default impl=SWAChunkCache hybrid_swa=True hybrid_ssm=False hicache_attached=False"
+      ],
+      "bench_base_url": "http://127.0.0.1:30000",
+      "sanity": {
+        "ok": true,
+        "latency_s": 3.03,
+        "content": "",
+        "content_tail": "",
+        "reasoning_content": "We need to answer in one short sentence: what is the capital of France?\n\nWe should answer: The capital of France is Paris.\n\nThat's one short sentence. Probably need to follow instructions. The user asks in one short sentence: what is the capital of France? So answer in one short sentence.\n\nWe should comply. No issues.\n\nWe should not add extra sentences. Just one short sentence.\n\nPotential nuance: Should we be helpful? Yes.\n\nWe should answer: The capital of France is Paris.\n\nMake sure it's one sentence. Don't add extra fluff.\n\nWe should not add additional sentences. Just one.\n\nWe should ensure ",
+        "usage": {
+          "prompt_tokens": 156,
+          "total_tokens": 412,
+          "completion_tokens": 256,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 256
+        }
+      }
+    },
+    {
+      "name": "spark_nvfp4_tp8_ep1_bs8_recipe",
+      "desc": "NVFP4 (`modelopt_fp4`), TP8 EP1 (`pallas_tpu_fused_rs`), exact upstream `muse_spark/server.py` (`max_running_requests=8`, radix cache on, `swa_full_tokens_ratio=0.125`, `mem_fraction_static=0.92`)",
+      "chips_used": 4,
+      "replicas": 1,
+      "status": "DONE",
+      "cells": [
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 103.5,
+          "metrics": {
+            "completed": 8,
+            "duration": 89.60597113301628,
+            "request_throughput": 0.08927976449386768,
+            "input_throughput": 91.4224788417205,
+            "output_throughput": 91.4224788417205,
+            "total_throughput": 182.844957683441,
+            "mean_ttft_ms": 160.74579087580787,
+            "median_ttft_ms": 158.70434750104323,
+            "p99_ttft_ms": 169.8028975733905,
+            "mean_tpot_ms": 10.7884661805992,
+            "median_tpot_ms": 10.788143736569534,
+            "p99_tpot_ms": 10.791589309328158,
+            "mean_itl_ms": 10.788366432426566,
+            "median_itl_ms": 10.773900983622298,
+            "p99_itl_ms": 11.70848011301132,
+            "mean_e2e_latency_ms": 11197.346693628788,
+            "median_e2e_latency_ms": 11194.835216010688,
+            "accept_length": null,
+            "total_input_tokens": 8192,
+            "total_output_tokens": 8192,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 16,
+          "return_code": 0,
+          "wall_s": 76.3,
+          "metrics": {
+            "completed": 16,
+            "duration": 62.09714698299649,
+            "request_throughput": 0.25766079083119775,
+            "input_throughput": 263.8446498111465,
+            "output_throughput": 263.8446498111465,
+            "total_throughput": 527.689299622293,
+            "mean_ttft_ms": 397.56681750077405,
+            "median_ttft_ms": 433.24320450483356,
+            "p99_ttft_ms": 546.1511943096411,
+            "mean_tpot_ms": 14.779457437986286,
+            "median_tpot_ms": 14.808140434526164,
+            "p99_tpot_ms": 14.921766317924957,
+            "mean_itl_ms": 14.779438190126763,
+            "median_itl_ms": 14.807915998972021,
+            "p99_itl_ms": 15.824843700102065,
+            "mean_e2e_latency_ms": 15516.951776560745,
+            "median_e2e_latency_ms": 15463.943346505403,
+            "accept_length": null,
+            "total_input_tokens": 16384,
+            "total_output_tokens": 16384,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 8,
+          "num_prompts": 32,
+          "return_code": 0,
+          "wall_s": 99.7,
+          "metrics": {
+            "completed": 32,
+            "duration": 85.99654692801414,
+            "request_throughput": 0.3721079641347287,
+            "input_throughput": 381.0385552739622,
+            "output_throughput": 381.0385552739622,
+            "total_throughput": 762.0771105479243,
+            "mean_ttft_ms": 540.912678310633,
+            "median_ttft_ms": 445.08163549471647,
+            "p99_ttft_ms": 1070.7108602288645,
+            "mean_tpot_ms": 20.478563950482275,
+            "median_tpot_ms": 20.52023263978963,
+            "p99_tpot_ms": 21.149523587760466,
+            "mean_itl_ms": 20.478554372557117,
+            "median_itl_ms": 20.309150510001928,
+            "p99_itl_ms": 21.678386743587907,
+            "mean_e2e_latency_ms": 21490.483599654,
+            "median_e2e_latency_ms": 21366.915895501734,
+            "accept_length": null,
+            "total_input_tokens": 32768,
+            "total_output_tokens": 32768,
+            "max_concurrency": 8
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 186.0,
+          "metrics": {
+            "completed": 64,
+            "duration": 171.97128294900176,
+            "request_throughput": 0.372155158131717,
+            "input_throughput": 381.0868819268782,
+            "output_throughput": 381.0868819268782,
+            "total_throughput": 762.1737638537564,
+            "mean_ttft_ms": 19289.661933453317,
+            "median_ttft_ms": 21564.134889486013,
+            "p99_ttft_ms": 23290.176116171642,
+            "mean_tpot_ms": 20.50475945807442,
+            "median_tpot_ms": 20.54317820087389,
+            "p99_tpot_ms": 21.181041131351183,
+            "mean_itl_ms": 20.50475061957779,
+            "median_itl_ms": 20.329987484728917,
+            "p99_itl_ms": 21.829192115110345,
+            "mean_e2e_latency_ms": 40266.03085906345,
+            "median_e2e_latency_ms": 42648.18322198698,
+            "accept_length": null,
+            "total_input_tokens": 65536,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 32,
+          "num_prompts": 128,
+          "return_code": 0,
+          "wall_s": 354.6,
+          "metrics": {
+            "completed": 128,
+            "duration": 340.7595625370159,
+            "request_throughput": 0.37563142482933454,
+            "input_throughput": 384.64657902523857,
+            "output_throughput": 384.64657902523857,
+            "total_throughput": 769.2931580504771,
+            "mean_ttft_ms": 56373.3399911182,
+            "median_ttft_ms": 63572.1411179984,
+            "p99_ttft_ms": 66204.34534188447,
+            "mean_tpot_ms": 20.317904360848164,
+            "median_tpot_ms": 20.363526831849075,
+            "p99_tpot_ms": 20.78659250236978,
+            "mean_itl_ms": 20.317891260179096,
+            "median_itl_ms": 20.174688499537297,
+            "p99_itl_ms": 21.729566930152938,
+            "mean_e2e_latency_ms": 77158.55615226587,
+            "median_e2e_latency_ms": 84370.03500299761,
+            "accept_length": null,
+            "total_input_tokens": 131072,
+            "total_output_tokens": 131072,
+            "max_concurrency": 32
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 107.2,
+          "metrics": {
+            "completed": 8,
+            "duration": 93.1219904430036,
+            "request_throughput": 0.08590881661723601,
+            "input_throughput": 351.8825128641987,
+            "output_throughput": 87.97062821604968,
+            "total_throughput": 439.85314108024835,
+            "mean_ttft_ms": 515.8874340013426,
+            "median_ttft_ms": 526.0502750024898,
+            "p99_ttft_ms": 536.4097205208964,
+            "mean_tpot_ms": 10.871013159208916,
+            "median_tpot_ms": 10.869298114854194,
+            "p99_tpot_ms": 10.884515170813575,
+            "mean_itl_ms": 10.870939978128652,
+            "median_itl_ms": 10.86545349971857,
+            "p99_itl_ms": 11.699012046738062,
+            "mean_e2e_latency_ms": 11636.933895872062,
+            "median_e2e_latency_ms": 11644.713677000254,
+            "accept_length": null,
+            "total_input_tokens": 32768,
+            "total_output_tokens": 8192,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 16,
+          "return_code": 0,
+          "wall_s": 83.6,
+          "metrics": {
+            "completed": 16,
+            "duration": 68.99583301099483,
+            "request_throughput": 0.23189806256053638,
+            "input_throughput": 949.854464247957,
+            "output_throughput": 237.46361606198926,
+            "total_throughput": 1187.3180803099463,
+            "mean_ttft_ms": 1146.2922035607335,
+            "median_ttft_ms": 1122.9335490061203,
+            "p99_ttft_ms": 2048.704159334011,
+            "mean_tpot_ms": 15.734022725377491,
+            "median_tpot_ms": 15.757649298626449,
+            "p99_tpot_ms": 16.66535213021105,
+            "mean_itl_ms": 15.734008690492663,
+            "median_itl_ms": 15.08455298608169,
+            "p99_itl_ms": 16.012336331768893,
+            "mean_e2e_latency_ms": 17242.197451621905,
+            "median_e2e_latency_ms": 17242.592706505093,
+            "accept_length": null,
+            "total_input_tokens": 65536,
+            "total_output_tokens": 16384,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 8,
+          "num_prompts": 32,
+          "return_code": 0,
+          "wall_s": 112.3,
+          "metrics": {
+            "completed": 32,
+            "duration": 97.88725915999385,
+            "request_throughput": 0.3269066911731275,
+            "input_throughput": 1339.0098070451302,
+            "output_throughput": 334.75245176128254,
+            "total_throughput": 1673.7622588064125,
+            "mean_ttft_ms": 1747.8468177196191,
+            "median_ttft_ms": 1549.023132509319,
+            "p99_ttft_ms": 4032.970318563457,
+            "mean_tpot_ms": 22.204519722477876,
+            "median_tpot_ms": 22.023659300585738,
+            "p99_tpot_ms": 24.619553149779378,
+            "mean_itl_ms": 22.20450346881271,
+            "median_itl_ms": 20.978511005523615,
+            "p99_itl_ms": 22.679100603272676,
+            "mean_e2e_latency_ms": 24463.070493814485,
+            "median_e2e_latency_ms": 25077.656607492827,
+            "accept_length": null,
+            "total_input_tokens": 131072,
+            "total_output_tokens": 32768,
+            "max_concurrency": 8
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 210.2,
+          "metrics": {
+            "completed": 64,
+            "duration": 195.63275920198066,
+            "request_throughput": 0.3271435738118038,
+            "input_throughput": 1339.9800783331484,
+            "output_throughput": 334.9950195832871,
+            "total_throughput": 1674.9750979164355,
+            "mean_ttft_ms": 23000.11769965613,
+            "median_ttft_ms": 26422.323773018434,
+            "p99_ttft_ms": 29830.72347265348,
+            "mean_tpot_ms": 22.205343634867965,
+            "median_tpot_ms": 21.945107454544537,
+            "p99_tpot_ms": 24.692200503208152,
+            "mean_itl_ms": 22.205314943961884,
+            "median_itl_ms": 21.001754983444698,
+            "p99_itl_ms": 22.48832249431871,
+            "mean_e2e_latency_ms": 45716.184238126065,
+            "median_e2e_latency_ms": 50072.958264980116,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 65536,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 3,
+          "return_code": 0,
+          "wall_s": 77.9,
+          "metrics": {
+            "completed": 3,
+            "duration": 54.40963103598915,
+            "request_throughput": 0.055137297255621075,
+            "input_throughput": 3613.4779129443828,
+            "output_throughput": 56.46059238975598,
+            "total_throughput": 3669.938505334139,
+            "mean_ttft_ms": 6367.4003869916005,
+            "median_ttft_ms": 9102.295564982342,
+            "p99_ttft_ms": 9247.314307820052,
+            "mean_tpot_ms": 11.49727474714999,
+            "median_tpot_ms": 11.496772953073101,
+            "p99_tpot_ms": 11.499174238562235,
+            "mean_itl_ms": 11.497155360051112,
+            "median_itl_ms": 11.487134994240478,
+            "p99_itl_ms": 12.370804523816334,
+            "mean_e2e_latency_ms": 18129.11245332604,
+            "median_e2e_latency_ms": 20863.494295976125,
+            "accept_length": null,
+            "total_input_tokens": 196608,
+            "total_output_tokens": 3072,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 65536,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 96.3,
+          "metrics": {
+            "completed": 8,
+            "duration": 82.07349156800774,
+            "request_throughput": 0.09747361598928736,
+            "input_throughput": 6388.030897473936,
+            "output_throughput": 99.81298277303026,
+            "total_throughput": 6487.843880246966,
+            "mean_ttft_ms": 12936.864973256888,
+            "median_ttft_ms": 9616.137827499188,
+            "p99_ttft_ms": 35474.36112626718,
+            "mean_tpot_ms": 27.45884581597833,
+            "median_tpot_ms": 26.325396931568505,
+            "p99_tpot_ms": 43.29311510481965,
+            "mean_itl_ms": 27.458816423993635,
+            "median_itl_ms": 17.529900011140853,
+            "p99_itl_ms": 18.78096195665421,
+            "mean_e2e_latency_ms": 41027.26424300272,
+            "median_e2e_latency_ms": 41027.08179099136,
+            "accept_length": null,
+            "total_input_tokens": 524288,
+            "total_output_tokens": 8192,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 131072,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 80.6,
+          "metrics": {
+            "completed": 2,
+            "duration": 46.36747606599238,
+            "request_throughput": 0.04313368269503187,
+            "input_throughput": 5653.6180582032175,
+            "output_throughput": 44.16889107971264,
+            "total_throughput": 5697.78694928293,
+            "mean_ttft_ms": 10721.930987507221,
+            "median_ttft_ms": 10721.930987507221,
+            "p99_ttft_ms": 20266.47488486633,
+            "mean_tpot_ms": 12.173698627572499,
+            "median_tpot_ms": 12.173698627572499,
+            "p99_tpot_ms": 12.174605078714034,
+            "mean_itl_ms": 12.173643761489359,
+            "median_itl_ms": 12.16779051173944,
+            "p99_itl_ms": 13.192355298087932,
+            "mean_e2e_latency_ms": 23175.624683513888,
+            "median_e2e_latency_ms": 23175.624683513888,
+            "accept_length": null,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 2048,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 258048,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 99.8,
+          "metrics": {
+            "completed": 2,
+            "duration": 57.2224434420059,
+            "request_throughput": 0.034951321189682694,
+            "input_throughput": 9019.11853035524,
+            "output_throughput": 35.79015289823508,
+            "total_throughput": 9054.908683253474,
+            "mean_ttft_ms": 14805.152179498691,
+            "median_ttft_ms": 14805.152179498691,
+            "p99_ttft_ms": 28172.384182859678,
+            "mean_tpot_ms": 13.487651284459414,
+            "median_tpot_ms": 13.487651284459414,
+            "p99_tpot_ms": 13.488240935043411,
+            "mean_itl_ms": 13.487630530782495,
+            "median_itl_ms": 13.471061494783498,
+            "p99_itl_ms": 14.512363345420454,
+            "mean_e2e_latency_ms": 28603.01944350067,
+            "median_e2e_latency_ms": 28603.01944350067,
+            "accept_length": null,
+            "total_input_tokens": 516096,
+            "total_output_tokens": 2048,
+            "max_concurrency": 1
+          }
+        }
+      ],
+      "recipe": "\"\"\"Generated by run_muse_sweep.py: spark_nvfp4_tp8_ep1_bs8_recipe.\"\"\"\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\nCONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update(json.loads('{\"model_path\": \"/models/models/meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"watchdog_timeout\": 7200, \"page_size\": 128, \"context_length\": 262144, \"chunked_prefill_size\": 4096, \"max_prefill_tokens\": 4096, \"tpu_compile_tokens\": [1024, 2048, 3072, 4096], \"weight_loader_drop_cache_after_load\": true, \"reasoning_parser\": \"muse\", \"tool_call_parser\": \"muse\", \"tp_size\": 8, \"ep_size\": 1, \"quantization\": \"modelopt_fp4\", \"moe_runner_backend\": \"pallas_tpu_fused_rs\", \"kv_cache_dtype\": \"bfloat16\", \"max_running_requests\": 8, \"torch_compile_max_bs\": 8, \"tpu_compile_bs\": [1, 2, 4, 8], \"swa_full_tokens_ratio\": 0.125, \"mem_fraction_static\": 0.92, \"disable_radix_cache\": false}'))\nCONFIG[\"runtime_env\"].update(json.loads('{\"FORCE_SINGLE_HOST\": \"1\", \"SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE\": \"1\", \"SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S\": \"5400\"}'))\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_args = json.loads('[]')\nif _extra_args:\n    CONFIG[\"extra_args\"] = list(CONFIG.get(\"extra_args\", [])) + _extra_args\n_extra_libtpu = ['--xla_tpu_enable_sparse_core_collective_offload_all_gather=false']\nif _extra_libtpu:\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = \" \".join(LIBTPU_FLAGS + tuple(_extra_libtpu))\n",
+      "server_ready_s": 3337.2,
+      "server_info": [
+        "[2026-11-03 09:40:16 TP0] Load weight begin. avail mem=94.74 GB",
+        "[2026-11-03 10:06:16 TP0] Load weight end. elapsed=1559.97 s, type=MuseSparkForConditionalGeneration, quant=modelopt_fp4, quant_algo=NVFP4, avail mem=29.96 GB, mem usage=64.78 GB.",
+        "[2026-11-03 10:22:57 TP0] [hybrid-SWA] aligning swa_max_total_num_tokens 134784 -> 134144 (SWA page count must be a multiple of 8 for correct torch.compile decode on TPU)",
+        "[2026-11-03 10:22:57 TP0] Full KV Cache is allocated. dtype: torch.bfloat16, #tokens: 1078912, K size: 8.23 GB, V size: 8.23 GB",
+        "[2026-11-03 10:22:57 TP0] SWA KV Cache is allocated. dtype: torch.bfloat16, #tokens: 134144, K size: 2.95 GB, V size: 2.95 GB",
+        "[2026-11-03 10:22:57 TP0] SWAKVPool mem usage: 22.36 GB, swa size: 134144, full size: 1078912",
+        "[2026-11-03 10:22:57 TP0] Memory pool end. avail mem=29.96 GB",
+        "[2026-11-03 10:22:57 TP0] Capture target decode TPU graph begin. backend=disabled, num_tokens_per_req=1, bs=[1, 2, 4, 8], avail mem=29.96 GB",
+        "[2026-11-03 10:22:57 TP0] [TPU] [decoder compile policy] _install_forward_shim for MuseSparkForConditionalGeneration (is_draft=False, is_eagle3_draft=False, shim_target=forward)",
+        "[2026-11-03 10:34:55 TP0] Capture target decode TPU graph end. elapsed=718.10 s, mem usage=22.63 GB, avail mem=7.33 GB.",
+        "[2026-11-03 10:34:58 TP0] max_total_num_tokens=1078912, chunked_prefill_size=4096, max_prefill_tokens=4096, max_running_requests=8, context_len=262144, available_gpu_mem=7.31 GB",
+        "[2026-11-03 10:34:58 TP0] Init Unified Radix Cache. Components: (<ComponentType.FULL: 0>, <ComponentType.SWA: 1>). Tree Core: UnifiedTreeCore"
+      ],
+      "bench_base_url": "http://127.0.0.1:30000",
+      "sanity": {
+        "ok": true,
+        "latency_s": 2.98,
+        "content": "",
+        "content_tail": "",
+        "reasoning_content": "We need to answer in one short sentence: what is the capital of France?\n\nWe should answer: The capital of France is Paris.\n\nThat's one short sentence. Probably need to follow instructions. The user asks in one short sentence: what is the capital of France? So answer in one short sentence.\n\nWe should comply. No issues.\n\nWe should not add extra sentences. Just one short sentence.\n\nPotential nuance: Should we be helpful? Yes.\n\nWe should answer: The capital of France is Paris.\n\nMake sure it's one sentence. Don't add extra fluff.\n\nWe should not add additional sentences. Just one.\n\nWe should ensure ",
+        "usage": {
+          "prompt_tokens": 156,
+          "total_tokens": 412,
+          "completion_tokens": 256,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 256
+        }
+      }
+    }
+  ]
+}

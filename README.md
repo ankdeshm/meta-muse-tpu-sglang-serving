@@ -5,7 +5,7 @@ End-to-end serving recipes, **62-layer Pallas Decode Megakernel** configurations
 - **[`meta-models/Muse-Spark-Open-816B-A42B-NVFP4`](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B-NVFP4)** (`533.0 GB` NVFP4) & **[`meta-models/Muse-Spark-Open-816B-A42B`](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B)** (`1,644.4 GB` BF16; 816B total / 42B active MoE, 256 routed experts top-8 + shared expert, 62 layers = 46 SWA-2048 + 16 global GQA, 128 Q / 16 KV heads, `262K` context) + **[`RadixArk/Muse-Spark-Open-DFlash2`](https://huggingface.co/RadixArk/Muse-Spark-Open-DFlash2)** (`DFLASH` block-8 draft).
 - **[`meta-models/Muse-Glimmer-30B`](https://huggingface.co/meta-models/Muse-Glimmer-30B)** (`59.6 GB` BF16; dense 30B, 52 layers = 39 SWA-2048 + 13 global NoPE, 32 Q / 2 KV heads, `131K` context) + **[`meta-models/Muse-Glimmer-30B-assistant`](https://huggingface.co/meta-models/Muse-Glimmer-30B-assistant)** (`DFLASH` block-16 draft).
 
-Full per-cell benchmark tables (32 serving variants across 52 GKE runs): [`results/SUMMARY.md`](./results/SUMMARY.md) · machine-readable records: [`results/summary.json`](./results/summary.json).
+Full per-cell benchmark tables (32 serving variants): [`results/SUMMARY.md`](./results/SUMMARY.md) · machine-readable records: [`results/summary.json`](./results/summary.json) · raw benchmark output for every measured cell: [`results/raw/`](./results/raw/) (index: [`results/raw/index.csv`](./results/raw/index.csv)).
 
 **Conventions:** `c` = number of concurrent requests; TTFT = time to first token and TPOT = time per output token (both p50); "accept len" = mean tokens accepted per speculative verify step; "Chips" = physical TPU chips used (one `v7x` chip = 2 TensorCores). Every request decodes exactly the stated output length (EOS ignored).
 
@@ -49,7 +49,7 @@ All `Muse-Spark-Open-816B-A42B` speculative runs use **real `RadixArk/Muse-Spark
    - On 1-host `v7x` (`8` TensorCores connected over high-bandwidth ICI), sharding all 256 experts tensor-parallel across the 8 ranks with `pallas_tpu_fused_rs` (`EP=1`) achieves **`91.5` → `742.7` out tok/s** (`c=1..32`), outperforming `EP=8` (`57.7` → `421.3` out tok/s) by **`1.59x`–`1.85x`** by eliminating token-routing load imbalance and separate all-to-all dispatch/combine collectives. (The EP8 run used an FP8 KV cache, the EP1 run a BF16 KV cache.)
 4. **`1.64 TB` BF16 Checkpoint Across 8-Host TPU `v5p-32` (`TP32 EP32` + `DFLASH-8`), MoE Experts Quantized to FP8 at Load:**
    - Across 8 `v5p` hosts (`32` chips in `2x4x4` 3D torus, `3.04 TB` HBM), `TP32 EP32` places 8 whole experts per chip and serves out to **`258,048` (`~262K`) context**. The BF16 checkpoint is loaded with its MoE experts quantized to FP8 at load (TPU Pallas FP8 fused-RS MoE backend; `25.1 GB` of weights per chip vs ~`51 GB` for BF16), while attention, embeddings and the KV cache are BF16. Adding `DFLASH-8` (greedy) boosts `c=1` throughput **`3.70x`** (`40.0` → **`148.0` out tok/s**, `24.81 ms` → **`5.97 ms` TPOT**) and lifts peak batch throughput from `1,121.5` (`c=64`) to **`1,540.1` out tok/s (`c=32`, `14.61 ms` TPOT)**.
-   - Loading the checkpoint over GCSFuse took 35–69 min per host, and the server was ready after ~1.6 h.
+   - Loading the checkpoint over GCSFuse took 35–75 min per host, and the servers were ready after 1.5–1.6 h.
 
 ### `Muse-Spark-Open-816B-A42B` Long-Context Scaling (`4K` → `258K` Input Tokens, `1024` Output Tokens)
 
@@ -94,7 +94,7 @@ All `Muse-Spark-Open-816B-A42B` speculative runs use **real `RadixArk/Muse-Spark
 | **`v7x` `glimmer_bf16_tp8`** | `179.6` (`5.31 ms`) / **`2,907.3`** (c=64, `14,534` tot) | `154.1` (`5.40 ms`, TTFT `1.11 s`) / **`526.1`** (c=8, `17,359` tot) | `128.7` (`5.50 ms`, TTFT `2.31 s`) / **`269.5`** (c=4, `17,518` tot) | **`94.0` out tok/s** (`5.75 ms` TPOT, TTFT `5.01 s`, `11,753` tot) |
 | **`v5p` `glimmer_bf16_tp4_dflash16`** | **`473.9`** (`1.40 ms`, acc `5.70` running avg, ≈`6.1` per cell) / **`1,838.8`** (c=32) | **`296.8`** (`0.87 ms` TPOT, TTFT `2.04 s`, acc `5.63` running avg, ≈`6.5` per cell) / **`373.7`** (c=4, `12,331` tot) | — | — |
 | **`v5p` `glimmer_bf16_2xtp2_gateway`** | `64.2` (`14.86 ms`) / **`2,043.9`** (c=64, `10,218` tot) | `54.7` / **`290.4`** (c=8, `9,583` tot) | `44.8` / **`140.3`** (c=4, `9,117` tot) | `31.4` / **`62.7`** (c=2, `7,836` tot) |
-| **`v5p` `glimmer_bf16_tp4`** | `114.4` (`8.30 ms`) / **`1,964.6`** (c=64, `9,821` tot) | `96.3` (`8.42 ms`, TTFT `2.00 s`) / **`315.0`** (c=8, `10,393` tot) | `78.4` (`8.55 ms`, TTFT `4.31 s`) / **`153.3`** (`9,964` tot) | **`54.9` out tok/s** (`8.77 ms` TPOT, TTFT `9.68 s`, `6,865` tot) |
+| **`v5p` `glimmer_bf16_tp4`** | `114.4` (`8.30 ms`) / **`1,964.6`** (c=64, `9,821` tot) | `96.3` (`8.42 ms`, TTFT `2.00 s`) / **`315.0`** (c=8, `10,393` tot) | `78.4` (`8.55 ms`, TTFT `4.30 s`) / **`153.3`** (`9,964` tot) | **`54.9` out tok/s** (`8.77 ms` TPOT, TTFT `9.68 s`, `6,865` tot) |
 
 ### Key `Muse-Glimmer-30B` Findings
 
@@ -139,7 +139,9 @@ Per-variant details: [`results/SUMMARY.md`](./results/SUMMARY.md).
 - [`scripts/run_muse_sweep.py`](./scripts/run_muse_sweep.py) — Unified SGLang-TorchTPU benchmark harness supporting single-host, colocated multi-replica (`replicas > 1`), multi-host TPU slice (`nnodes > 1`), Pallas Decode Megakernel, and `DFLASH` draft overrides.
 - [`scripts/muse_multi_replica_proxy.py`](./scripts/muse_multi_replica_proxy.py) — Async `aiohttp` least-inflight HTTP reverse proxy for colocated multi-replica TPU servers.
 - [`scripts/stage_spark_sharded.py`](./scripts/stage_spark_sharded.py) — Multi-pod Indexed Job HuggingFace-to-GCS parallel shard downloader with byte-exact completeness verification.
-- [`scripts/collect_muse_results.py`](./scripts/collect_muse_results.py) — Aggregates per-run `summary.json` artifacts from GCS into [`results/SUMMARY.md`](./results/SUMMARY.md) and [`results/summary.json`](./results/summary.json).
+- [`scripts/collect_muse_results.py`](./scripts/collect_muse_results.py) — Aggregates per-run `summary.json` artifacts from GCS (or a local copy such as [`results/raw/`](./results/raw/), `--local`) into [`results/SUMMARY.md`](./results/SUMMARY.md) and [`results/summary.json`](./results/summary.json).
+- [`scripts/export_raw_results.py`](./scripts/export_raw_results.py) — Exports the raw per-cell benchmark files, run records and server-log excerpts into [`results/raw/`](./results/raw/) with an index of every measured cell.
+- [`scripts/v5p_tp2_replica_recipes.py`](./scripts/v5p_tp2_replica_recipes.py) + [`scripts/run_v5p_2xtp2_gateway_bench.py`](./scripts/run_v5p_2xtp2_gateway_bench.py) — Two colocated `TP2` Glimmer servers on one `v5p` host and the gateway sweep used for `glimmer_bf16_2xtp2_gateway`.
 - [`scripts/plan_*.json`](./scripts/) — Declarative sweep plans for `Muse-Spark-Open-816B-A42B` (`v7x` NVFP4 & `v5p-32` BF16) and `Muse-Glimmer-30B` (`v7x` & `v5p`).
 - [`k8s/`](./k8s/) — Sanitized GKE Job manifests for single-host `v7x`/`v5p` sweeps, Pallas Decode Megakernel jobs, 8-host Indexed `v5p-32` TPU slice serving, and sharded GCS model staging.
-- [`results/`](./results/) — Consolidated [`SUMMARY.md`](./results/SUMMARY.md) and [`summary.json`](./results/summary.json).
+- [`results/`](./results/) — Consolidated [`SUMMARY.md`](./results/SUMMARY.md) and [`summary.json`](./results/summary.json); [`results/raw/`](./results/raw/) holds the raw `bench_serving` output behind every number (see its [README](./results/raw/README.md)).

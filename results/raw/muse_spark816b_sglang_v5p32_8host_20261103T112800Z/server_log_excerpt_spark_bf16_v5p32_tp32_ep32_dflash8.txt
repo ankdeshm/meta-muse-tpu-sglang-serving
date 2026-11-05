@@ -1,0 +1,17 @@
+[2026-11-03 12:04:55 TP0 EP0] Load weight end. elapsed=2106.73 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[2026-11-03 12:43:05 TP0 EP0] Load weight end. elapsed=1.17 s, type=DFlash2DraftModel, avail mem=69.55 GB, mem usage=1.05 GB.
+[2026-11-03 12:43:06 TP0 EP0] Full KV Cache is allocated. dtype: torch.bfloat16, #tokens: 6914560, K size: 26.38 GB, V size: 26.38 GB
+[2026-11-03 12:43:06 TP0 EP0] SWA KV Cache is allocated. dtype: torch.bfloat16, #tokens: 110592, K size: 1.21 GB, V size: 1.21 GB
+[2026-11-03 12:43:06 TP0 EP0] Full KV Cache is allocated. dtype: torch.bfloat16, #tokens: 6914560, K size: 0.00 GB, V size: 0.00 GB
+[2026-11-03 12:43:06 TP0 EP0] SWA KV Cache is allocated. dtype: torch.bfloat16, #tokens: 110592, K size: 0.13 GB, V size: 0.13 GB
+[2026-11-03 13:01:11 TP0 EP0] max_total_num_tokens=6914560, chunked_prefill_size=4096, max_prefill_tokens=4096, max_running_requests=32, context_len=262144, available_gpu_mem=13.29 GB
+
+# Weight loading, every host of the slice
+[worker 0] [2026-11-03 12:04:55 TP0 EP0] Load weight end. elapsed=2106.73 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 1] [2026-11-03 12:26:03 TP6 EP6] Load weight end. elapsed=3374.68 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 2] [2026-11-03 12:30:27 TP9 EP9] Load weight end. elapsed=3638.68 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 3] [2026-11-03 12:27:25 TP14 EP14] Load weight end. elapsed=3457.06 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 4] [2026-11-03 12:28:35 TP19 EP19] Load weight end. elapsed=3526.55 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 5] [2026-11-03 12:29:03 TP22 EP22] Load weight end. elapsed=3555.10 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 6] [2026-11-03 12:28:40 TP26 EP26] Load weight end. elapsed=3531.83 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.
+[worker 7] [2026-11-03 12:11:10 TP31 EP31] Load weight end. elapsed=2481.53 s, type=MuseSparkForConditionalGeneration, avail mem=70.61 GB, mem usage=25.12 GB.

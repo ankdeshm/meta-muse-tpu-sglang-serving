@@ -1,0 +1,6 @@
+[2026-11-03 13:26:16 TP0 EP0] Using TPU Pallas FP8 fused-RS MoE backend
+[2026-11-03 13:26:16 TP0 EP0] Using TPU Pallas NVFP4 fused-RS MoE backend
+[2026-11-03 13:26:30 TP0 EP0] Load weight end. elapsed=3601.09 s, type=MuseSparkForConditionalGeneration, quant=modelopt_fp4, quant_algo=NVFP4, avail mem=29.97 GB, mem usage=64.77 GB.
+[2026-11-03 14:00:44 TP0 EP0] Full KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 2438272, K size: 9.30 GB, V size: 9.30 GB
+[2026-11-03 14:00:44 TP0 EP0] SWA KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 86016, K size: 0.94 GB, V size: 0.94 GB
+[2026-11-03 14:22:38 TP0 EP0] max_total_num_tokens=2438272, chunked_prefill_size=4096, max_prefill_tokens=4096, max_running_requests=32, context_len=262144, available_gpu_mem=7.00 GB

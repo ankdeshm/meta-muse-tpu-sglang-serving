@@ -1,0 +1,10 @@
+[2026-11-03 11:34:54 TP0] Using TPU Pallas FP8 fused-RS MoE backend
+[2026-11-03 11:34:54 TP0] Using TPU Pallas NVFP4 fused-RS MoE backend
+[2026-11-03 11:35:10 TP0] Muse megakernel prepared: 62 layers, experts fp4/fp8, 2.46 GiB of K-major copies per device
+[2026-11-03 11:35:10 TP0] Load weight end. elapsed=1521.17 s, type=MuseSparkForConditionalGeneration, quant=modelopt_fp4, quant_algo=NVFP4, avail mem=29.93 GB, mem usage=64.81 GB.
+[2026-11-03 11:45:20 TP0] Load weight end. elapsed=2.13 s, type=DFlash2DraftModel, avail mem=25.43 GB, mem usage=1.84 GB.
+[2026-11-03 11:45:20 TP0] Full KV Cache is allocated. dtype: torch.bfloat16, #tokens: 2030848, K size: 7.75 GB, V size: 7.75 GB
+[2026-11-03 11:45:20 TP0] SWA KV Cache is allocated. dtype: torch.bfloat16, #tokens: 20480, K size: 0.23 GB, V size: 0.23 GB
+[2026-11-03 11:45:20 TP0] Full KV Cache is allocated. dtype: torch.bfloat16, #tokens: 2030848, K size: 0.00 GB, V size: 0.00 GB
+[2026-11-03 11:45:20 TP0] SWA KV Cache is allocated. dtype: torch.bfloat16, #tokens: 20480, K size: 0.02 GB, V size: 0.02 GB
+[2026-11-03 11:56:47 TP0] max_total_num_tokens=2030848, chunked_prefill_size=4096, max_prefill_tokens=4096, max_running_requests=4, context_len=262144, available_gpu_mem=8.41 GB

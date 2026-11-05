@@ -145,7 +145,7 @@ TPU `v5p-32` slice (`8` hosts, `32` chips in `2x4x4` 3D torus ICI, `95 GB` HBM/c
 
 ### Variant status & sanity check
 
-- `spark_bf16_v5p32_tp32_ep1`: **NOT MEASURED** — TP32 with expert-TP only (EP1) was not measured: start-up exceeds the 2-hour budget (weight loading over GCSFuse takes 1.5-1.6 h per host).
+- `spark_bf16_v5p32_tp32_ep1`: **NOT MEASURED** — TP32 with expert-TP only (EP1) was not measured: start-up exceeds the 2-hour budget (weight loading over GCSFuse takes 1.5-1.75 h per host).
 - `spark_bf16_v5p32_tp32_ep32`: **DONE** (server ready after `5787.4` s)
   - sanity (greedy chat): ` We should ensure we answer correctly.  We should not add extra fluff. One short sentence.  We should answer: The capital of France is Paris.  That's good.  We must ensure we don't violate any policy.`
 - `spark_bf16_v5p32_tp32_ep32_dflash8`: **DONE** (server ready after `5548.3` s)

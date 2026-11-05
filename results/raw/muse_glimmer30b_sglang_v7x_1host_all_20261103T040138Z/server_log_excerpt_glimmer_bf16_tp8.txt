@@ -1,0 +1,4 @@
+[2026-11-03 04:03:22 TP0] Load weight end. elapsed=6.26 s, type=MuseGlimmerForConditionalGeneration, avail mem=88.09 GB, mem usage=6.65 GB.
+[2026-11-03 04:03:30 TP0] Full KV Cache is allocated. dtype: torch.bfloat16, #tokens: 1048576, K size: 3.25 GB, V size: 3.25 GB
+[2026-11-03 04:03:30 TP0] SWA KV Cache is allocated. dtype: torch.bfloat16, #tokens: 172032, K size: 1.60 GB, V size: 1.60 GB
+[2026-11-03 04:12:49 TP0] max_total_num_tokens=1048576, chunked_prefill_size=8192, max_prefill_tokens=8192, max_running_requests=64, context_len=131072, available_gpu_mem=76.22 GB

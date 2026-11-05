@@ -54,7 +54,7 @@ DESC_REPLACE = [("model-default sampling (T=1.0, top-p 0.95, top-k 64)", "greedy
 # Configurations that are not supported, or not measured, in this build: (status, one-line limitation).
 LIMITATIONS = {
     ("v5p32_spark", "spark_bf16_v5p32_tp32_ep1"): ("NOT MEASURED", "TP32 with expert-TP only (EP1) was not measured: "
-        "start-up exceeds the 2-hour budget (weight loading over GCSFuse takes 1.5-1.6 h per host)."),
+        "start-up exceeds the 2-hour budget (weight loading over GCSFuse takes 1.5-1.75 h per host)."),
     ("v5p32_spark", "spark_bf16_v5p32_tp32_ep8"): ("NOT SUPPORTED", "Muse Spark MoE supports EP or expert-TP, not both: "
         "`ep_size` must be 1 or equal to `tp_size`."),
     ("v5p", "glimmer_bf16_tp1_dp4"): ("NOT SUPPORTED", "`--dp-size` replicas inside one server are not supported for "
@@ -99,8 +99,7 @@ METHODOLOGY = """## Methodology notes
 
 
 def sh(cmd: list[str]) -> str:
-    env = {**os.environ, "CLOUDSDK_METRICS_ENVIRONMENT": "datacloud.jetski"}
-    return subprocess.run(cmd, check=True, capture_output=True, text=True, env=env).stdout
+    return subprocess.run(cmd, check=True, capture_output=True, text=True).stdout
 
 
 def fmt(v, nd=1) -> str:

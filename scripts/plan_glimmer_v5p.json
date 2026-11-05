@@ -141,7 +141,7 @@
     },
     {
       "name": "glimmer_bf16_tp4_dflash16",
-      "desc": "BF16, TP4, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), model-default sampling (T=1.0, top-p 0.95, top-k 64)",
+      "desc": "BF16, TP4, BF16 KV + DFLASH speculative decoding with the Muse-Glimmer-30B-assistant draft (block 16), greedy decoding (temperature 0)",
       "draft_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B-assistant",
       "server_args": {
         "tp_size": 4,
@@ -642,7 +642,7 @@
     },
     {
       "name": "glimmer_bf16_tp4_dflash8",
-      "desc": "BF16, TP4, BF16 KV + DFLASH (assistant draft) verifying 8 draft tokens per step (speculative_num_draft_tokens=8, checkpoint block 16), model-default sampling",
+      "desc": "BF16, TP4, BF16 KV + DFLASH (assistant draft) verifying 8 draft tokens per step (speculative_num_draft_tokens=8, checkpoint block 16), greedy decoding (temperature 0)",
       "draft_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B-assistant",
       "server_args": {
         "tp_size": 4,

@@ -2471,7 +2471,7 @@
         "mem_fraction_static": 0.85,
         "disable_radix_cache": true
       },
-      "limitation": "TP32 with expert-TP only (EP1) was not measured: start-up exceeds the 2-hour budget (weight loading over GCSFuse takes 1.5-1.6 h per host)."
+      "limitation": "TP32 with expert-TP only (EP1) was not measured: start-up exceeds the 2-hour budget (weight loading over GCSFuse takes 1.5-1.75 h per host)."
     },
     {
       "name": "spark_bf16_v5p32_tp32_ep32",
