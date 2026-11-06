@@ -78,6 +78,7 @@ class LeastInflightProxy:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=29999)
     ap.add_argument("--backends", required=True, help="Comma-separated backend base URLs")
     args = ap.parse_args()
@@ -88,7 +89,7 @@ def main() -> None:
     app.on_startup.append(proxy.start)
     app.on_cleanup.append(proxy.stop)
     app.router.add_route("*", "/{tail:.*}", proxy.handle)
-    web.run_app(app, host="127.0.0.1", port=args.port, access_log=None)
+    web.run_app(app, host=args.host, port=args.port, access_log=None)
 
 
 if __name__ == "__main__":
