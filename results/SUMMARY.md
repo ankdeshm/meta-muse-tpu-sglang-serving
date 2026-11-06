@@ -462,3 +462,19 @@ Raw per-request JSONL & machine-readable summary: [`results/muse_v7x8_opt_glimme
 | `glimmer_fp8_8xtp2_gateway_8chip` | FP8 W8A8 (`--quantization fp8 --kv-cache-dtype fp8_e4m3`), 8 colocated TP2 servers across 2 TPU `v7x` hosts (`8` chips) behind async least-inflight HTTP gateway | 8 | `126976` / `1024` | 1 | 0.062 | **63.5** | 7.9 | 7,932.0 | 7,675.1 / 7,784.9 | 8.26 / 8.26 | - | `PASS` |
 | `glimmer_fp8_8xtp2_gateway_8chip` | FP8 W8A8 (`--quantization fp8 --kv-cache-dtype fp8_e4m3`), 8 colocated TP2 servers across 2 TPU `v7x` hosts (`8` chips) behind async least-inflight HTTP gateway | 8 | `126976` / `1024` | 8 | 0.492 | **503.3** | 62.9 | 62,915.4 | 7,791.6 / 7,824.6 | 8.21 / 8.26 | - | `PASS` |
 
+---
+
+## TPU `v7x` (1 Host = 4 Chips / 8 TensorCores) — `Muse-Glimmer-30B` BF16 `TP8` + `DFLASH-8` (`glimmer_bf16_tp8_dflash8`)
+
+Raw per-request JSONL & machine-readable summary: [`results/muse_v7x8_opt_glimmer_bf16_dflash8/`](./muse_v7x8_opt_glimmer_bf16_dflash8/).
+
+| Variant | Description | Chips | In / Out | Conc | Req/s | Out tok/s | Out tok/s/chip | Total tok/s | TTFT p50 / p99 (ms) | TPOT p50 / p99 (ms) | Spec Accept Len | Status |
+|---|---|---:|---|---:|---:|---:|---:|---:|---|---|---:|---|
+| `glimmer_bf16_tp8_dflash8` | BF16 TP8 + `DFLASH` block-8 (`Muse-Glimmer-30B-assistant`, `32 × 8 = 256` verify tokens resolving `DFLASH-16` `c=32` failure), BF16 KV | 4 | `1024` / `1024` | 1 | 0.605 | **619.6** | 154.9 | 1,238.6 | 77.9 / 79.1 | 1.37 / 2.66 | 4.92 | `PASS` |
+| `glimmer_bf16_tp8_dflash8` | BF16 TP8 + `DFLASH` block-8 (`Muse-Glimmer-30B-assistant`, `32 × 8 = 256` verify tokens resolving `DFLASH-16` `c=32` failure), BF16 KV | 4 | `1024` / `1024` | 4 | 2.007 | **2,055.5** | 513.9 | 4,109.0 | 81.0 / 316.0 | 1.44 / 3.01 | 5.16 | `PASS` |
+| `glimmer_bf16_tp8_dflash8` | BF16 TP8 + `DFLASH` block-8 (`Muse-Glimmer-30B-assistant`, `32 × 8 = 256` verify tokens resolving `DFLASH-16` `c=32` failure), BF16 KV | 4 | `1024` / `1024` | 16 | 4.348 | **4,452.2** | 1,113.0 | 8,900.1 | 83.3 / 561.7 | 2.15 / 7.21 | 5.10 | `PASS` |
+| `glimmer_bf16_tp8_dflash8` | BF16 TP8 + `DFLASH` block-8 (`Muse-Glimmer-30B-assistant`, `32 × 8 = 256` verify tokens resolving `DFLASH-16` `c=32` failure), BF16 KV | 4 | `1024` / `1024` | 32 | 5.794 | **5,932.9** | **1,483.2** | 11,860.1 | 259.3 / 1,071.4 | 3.31 / 12.19 | 4.83 | `PASS` |
+| `glimmer_bf16_tp8_dflash8` | BF16 TP8 + `DFLASH` block-8 (`Muse-Glimmer-30B-assistant`, `32 × 8 = 256` verify tokens resolving `DFLASH-16` `c=32` failure), BF16 KV | 4 | `4096` / `1024` | 1 | 0.546 | **559.2** | 139.8 | 2,795.6 | 255.0 / 256.0 | 1.19 / 2.73 | 4.83 | `PASS` |
+| `glimmer_bf16_tp8_dflash8` | BF16 TP8 + `DFLASH` block-8 (`Muse-Glimmer-30B-assistant`, `32 × 8 = 256` verify tokens resolving `DFLASH-16` `c=32` failure), BF16 KV | 4 | `4096` / `1024` | 4 | 1.491 | **1,526.4** | 381.6 | 7,630.6 | 256.5 / 514.7 | 2.11 / 4.02 | 4.85 | `PASS` |
+| `glimmer_bf16_tp8_dflash8` | BF16 TP8 + `DFLASH` block-8 (`Muse-Glimmer-30B-assistant`, `32 × 8 = 256` verify tokens resolving `DFLASH-16` `c=32` failure), BF16 KV | 4 | `4096` / `1024` | 16 | 2.663 | **2,726.4** | 681.6 | 13,629.4 | 256.8 / 821.5 | 4.37 / 11.72 | 4.89 | `PASS` |
+| `glimmer_bf16_tp8_dflash8` | BF16 TP8 + `DFLASH` block-8 (`Muse-Glimmer-30B-assistant`, `32 × 8 = 256` verify tokens resolving `DFLASH-16` `c=32` failure), BF16 KV | 4 | `4096` / `1024` | 32 | 3.871 | **3,964.4** | 991.1 | 19,817.9 | 751.4 / 1,706.0 | 5.68 / 14.98 | 4.78 | `PASS` |

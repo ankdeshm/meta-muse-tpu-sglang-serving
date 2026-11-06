@@ -46,8 +46,12 @@ if _base_mod:
     CONFIG = deepcopy(importlib.import_module(_base_mod).CONFIG)
 else:
     CONFIG = deepcopy(_FP8_BASE_CONFIG)
-CONFIG["server_args"].update(json.loads({server_args!r}))
-CONFIG["runtime_env"].update(json.loads({runtime_env!r}))
+CONFIG["server_args"].update({{_sk: _sv for _sk, _sv in json.loads({server_args!r}).items() if _sv is not None}})
+for _rk, _rv in json.loads({runtime_env!r}).items():
+    if _rv is None:
+        CONFIG["runtime_env"].pop(_rk, None)
+    else:
+        CONFIG["runtime_env"][_rk] = _rv
 for _k in json.loads({drop_server_args!r}):
     CONFIG["server_args"].pop(_k, None)
 _extra_args = json.loads({extra_args!r})
@@ -721,6 +725,9 @@ def main() -> int:
                 for k in ("TORCH_TPU_TOPOLOGY", "TPU_HOST_BOUNDS", "TPU_CHIPS_PER_HOST_BOUNDS", "TORCH_TPU_DEVICES_PER_HOST"):
                     base_env.pop(k, None)
                 base_env["FORCE_SINGLE_HOST"] = "1"
+            else:
+                # Clear FORCE_SINGLE_HOST=1 inherited from single-host base recipes (e.g. muse_spark/server.py)
+                base_env["FORCE_SINGLE_HOST"] = None
 
             drop = list(plan.get("drop_server_args", [])) + list(var.get("drop_server_args", []))
             extra_args = list(plan.get("extra_args", [])) + list(var.get("extra_args", []))
@@ -1023,7 +1030,7 @@ def main() -> int:
             write_summary(out_dir, meta, results, worker_id=worker_id, nnodes=nnodes_plan)
 
     if is_multihost_job:
-        multihost_barrier(coord_host, coord_port, "all_done", worker_id, timeout_s=1800)
+        multihost_barrier(coord_host, coord_port, "all_done", worker_id, timeout_s=14400)
         time.sleep(2.0)
         if worker_id == 0:
             write_summary(out_dir, meta, results, worker_id=0, nnodes=nnodes_plan)
