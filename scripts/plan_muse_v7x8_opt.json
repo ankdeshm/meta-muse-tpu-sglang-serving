@@ -427,9 +427,15 @@
         "disable_radix_cache": false,
         "speculative_algorithm": "DFLASH",
         "speculative_num_draft_tokens": 8,
-        "sampling_backend": "pytorch"
+        "sampling_backend": "pytorch",
+        "weight_loader_disable_mmap": true,
+        "dist_timeout": 3600
       },
+      "unset_server_args": [
+        "weight_loader_drop_cache_after_load"
+      ],
       "runtime_env": {
+        "SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S": "3600",
         "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
         "SGLANG_SPEC_TP_SYNC": "rng",
         "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1",
