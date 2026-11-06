@@ -851,7 +851,7 @@
     ]
   },
   "only": "",
-  "node": "gke-tpu-51ea19d7-xq6s",
+  "node": "v7x-8 host 1",
   "worker_hosts": [
     "muse-v7x8-opt-0.muse-v7x8-svc.default.svc.cluster.local",
     "muse-v7x8-opt-1.muse-v7x8-svc.default.svc.cluster.local"
