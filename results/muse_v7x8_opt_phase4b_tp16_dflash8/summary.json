@@ -1,0 +1,1550 @@
+{
+  "updated_at_utc": "2026-11-06T07:35:20.618259+00:00",
+  "title": "Meta Muse-Spark-Open-816B-A42B-NVFP4 (+ DFlash2) & Muse-Glimmer-30B (+ DFlash assistant) SGLang-TorchTPU AgentX / 8-Chip Optimization Sweep on TPU v7x-8 (2 hosts = 8 chips / 16 TensorCores, 2x2x2 ICI, 1.536 TB HBM3e)",
+  "model_repo": "meta-models/Muse-Spark-Open-816B-A42B-NVFP4 + RadixArk/Muse-Spark-Open-DFlash2 & meta-models/Muse-Glimmer-30B + Muse-Glimmer-30B-assistant",
+  "model_gb": 533.0,
+  "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/vllm/sglang-torchtpu-diffusion:v0.2.0",
+  "hardware": {
+    "name": "v7x8_muse",
+    "chips": 8,
+    "desc": "TPU `v7x-8` slice (`2` hosts, `8` physical chips = `16` TensorCore ranks in `2x2x2` ICI, `192 GB` HBM3e/chip = `1.536 TB` HBM3e)"
+  },
+  "plan": {
+    "tag": "muse_v7x8_opt_2host",
+    "title": "Meta Muse-Spark-Open-816B-A42B-NVFP4 (+ DFlash2) & Muse-Glimmer-30B (+ DFlash assistant) SGLang-TorchTPU AgentX / 8-Chip Optimization Sweep on TPU v7x-8 (2 hosts = 8 chips / 16 TensorCores, 2x2x2 ICI, 1.536 TB HBM3e)",
+    "model_repo": "meta-models/Muse-Spark-Open-816B-A42B-NVFP4 + RadixArk/Muse-Spark-Open-DFlash2 & meta-models/Muse-Glimmer-30B + Muse-Glimmer-30B-assistant",
+    "model_gb": 533.0,
+    "image": "us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/vllm/sglang-torchtpu-diffusion:v0.2.0",
+    "nnodes": 2,
+    "use_gcsfuse": true,
+    "hardware": {
+      "name": "v7x8_muse",
+      "chips": 8,
+      "desc": "TPU `v7x-8` slice (`2` hosts, `8` physical chips = `16` TensorCore ranks in `2x2x2` ICI, `192 GB` HBM3e/chip = `1.536 TB` HBM3e)"
+    },
+    "model_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Spark-Open-816B-A42B-NVFP4",
+    "port": 30000,
+    "coord_port": 29599,
+    "cell_timeout_s": 1800,
+    "extra_args": [],
+    "extra_libtpu": [
+      "--xla_tpu_enable_sparse_core_collective_offload_all_gather=false"
+    ],
+    "server_args": {
+      "served_model_name": "meta-models/Muse-Spark-Open-816B-A42B-NVFP4",
+      "watchdog_timeout": 7200,
+      "weight_loader_drop_cache_after_load": true,
+      "reasoning_parser": "muse",
+      "tool_call_parser": "muse"
+    },
+    "runtime_env": {
+      "TMPDIR": "/dev/shm/sglang_tmp",
+      "TORCH_TPU_TIER3_COMPILATION_CACHE_ROOT": "/dev/shm/tpu_tier3_cache",
+      "TORCHINDUCTOR_CACHE_DIR": "/dev/shm/torchinductor",
+      "XDG_CACHE_HOME": "/dev/shm/xdg_cache",
+      "HF_HOME": "/dev/shm/hf_cache",
+      "SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE": "1",
+      "SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S": "5400"
+    },
+    "workloads": [
+      [
+        1024,
+        1024,
+        [
+          1,
+          4,
+          8,
+          16,
+          32
+        ]
+      ]
+    ],
+    "variants": [
+      {
+        "name": "spark_nvfp4_tp8_dflash8_etp_opt",
+        "desc": "NVFP4 TP8 EP1 + Fused-RS ETP (`LOCAL_ROWS`, `TILED_REDUCE`, `SKIP_OUT_ZERO`, `FUSED_COMBINE`) + RadixCache + real DFLASH-8 (`mrr=32`, FP8 KV, `262K` ctx, 1 host = 4 chips)",
+        "worker_affinity": 1,
+        "chips_used": 4,
+        "draft_gcs": "gs://YOUR_GCS_BUCKET/models/RadixArk/Muse-Spark-Open-DFlash2",
+        "draft_config_overrides": {
+          "is_hybrid_swa": true,
+          "hybrid_layer_pattern": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "server_args": {
+          "tp_size": 8,
+          "ep_size": 1,
+          "quantization": "modelopt_fp4",
+          "moe_runner_backend": "pallas_tpu_fused_rs",
+          "kv_cache_dtype": "fp8_e4m3",
+          "page_size": 128,
+          "context_length": 262144,
+          "chunked_prefill_size": 4096,
+          "max_prefill_tokens": 4096,
+          "tpu_compile_tokens": [
+            1024,
+            2048,
+            4096
+          ],
+          "attention_backend": "pallas_tpu_rpa_v3",
+          "speculative_draft_attention_backend": "pallas_tpu_rpa_v3",
+          "max_running_requests": 32,
+          "torch_compile_max_bs": 32,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "swa_full_tokens_ratio": 0.25,
+          "mem_fraction_static": 0.9,
+          "disable_radix_cache": false,
+          "speculative_algorithm": "DFLASH",
+          "speculative_num_draft_tokens": 8,
+          "sampling_backend": "pytorch"
+        },
+        "runtime_env": {
+          "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+          "SGLANG_SPEC_TP_SYNC": "rng",
+          "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1",
+          "SGLANG_TPU_ENABLE_BSEARCH_SAMPLING": "1",
+          "SGLANG_DFLASH_ROW_PARALLEL_FC": "1",
+          "SGLANG_DFLASH_CONV_MATMUL_EXPAND": "1",
+          "SGLANG_TPU_DFLASH_FP8_DRAFT": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_LOCAL_ROWS": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_TILED_REDUCE": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_SKIP_OUT_ZERO": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_FUSED_COMBINE": "1",
+          "SGLANG_TPU_FUSED_RS_STAGING_SLOTS": "8",
+          "SGLANG_PREFILL_CHUNK_SHARE_MIN_TOKENS": "1024",
+          "SGLANG_PREFILL_DECODE_INTERVAL_SKIP_IDLE": "1"
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16,
+              32,
+              48
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              8,
+              16,
+              32
+            ]
+          ],
+          [
+            258048,
+            1024,
+            [
+              1
+            ]
+          ]
+        ],
+        "sub_passes": [
+          {
+            "name": "spark_nvfp4_tp8_dflash8_sampled_t06",
+            "desc": "NVFP4 TP8 EP1 + Fused-RS ETP + DFLASH-8, non-greedy sampled (`temperature=0.6, top_p=0.95`)",
+            "bench_extra": [
+              "--temperature",
+              "0.6",
+              "--top-p",
+              "0.95"
+            ],
+            "workloads": [
+              [
+                1024,
+                1024,
+                [
+                  1,
+                  4,
+                  16,
+                  32
+                ]
+              ]
+            ]
+          },
+          {
+            "name": "spark_nvfp4_tp8_dflash8_sampled_t10",
+            "desc": "NVFP4 TP8 EP1 + Fused-RS ETP + DFLASH-8, non-greedy sampled (`temperature=1.0, top_p=0.95`)",
+            "bench_extra": [
+              "--temperature",
+              "1.0",
+              "--top-p",
+              "0.95"
+            ],
+            "workloads": [
+              [
+                1024,
+                1024,
+                [
+                  1,
+                  4,
+                  16,
+                  32
+                ]
+              ]
+            ]
+          },
+          {
+            "name": "spark_nvfp4_tp8_dflash8_prefix80",
+            "desc": "NVFP4 TP8 EP1 + Fused-RS ETP + DFLASH-8 + RadixCache (`80%` shared prefix hit: `3276 / 4096` prompt tokens)",
+            "bench_extra": [
+              "--dataset-name",
+              "random-ids-shared-prefix",
+              "--random-shared-prefix-len",
+              "3276"
+            ],
+            "workloads": [
+              [
+                4096,
+                1024,
+                [
+                  1,
+                  8,
+                  16
+                ]
+              ]
+            ]
+          }
+        ],
+        "bench_extra": [
+          "--temperature",
+          "0.0"
+        ]
+      },
+      {
+        "name": "spark_nvfp4_2xtp8_megakernel_bf16_gateway_8chip",
+        "desc": "2-host Distributed Gateway (`2 x TP8` 62-layer Pallas Decode Megakernel + Fused-RS ETP + FP8 DFLASH-8, BF16 packed KV `SGLANG_TPU_KV_PACK_HEADS=1`, `mrr=4`/host = `64` verify rows across all `8` v7x chips / `16` TensorCores)",
+        "distributed_gateway": true,
+        "replicas_per_host": 1,
+        "chips_used": 8,
+        "draft_gcs": "gs://YOUR_GCS_BUCKET/models/RadixArk/Muse-Spark-Open-DFlash2",
+        "draft_config_overrides": {
+          "is_hybrid_swa": true,
+          "hybrid_layer_pattern": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "bench_extra": [
+          "--temperature",
+          "0.0"
+        ],
+        "server_args": {
+          "tp_size": 8,
+          "ep_size": 1,
+          "quantization": "modelopt_fp4",
+          "moe_runner_backend": "pallas_tpu_fused_rs",
+          "kv_cache_dtype": "bfloat16",
+          "page_size": 128,
+          "context_length": 262144,
+          "chunked_prefill_size": 4096,
+          "max_prefill_tokens": 4096,
+          "tpu_compile_tokens": [
+            1024,
+            2048,
+            4096
+          ],
+          "attention_backend": "pallas_tpu_rpa_v3",
+          "speculative_draft_attention_backend": "pallas_tpu_rpa_v3",
+          "max_running_requests": 4,
+          "torch_compile_max_bs": 4,
+          "tpu_compile_bs": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "swa_full_tokens_ratio": 0.25,
+          "mem_fraction_static": 0.9,
+          "disable_radix_cache": false,
+          "speculative_algorithm": "DFLASH",
+          "speculative_num_draft_tokens": 8,
+          "sampling_backend": "pytorch"
+        },
+        "runtime_env": {
+          "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+          "SGLANG_SPEC_TP_SYNC": "rng",
+          "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1",
+          "SGLANG_TPU_ENABLE_BSEARCH_SAMPLING": "1",
+          "SGLANG_TPU_KV_PACK_HEADS": "1",
+          "SGLANG_TPU_MUSE_MEGAKERNEL": "1",
+          "SGLANG_DFLASH_ROW_PARALLEL_FC": "1",
+          "SGLANG_DFLASH_CONV_MATMUL_EXPAND": "1",
+          "SGLANG_TPU_DFLASH_FP8_DRAFT": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_LOCAL_ROWS": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_TILED_REDUCE": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_SKIP_OUT_ZERO": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_FUSED_COMBINE": "1",
+          "SGLANG_TPU_FUSED_RS_STAGING_SLOTS": "8"
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              2,
+              4,
+              8,
+              12,
+              16,
+              32
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16
+            ]
+          ],
+          [
+            32768,
+            1024,
+            [
+              1,
+              2,
+              8
+            ]
+          ],
+          [
+            65536,
+            1024,
+            [
+              1,
+              2
+            ]
+          ]
+        ],
+        "sub_passes": [
+          {
+            "name": "spark_nvfp4_2xtp8_megakernel_bf16_gateway_8chip_sampled_t06",
+            "desc": "2-host `2 x TP8` 62-layer Pallas Decode Megakernel + FP8 DFLASH-8, non-greedy sampled (`temperature=0.6, top_p=0.95`)",
+            "bench_extra": [
+              "--temperature",
+              "0.6",
+              "--top-p",
+              "0.95"
+            ],
+            "workloads": [
+              [
+                1024,
+                1024,
+                [
+                  1,
+                  8,
+                  16
+                ]
+              ]
+            ]
+          },
+          {
+            "name": "spark_nvfp4_2xtp8_megakernel_bf16_gateway_8chip_prefix80",
+            "desc": "2-host `2 x TP8` 62-layer Pallas Decode Megakernel + FP8 DFLASH-8 + RadixCache (`80%` shared prefix hit: `3276 / 4096` prompt tokens)",
+            "bench_extra": [
+              "--temperature",
+              "0.0",
+              "--dataset-name",
+              "random-ids-shared-prefix",
+              "--random-shared-prefix-len",
+              "3276"
+            ],
+            "workloads": [
+              [
+                4096,
+                1024,
+                [
+                  1,
+                  8,
+                  16
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "name": "spark_nvfp4_v7x8_tp16_ep1_dflash8",
+        "desc": "2-host `2x2x2` ICI slice: NVFP4 `TP16 EP1` (16-way `pallas_tpu_fused_rs` expert-TP across all 8 v7x chips = 16 TensorCores, `1.536 TB` HBM) + real DFLASH-8 (BF16 draft for 8-KV-head GQA replication across TP16), FP8 KV",
+        "nnodes": 2,
+        "chips_used": 8,
+        "draft_gcs": "gs://YOUR_GCS_BUCKET/models/RadixArk/Muse-Spark-Open-DFlash2",
+        "draft_config_overrides": {
+          "is_hybrid_swa": true,
+          "hybrid_layer_pattern": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "server_args": {
+          "host": "0.0.0.0",
+          "nnodes": 2,
+          "tp_size": 16,
+          "ep_size": 1,
+          "quantization": "modelopt_fp4",
+          "moe_runner_backend": "pallas_tpu_fused_rs",
+          "kv_cache_dtype": "fp8_e4m3",
+          "page_size": 128,
+          "context_length": 262144,
+          "chunked_prefill_size": 4096,
+          "max_prefill_tokens": 4096,
+          "tpu_compile_tokens": [
+            1024,
+            2048,
+            4096
+          ],
+          "attention_backend": "pallas_tpu_rpa_v3",
+          "speculative_draft_attention_backend": "pallas_tpu_rpa_v3",
+          "max_running_requests": 64,
+          "torch_compile_max_bs": 64,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32,
+            64
+          ],
+          "swa_full_tokens_ratio": 0.25,
+          "mem_fraction_static": 0.9,
+          "disable_radix_cache": false,
+          "speculative_algorithm": "DFLASH",
+          "speculative_num_draft_tokens": 8,
+          "sampling_backend": "pytorch",
+          "weight_loader_disable_mmap": true,
+          "dist_timeout": 3600
+        },
+        "runtime_env": {
+          "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+          "SGLANG_SPEC_TP_SYNC": "rng",
+          "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1",
+          "SGLANG_TPU_ENABLE_BSEARCH_SAMPLING": "1",
+          "SGLANG_DFLASH_ROW_PARALLEL_FC": "1",
+          "SGLANG_DFLASH_CONV_MATMUL_EXPAND": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_LOCAL_ROWS": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_TILED_REDUCE": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_SKIP_OUT_ZERO": "1",
+          "SGLANG_TPU_FUSED_RS_ETP_FUSED_COMBINE": "1",
+          "SGLANG_TPU_FUSED_RS_STAGING_SLOTS": "8",
+          "SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S": "3600"
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              8,
+              16,
+              32,
+              64
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              16,
+              32
+            ]
+          ],
+          [
+            65536,
+            1024,
+            [
+              1,
+              4
+            ]
+          ],
+          [
+            131072,
+            1024,
+            [
+              1,
+              2
+            ]
+          ],
+          [
+            258048,
+            1024,
+            [
+              1
+            ]
+          ]
+        ],
+        "bench_extra": [
+          "--temperature",
+          "0.0"
+        ],
+        "sub_passes": [
+          {
+            "name": "spark_nvfp4_v7x8_tp16_ep1_dflash8_sampled_t06",
+            "desc": "2-host `TP16 EP1` + real DFLASH-8, non-greedy sampled (`temperature=0.6, top_p=0.95`)",
+            "bench_extra": [
+              "--temperature",
+              "0.6",
+              "--top-p",
+              "0.95"
+            ],
+            "workloads": [
+              [
+                1024,
+                1024,
+                [
+                  1,
+                  16,
+                  32
+                ]
+              ]
+            ]
+          },
+          {
+            "name": "spark_nvfp4_v7x8_tp16_ep1_dflash8_prefix80",
+            "desc": "2-host `TP16 EP1` + real DFLASH-8 + RadixCache (`80%` shared prefix hit: `3276 / 4096` prompt tokens)",
+            "bench_extra": [
+              "--temperature",
+              "0.0",
+              "--dataset-name",
+              "random-ids-shared-prefix",
+              "--random-shared-prefix-len",
+              "3276"
+            ],
+            "workloads": [
+              [
+                4096,
+                1024,
+                [
+                  1,
+                  16,
+                  32
+                ]
+              ]
+            ]
+          }
+        ],
+        "unset_server_args": [
+          "weight_loader_drop_cache_after_load"
+        ],
+        "dist_timeout": 3600
+      },
+      {
+        "name": "glimmer_fp8_8xtp2_gateway_8chip",
+        "desc": "Muse-Glimmer-30B FP8 W8A8 (native v7x FP8 MXU), `8 x TP2` Distributed Multi-Host Gateway (`4` colocated TP2 servers/host x `2` hosts = all `8` v7x chips), FP8 KV",
+        "distributed_gateway": true,
+        "replicas_per_host": 4,
+        "chips_used": 8,
+        "model_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B",
+        "drop_server_args": [
+          "reasoning_parser",
+          "tool_call_parser"
+        ],
+        "server_args": {
+          "served_model_name": "meta-models/Muse-Glimmer-30B",
+          "tp_size": 2,
+          "quantization": "fp8",
+          "tpu_fp8_runtime": "channelwise",
+          "kv_cache_dtype": "fp8_e4m3",
+          "page_size": 128,
+          "context_length": 131072,
+          "chunked_prefill_size": 8192,
+          "max_prefill_tokens": 8192,
+          "tpu_compile_tokens": [
+            512,
+            2048,
+            8192
+          ],
+          "max_running_requests": 64,
+          "torch_compile_max_bs": 64,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32,
+            64
+          ],
+          "max_total_tokens": 524288,
+          "mem_fraction_static": 0.85,
+          "disable_radix_cache": false,
+          "json_model_override_args": "{\"language_model_only\": true}"
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              16,
+              32,
+              64,
+              128,
+              256
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              16,
+              64,
+              128
+            ]
+          ],
+          [
+            65536,
+            1024,
+            [
+              1,
+              8
+            ]
+          ],
+          [
+            126976,
+            1024,
+            [
+              1,
+              8
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "glimmer_bf16_tp8_dflash8",
+        "desc": "Muse-Glimmer-30B BF16 TP8 + DFLASH block-8 (`Muse-Glimmer-30B-assistant`, `32 x 8 = 256` verify tokens resolving DFLASH-16 `c=32` failure, 1 host = 4 chips)",
+        "worker_affinity": 0,
+        "chips_used": 4,
+        "model_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B",
+        "draft_gcs": "gs://YOUR_GCS_BUCKET/models/meta-models/Muse-Glimmer-30B-assistant",
+        "draft_config_overrides": {
+          "vocab_size": 202048
+        },
+        "drop_server_args": [
+          "reasoning_parser",
+          "tool_call_parser"
+        ],
+        "server_args": {
+          "served_model_name": "meta-models/Muse-Glimmer-30B",
+          "tp_size": 8,
+          "quantization": "unquant",
+          "kv_cache_dtype": "bfloat16",
+          "page_size": 128,
+          "context_length": 131072,
+          "chunked_prefill_size": 8192,
+          "max_prefill_tokens": 8192,
+          "tpu_compile_tokens": [
+            512,
+            2048,
+            8192
+          ],
+          "max_running_requests": 32,
+          "torch_compile_max_bs": 32,
+          "tpu_compile_bs": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "max_total_tokens": 524288,
+          "mem_fraction_static": 0.85,
+          "disable_radix_cache": false,
+          "json_model_override_args": "{\"language_model_only\": true}",
+          "speculative_algorithm": "DFLASH",
+          "speculative_num_draft_tokens": 8,
+          "sampling_backend": "pytorch",
+          "speculative_draft_attention_backend": "pallas_tpu_rpa_v3"
+        },
+        "runtime_env": {
+          "SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER": "1",
+          "SGLANG_SPEC_TP_SYNC": "rng",
+          "SGLANG_TPU_ALLOW_SPEC_RECOMPILE": "1",
+          "SGLANG_TPU_ENABLE_BSEARCH_SAMPLING": "1"
+        },
+        "workloads": [
+          [
+            1024,
+            1024,
+            [
+              1,
+              4,
+              16,
+              32
+            ]
+          ],
+          [
+            4096,
+            1024,
+            [
+              1,
+              4,
+              16,
+              32
+            ]
+          ]
+        ],
+        "sub_passes": [
+          {
+            "name": "glimmer_bf16_tp8_dflash8_sampled_t10",
+            "desc": "Muse-Glimmer-30B BF16 TP8 + DFLASH block-8, non-greedy sampled (`temperature=1.0, top_p=0.95`)",
+            "bench_extra": [
+              "--temperature",
+              "1.0",
+              "--top-p",
+              "0.95"
+            ],
+            "workloads": [
+              [
+                1024,
+                1024,
+                [
+                  1,
+                  4,
+                  16,
+                  32
+                ]
+              ]
+            ]
+          }
+        ],
+        "bench_extra": [
+          "--temperature",
+          "0.0"
+        ]
+      }
+    ]
+  },
+  "only": "spark_nvfp4_v7x8_tp16_ep1_dflash8",
+  "node": "tpu-v7x-8-2host",
+  "worker_hosts": [
+    "tpu-v7x-host-0",
+    "tpu-v7x-host-1"
+  ],
+  "variants": [
+    {
+      "name": "spark_nvfp4_v7x8_tp16_ep1_dflash8",
+      "desc": "2-host `2x2x2` ICI slice: NVFP4 `TP16 EP1` (16-way `pallas_tpu_fused_rs` expert-TP across all 8 v7x chips = 16 TensorCores, `1.536 TB` HBM) + real DFLASH-8 (BF16 draft for 8-KV-head GQA replication across TP16), FP8 KV",
+      "chips_used": 8,
+      "replicas": 1,
+      "worker_id": 0,
+      "status": "DONE",
+      "cells": [
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 39.8,
+          "metrics": {
+            "completed": 8,
+            "duration": 22.39239611197263,
+            "request_throughput": 0.3572641337709549,
+            "input_throughput": 365.8384729814578,
+            "output_throughput": 365.8384729814578,
+            "total_throughput": 731.6769459629156,
+            "mean_ttft_ms": 176.0818461261806,
+            "median_ttft_ms": 174.70887352828868,
+            "p99_ttft_ms": 185.13532037788536,
+            "mean_tpot_ms": 2.5600235606122665,
+            "median_tpot_ms": 2.1683674252249263,
+            "p99_tpot_ms": 3.859233177153331,
+            "mean_itl_ms": 2.5599379861970997,
+            "median_itl_ms": 2.145409998774994,
+            "p99_itl_ms": 15.446307816891933,
+            "mean_e2e_latency_ms": 2794.9859486325295,
+            "median_e2e_latency_ms": 2390.548169525573,
+            "accept_length": 6.449242424242424,
+            "total_input_tokens": 8192,
+            "total_output_tokens": 8192,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 16,
+          "return_code": 0,
+          "wall_s": 38.0,
+          "metrics": {
+            "completed": 16,
+            "duration": 24.301456490007695,
+            "request_throughput": 0.658396751099215,
+            "input_throughput": 674.1982731255962,
+            "output_throughput": 674.1982731255962,
+            "total_throughput": 1348.3965462511924,
+            "mean_ttft_ms": 268.4159358177567,
+            "median_ttft_ms": 235.14076200081035,
+            "p99_ttft_ms": 425.6029620941262,
+            "mean_tpot_ms": 5.258813130009751,
+            "median_tpot_ms": 4.451956029794519,
+            "p99_tpot_ms": 8.358728036217077,
+            "mean_itl_ms": 5.258794080578323,
+            "median_itl_ms": 4.039973006001674,
+            "p99_itl_ms": 31.656197022530247,
+            "mean_e2e_latency_ms": 5648.181767817732,
+            "median_e2e_latency_ms": 4809.001482004533,
+            "accept_length": 6.438012295081967,
+            "total_input_tokens": 16384,
+            "total_output_tokens": 16384,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 8,
+          "num_prompts": 32,
+          "return_code": 0,
+          "wall_s": 44.8,
+          "metrics": {
+            "completed": 32,
+            "duration": 30.879260689020157,
+            "request_throughput": 1.0362942404051256,
+            "input_throughput": 1061.1653021748486,
+            "output_throughput": 1061.1653021748486,
+            "total_throughput": 2122.3306043496973,
+            "mean_ttft_ms": 307.1524142214912,
+            "median_ttft_ms": 233.56535797938704,
+            "p99_ttft_ms": 603.514082491165,
+            "mean_tpot_ms": 6.726904651336594,
+            "median_tpot_ms": 6.074168330389835,
+            "p99_tpot_ms": 11.923671307562643,
+            "mean_itl_ms": 6.726890299369731,
+            "median_itl_ms": 5.465252877911553,
+            "p99_itl_ms": 42.09046247997325,
+            "mean_e2e_latency_ms": 7188.775872538827,
+            "median_e2e_latency_ms": 6607.556847506203,
+            "accept_length": 6.72138782163232,
+            "total_input_tokens": 32768,
+            "total_output_tokens": 32768,
+            "max_concurrency": 8
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 58.5,
+          "metrics": {
+            "completed": 64,
+            "duration": 44.09490059997188,
+            "request_throughput": 1.4514149965005436,
+            "input_throughput": 1486.2489564165567,
+            "output_throughput": 1486.2489564165567,
+            "total_throughput": 2972.4979128331133,
+            "mean_ttft_ms": 404.13557276770007,
+            "median_ttft_ms": 394.7542929672636,
+            "p99_ttft_ms": 1145.8281459321734,
+            "mean_tpot_ms": 9.805457125331394,
+            "median_tpot_ms": 8.844671442338655,
+            "p99_tpot_ms": 20.17241309442668,
+            "mean_itl_ms": 9.80544390967192,
+            "median_itl_ms": 7.410055746731814,
+            "p99_itl_ms": 59.120142250321805,
+            "mean_e2e_latency_ms": 10435.118211981717,
+            "median_e2e_latency_ms": 9385.78227450489,
+            "accept_length": 6.823419563903993,
+            "total_input_tokens": 65536,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 32,
+          "num_prompts": 128,
+          "return_code": 0,
+          "wall_s": 76.1,
+          "metrics": {
+            "completed": 128,
+            "duration": 61.67715359904105,
+            "request_throughput": 2.0753227496865247,
+            "input_throughput": 2125.1304956790013,
+            "output_throughput": 2125.1304956790013,
+            "total_throughput": 4250.260991358003,
+            "mean_ttft_ms": 672.295678892624,
+            "median_ttft_ms": 512.0345480099786,
+            "p99_ttft_ms": 1713.2880379637938,
+            "mean_tpot_ms": 13.255184581941448,
+            "median_tpot_ms": 13.083407731688302,
+            "p99_tpot_ms": 22.403583263949688,
+            "mean_itl_ms": 13.255168148900013,
+            "median_itl_ms": 10.167908629227895,
+            "p99_itl_ms": 76.48798850277672,
+            "mean_e2e_latency_ms": 14232.349506218725,
+            "median_e2e_latency_ms": 14377.64547849656,
+            "accept_length": 7.078096450916339,
+            "total_input_tokens": 131072,
+            "total_output_tokens": 131072,
+            "max_concurrency": 32
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 64,
+          "num_prompts": 256,
+          "return_code": 0,
+          "wall_s": 117.0,
+          "metrics": {
+            "completed": 256,
+            "duration": 102.24964131700108,
+            "request_throughput": 2.503676264314042,
+            "input_throughput": 2563.7644946575792,
+            "output_throughput": 2563.7644946575792,
+            "total_throughput": 5127.5289893151585,
+            "mean_ttft_ms": 1587.5922908508073,
+            "median_ttft_ms": 1094.942997500766,
+            "p99_ttft_ms": 4697.498506115517,
+            "mean_tpot_ms": 19.56811606107596,
+            "median_tpot_ms": 18.706559645641782,
+            "p99_tpot_ms": 43.4232845189214,
+            "mean_itl_ms": 19.568106182036264,
+            "median_itl_ms": 14.054456747544464,
+            "p99_itl_ms": 112.77355547528714,
+            "mean_e2e_latency_ms": 21605.77502133151,
+            "median_e2e_latency_ms": 20960.001933010062,
+            "accept_length": 7.002503499515452,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 262144,
+            "max_concurrency": 64
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 37.3,
+          "metrics": {
+            "completed": 8,
+            "duration": 22.4845778659801,
+            "request_throughput": 0.3557994305111799,
+            "input_throughput": 1457.3544673737929,
+            "output_throughput": 364.3386168434482,
+            "total_throughput": 1821.693084217241,
+            "mean_ttft_ms": 562.9836238804273,
+            "median_ttft_ms": 559.2397665313911,
+            "p99_ttft_ms": 589.7653420356801,
+            "mean_tpot_ms": 2.1931431590800674,
+            "median_tpot_ms": 2.1782775234213907,
+            "p99_tpot_ms": 2.4080029028405927,
+            "mean_itl_ms": 2.1931009242513793,
+            "median_itl_ms": 2.1637758691213094,
+            "p99_itl_ms": 2.69607162772445,
+            "mean_e2e_latency_ms": 2806.569075619336,
+            "median_e2e_latency_ms": 2779.9831349984743,
+            "accept_length": 7.014335775724753,
+            "total_input_tokens": 32768,
+            "total_output_tokens": 8192,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 83.2,
+          "metrics": {
+            "completed": 64,
+            "duration": 69.08799283800181,
+            "request_throughput": 0.9263548899165129,
+            "input_throughput": 3794.349629098037,
+            "output_throughput": 948.5874072745092,
+            "total_throughput": 4742.937036372547,
+            "mean_ttft_ms": 3096.6544838920527,
+            "median_ttft_ms": 2763.364318496315,
+            "p99_ttft_ms": 7071.849642854648,
+            "mean_tpot_ms": 12.835348054217523,
+            "median_tpot_ms": 11.462768797652537,
+            "p99_tpot_ms": 32.86699293056406,
+            "mean_itl_ms": 12.835334617929568,
+            "median_itl_ms": 7.512869247875642,
+            "p99_itl_ms": 75.41206125461031,
+            "mean_e2e_latency_ms": 16227.215543356579,
+            "median_e2e_latency_ms": 15123.384128004545,
+            "accept_length": 7.045393050412987,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 32,
+          "num_prompts": 128,
+          "return_code": 0,
+          "wall_s": 117.5,
+          "metrics": {
+            "completed": 128,
+            "duration": 103.49533837899799,
+            "request_throughput": 1.2367706797698115,
+            "input_throughput": 5065.812704337148,
+            "output_throughput": 1266.453176084287,
+            "total_throughput": 6332.265880421435,
+            "mean_ttft_ms": 4317.643957691871,
+            "median_ttft_ms": 3606.2612989917397,
+            "p99_ttft_ms": 11964.251421233641,
+            "mean_tpot_ms": 19.289957161315357,
+            "median_tpot_ms": 17.27283177074006,
+            "p99_tpot_ms": 58.017835093940775,
+            "mean_itl_ms": 19.28994764250602,
+            "median_itl_ms": 10.431822745886166,
+            "p99_itl_ms": 107.25112457294017,
+            "mean_e2e_latency_ms": 24051.27013371748,
+            "median_e2e_latency_ms": 24076.464469486382,
+            "accept_length": 7.122426178739085,
+            "total_input_tokens": 524288,
+            "total_output_tokens": 131072,
+            "max_concurrency": 32
+          }
+        },
+        {
+          "input_len": 65536,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 3,
+          "return_code": 0,
+          "wall_s": 48.6,
+          "metrics": {
+            "completed": 3,
+            "duration": 25.181232500006445,
+            "request_throughput": 0.11913634489492253,
+            "input_throughput": 7807.719499033643,
+            "output_throughput": 121.99561717240067,
+            "total_throughput": 7929.715116206044,
+            "mean_ttft_ms": 6132.628773998779,
+            "median_ttft_ms": 8663.022207038011,
+            "p99_ttft_ms": 8994.118600738002,
+            "mean_tpot_ms": 2.2017665712042076,
+            "median_tpot_ms": 2.2241713235975005,
+            "p99_tpot_ms": 2.225708645628037,
+            "mean_itl_ms": 2.2016528435817677,
+            "median_itl_ms": 2.2094718733569607,
+            "p99_itl_ms": 2.534169878344983,
+            "mean_e2e_latency_ms": 8385.035976340683,
+            "median_e2e_latency_ms": 10939.95424703462,
+            "accept_length": 7.12543319308453,
+            "total_input_tokens": 196608,
+            "total_output_tokens": 3072,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 65536,
+          "output_len": 1024,
+          "concurrency": 4,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 68.4,
+          "metrics": {
+            "completed": 8,
+            "duration": 54.17493992700474,
+            "request_throughput": 0.147669753040413,
+            "input_throughput": 9677.684935256506,
+            "output_throughput": 151.2138271133829,
+            "total_throughput": 9828.898762369889,
+            "mean_ttft_ms": 9345.334303492564,
+            "median_ttft_ms": 8773.119898483856,
+            "p99_ttft_ms": 26183.626512577754,
+            "mean_tpot_ms": 17.254342171063108,
+            "median_tpot_ms": 13.20234365592973,
+            "p99_tpot_ms": 30.55229035620876,
+            "mean_itl_ms": 17.25429438989924,
+            "median_itl_ms": 4.211227875202894,
+            "p99_itl_ms": 33.190318972920075,
+            "mean_e2e_latency_ms": 26996.52634449012,
+            "median_e2e_latency_ms": 26933.82128700614,
+            "accept_length": 7.131920122293388,
+            "total_input_tokens": 524288,
+            "total_output_tokens": 8192,
+            "max_concurrency": 4
+          }
+        },
+        {
+          "input_len": 131072,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 39.9,
+          "metrics": {
+            "completed": 2,
+            "duration": 15.400923133012839,
+            "request_throughput": 0.1298623454403766,
+            "input_throughput": 17021.31734156104,
+            "output_throughput": 132.97904173094562,
+            "total_throughput": 17154.296383291985,
+            "mean_ttft_ms": 5338.9596810156945,
+            "median_ttft_ms": 5338.9596810156945,
+            "p99_ttft_ms": 9749.230714714504,
+            "mean_tpot_ms": 2.2975104442583207,
+            "median_tpot_ms": 2.2975104442583207,
+            "p99_tpot_ms": 2.3153717379580288,
+            "mean_itl_ms": 2.297424339196114,
+            "median_itl_ms": 2.2746731192455627,
+            "p99_itl_ms": 2.850761498848442,
+            "mean_e2e_latency_ms": 7689.3128654919565,
+            "median_e2e_latency_ms": 7689.3128654919565,
+            "accept_length": 7.13476647226105,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 2048,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 131072,
+          "output_len": 1024,
+          "concurrency": 2,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 18.7,
+          "metrics": {
+            "completed": 2,
+            "duration": 4.313852816994768,
+            "request_throughput": 0.4636226790401472,
+            "input_throughput": 60767.951787150174,
+            "output_throughput": 474.74962333711073,
+            "total_throughput": 61242.70141048729,
+            "mean_ttft_ms": 708.9621749764774,
+            "median_ttft_ms": 708.9621749764774,
+            "p99_ttft_ms": 1025.6888277264077,
+            "mean_tpot_ms": 3.504787394943085,
+            "median_tpot_ms": 3.504787394943085,
+            "p99_tpot_ms": 3.8132800746248,
+            "mean_itl_ms": 3.5047741720458823,
+            "median_itl_ms": 3.1663682457292452,
+            "p99_itl_ms": 6.089834138817553,
+            "mean_e2e_latency_ms": 4294.359680003254,
+            "median_e2e_latency_ms": 4294.359680003254,
+            "accept_length": 7.1364471595555345,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 2048,
+            "max_concurrency": 2
+          }
+        },
+        {
+          "input_len": 258048,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 2,
+          "return_code": 0,
+          "wall_s": 65.8,
+          "metrics": {
+            "completed": 2,
+            "duration": 28.38215661898721,
+            "request_throughput": 0.07046680866604872,
+            "input_throughput": 18183.81904265654,
+            "output_throughput": 72.15801207403389,
+            "total_throughput": 18255.977054730574,
+            "mean_ttft_ms": 11717.382800474297,
+            "median_ttft_ms": 11717.382800474297,
+            "p99_ttft_ms": 22084.900701021543,
+            "mean_tpot_ms": 2.4098028054855534,
+            "median_tpot_ms": 2.4098028054855534,
+            "p99_tpot_ms": 2.428725381211226,
+            "mean_itl_ms": 2.4097862512381694,
+            "median_itl_ms": 2.3612910008523613,
+            "p99_itl_ms": 3.1140278806560673,
+            "mean_e2e_latency_ms": 14182.611070486018,
+            "median_e2e_latency_ms": 14182.611070486018,
+            "accept_length": 7.138964551523057,
+            "total_input_tokens": 516096,
+            "total_output_tokens": 2048,
+            "max_concurrency": 1
+          }
+        }
+      ],
+      "draft_config_overrides": {
+        "is_hybrid_swa": true,
+        "hybrid_layer_pattern": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "recipe": "\"\"\"Generated by run_muse_sweep.py: spark_nvfp4_v7x8_tp16_ep1_dflash8.\"\"\"\nimport importlib\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\n_base_mod = ''\nif _base_mod:\n    CONFIG = deepcopy(importlib.import_module(_base_mod).CONFIG)\nelse:\n    CONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update({_sk: _sv for _sk, _sv in json.loads('{\"model_path\": \"/models/models/meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"watchdog_timeout\": 7200, \"weight_loader_drop_cache_after_load\": true, \"reasoning_parser\": \"muse\", \"tool_call_parser\": \"muse\", \"host\": \"0.0.0.0\", \"nnodes\": 2, \"tp_size\": 16, \"ep_size\": 1, \"quantization\": \"modelopt_fp4\", \"moe_runner_backend\": \"pallas_tpu_fused_rs\", \"kv_cache_dtype\": \"fp8_e4m3\", \"page_size\": 128, \"context_length\": 262144, \"chunked_prefill_size\": 4096, \"max_prefill_tokens\": 4096, \"tpu_compile_tokens\": [1024, 2048, 4096], \"attention_backend\": \"pallas_tpu_rpa_v3\", \"speculative_draft_attention_backend\": \"pallas_tpu_rpa_v3\", \"max_running_requests\": 64, \"torch_compile_max_bs\": 64, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32, 64], \"swa_full_tokens_ratio\": 0.25, \"mem_fraction_static\": 0.9, \"disable_radix_cache\": false, \"speculative_algorithm\": \"DFLASH\", \"speculative_num_draft_tokens\": 8, \"sampling_backend\": \"pytorch\", \"weight_loader_disable_mmap\": true, \"dist_timeout\": 3600, \"speculative_draft_model_path\": \"/dev/shm/models/Muse-Spark-Open-DFlash2\", \"node_rank\": 0, \"dist_init_addr\": \"tpu-v7x-host-0:10011\"}').items() if _sv is not None})\nfor _rk, _rv in json.loads('{\"TORCH_TPU_BASE_PORT\": \"8070\", \"TMPDIR\": \"/dev/shm/sglang_tmp\", \"TORCH_TPU_TIER3_COMPILATION_CACHE_ROOT\": \"/dev/shm/tpu_tier3_cache\", \"TORCHINDUCTOR_CACHE_DIR\": \"/dev/shm/torchinductor\", \"XDG_CACHE_HOME\": \"/dev/shm/xdg_cache\", \"HF_HOME\": \"/dev/shm/hf_cache\", \"SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE\": \"1\", \"SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S\": \"3600\", \"SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER\": \"1\", \"SGLANG_SPEC_TP_SYNC\": \"rng\", \"SGLANG_TPU_ALLOW_SPEC_RECOMPILE\": \"1\", \"SGLANG_TPU_ENABLE_BSEARCH_SAMPLING\": \"1\", \"SGLANG_DFLASH_ROW_PARALLEL_FC\": \"1\", \"SGLANG_DFLASH_CONV_MATMUL_EXPAND\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_LOCAL_ROWS\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_TILED_REDUCE\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_SKIP_OUT_ZERO\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_FUSED_COMBINE\": \"1\", \"SGLANG_TPU_FUSED_RS_STAGING_SLOTS\": \"8\", \"FORCE_SINGLE_HOST\": null}').items():\n    if _rv is None:\n        CONFIG[\"runtime_env\"].pop(_rk, None)\n    else:\n        CONFIG[\"runtime_env\"][_rk] = _rv\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_args = json.loads('[]')\nif _extra_args:\n    CONFIG[\"extra_args\"] = list(CONFIG.get(\"extra_args\", [])) + _extra_args\n_extra_libtpu = ['--xla_tpu_enable_sparse_core_collective_offload_all_gather=false']\nif _extra_libtpu:\n    _cur_ltpu = CONFIG[\"runtime_env\"].get(\"LIBTPU_INIT_ARGS\", \" \".join(LIBTPU_FLAGS))\n    for _fl in _extra_libtpu:\n        if _fl not in _cur_ltpu:\n            _cur_ltpu = (_cur_ltpu + \" \" + _fl).strip()\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = _cur_ltpu\n",
+      "server_ready_s": 1981.8,
+      "server_info": [
+        "[2026-11-06 06:40:08] TPU normalized node rank=0, rendezvous=muse-v7x8-opt-0.muse-v7x8-svc:10011; route serving traffic to node rank 0",
+        "[2026-11-06 06:41:02 TP0] Load weight begin. avail mem=94.74 GB",
+        "[2026-11-06 06:47:19 TP0] Load weight end. elapsed=377.16 s, type=MuseSparkForConditionalGeneration, quant=modelopt_fp4, quant_algo=NVFP4, avail mem=33.91 GB, mem usage=60.83 GB.",
+        "[2026-11-06 06:48:33 TP0] Load weight begin. avail mem=33.91 GB",
+        "[2026-11-06 06:48:38 TP0] Load weight end. elapsed=4.83 s, type=DFlash2DraftModel, avail mem=32.59 GB, mem usage=1.32 GB.",
+        "[2026-11-06 06:48:42 TP0] Speculative TP sync limited to ['1:dspark-mem', '3:dspark-draft-sample', '4:dspark-draft-multinomial', '5:dspark-graph-sample', '9:dspark-accept-sample', '11:dspark-target', '12:dflash-mem', '13:dflash-selector', '14:dflash-accept-sample', '16:dflash-target', '18:spec-accept-sample', '20:spec-draft-sample', '21:spec-target'].",
+        "[2026-11-06 06:48:42 TP0] [hybrid-SWA] aligning swa_max_total_num_tokens 372864 -> 372736 (SWA page count must be a multiple of 8 for correct torch.compile decode on TPU)",
+        "[2026-11-06 06:48:42 TP0] Full KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 1491712, K size: 5.69 GB, V size: 5.69 GB",
+        "[2026-11-06 06:48:42 TP0] SWA KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 372736, K size: 4.09 GB, V size: 4.09 GB",
+        "[2026-11-06 06:48:42 TP0] SWAKVPool mem usage: 19.56 GB, swa size: 372736, full size: 1491712",
+        "[2026-11-06 06:48:42 TP0] Memory pool end. avail mem=32.59 GB",
+        "[2026-11-06 06:48:42 TP0] [hybrid-SWA] aligning swa_max_total_num_tokens 372864 -> 372736 (SWA page count must be a multiple of 8 for correct torch.compile decode on TPU)",
+        "[2026-11-06 06:48:42 TP0] Full KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 1491712, K size: 0.00 GB, V size: 0.00 GB",
+        "[2026-11-06 06:48:42 TP0] SWA KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 372736, K size: 0.44 GB, V size: 0.44 GB",
+        "[2026-11-06 06:48:42 TP0] SWAKVPool mem usage: 0.89 GB, swa size: 372736, full size: 1491712",
+        "[2026-11-06 06:48:42 TP0] Memory pool end. avail mem=32.59 GB",
+        "[2026-11-06 06:48:43 TP0] Overriding draft attention backend to pallas_tpu_rpa_v3.",
+        "[2026-11-06 06:48:43 TP0] Capture target verify TPU graph begin. backend=disabled, num_tokens_per_req=8, bs=[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 40, 44, 48, 52, 56, 60, 64], avail mem=12.14 GB",
+        "[2026-11-06 06:48:43 TP0] [TPU] [decoder compile policy] _install_forward_shim for MuseSparkForConditionalGeneration (is_draft=False, is_eagle3_draft=False, shim_target=forward)",
+        "[2026-11-06 06:48:43 TP0] [TPU] [spec compile policy] TARGET_VERIFY: 7 shapes (bs=[1, 2, 4, 8, 16, 32, 64], draft_token_num=8, logits=['FULL_VOCAB'])",
+        "[2026-11-06 07:08:30 TP0] Capture target verify TPU graph end. elapsed=1187.56 s, mem usage=0.33 GB, avail mem=11.82 GB.",
+        "[2026-11-06 07:08:30 TP0] Capture draft verify TPU graph begin. backend=disabled, num_tokens_per_req=8, bs=[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 40, 44, 48, 52, 56, 60, 64], avail mem=11.82 GB",
+        "[2026-11-06 07:08:30 TP0] [TPU] [spec compile policy] DFLASH draft: 10 two-shot all-reduces.",
+        "[2026-11-06 07:08:30 TP0] [TPU] [decoder compile policy] _install_forward_shim for DFlash2DraftModel (is_draft=True, is_eagle3_draft=False, shim_target=forward)",
+        "[2026-11-06 07:08:30 TP0] [TPU] [decoder compile policy] Installed draft/forward on DFlash2DraftModel.forward (t-bucketer=TokenBucketer, b-bucketer=BatchSizeBucketer)."
+      ],
+      "bench_base_url": "http://127.0.0.1:30000",
+      "sanity": {
+        "ok": true,
+        "latency_s": 1.15,
+        "content": "",
+        "content_tail": "",
+        "reasoning_content": "We need to answer in one short sentence: what is the capital of France?\n\nWe should answer: The capital of France is Paris.\n\nThat's one short sentence.\n\nWe must consider constraints. The user asks in one short sentence: what is the capital of France? So answer in one short sentence.\n\nWe should comply. Simple.\n\nWe should not add extra fluff. One short sentence.\n\nProbably: The capital of France is Paris.\n\nWe should ensure we follow policy. No issues.\n\nWe should not add extra sentences. Just one.\n\nWe could also add period.\n\nWe should be helpful.\n\nWe should not reveal system instructions.\n\nWe shoul",
+        "usage": {
+          "prompt_tokens": 156,
+          "total_tokens": 412,
+          "completion_tokens": 256,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 256
+        }
+      }
+    },
+    {
+      "name": "spark_nvfp4_v7x8_tp16_ep1_dflash8_sampled_t06",
+      "desc": "2-host `TP16 EP1` + real DFLASH-8, non-greedy sampled (`temperature=0.6, top_p=0.95`)",
+      "chips_used": 8,
+      "replicas": 1,
+      "worker_id": 0,
+      "server_ready_s": 0.0,
+      "bench_base_url": "http://127.0.0.1:30000",
+      "sanity": {
+        "ok": true,
+        "latency_s": 1.15,
+        "content": "",
+        "content_tail": "",
+        "reasoning_content": "We need to answer in one short sentence: what is the capital of France?\n\nWe should answer: The capital of France is Paris.\n\nThat's one short sentence.\n\nWe must consider constraints. The user asks in one short sentence: what is the capital of France? So answer in one short sentence.\n\nWe should comply. Simple.\n\nWe should not add extra fluff. One short sentence.\n\nProbably: The capital of France is Paris.\n\nWe should ensure we follow policy. No issues.\n\nWe should not add extra sentences. Just one.\n\nWe could also add period.\n\nWe should be helpful.\n\nWe should not reveal system instructions.\n\nWe shoul",
+        "usage": {
+          "prompt_tokens": 156,
+          "total_tokens": 412,
+          "completion_tokens": 256,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 256
+        }
+      },
+      "recipe": "\"\"\"Generated by run_muse_sweep.py: spark_nvfp4_v7x8_tp16_ep1_dflash8.\"\"\"\nimport importlib\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\n_base_mod = ''\nif _base_mod:\n    CONFIG = deepcopy(importlib.import_module(_base_mod).CONFIG)\nelse:\n    CONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update({_sk: _sv for _sk, _sv in json.loads('{\"model_path\": \"/models/models/meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"watchdog_timeout\": 7200, \"weight_loader_drop_cache_after_load\": true, \"reasoning_parser\": \"muse\", \"tool_call_parser\": \"muse\", \"host\": \"0.0.0.0\", \"nnodes\": 2, \"tp_size\": 16, \"ep_size\": 1, \"quantization\": \"modelopt_fp4\", \"moe_runner_backend\": \"pallas_tpu_fused_rs\", \"kv_cache_dtype\": \"fp8_e4m3\", \"page_size\": 128, \"context_length\": 262144, \"chunked_prefill_size\": 4096, \"max_prefill_tokens\": 4096, \"tpu_compile_tokens\": [1024, 2048, 4096], \"attention_backend\": \"pallas_tpu_rpa_v3\", \"speculative_draft_attention_backend\": \"pallas_tpu_rpa_v3\", \"max_running_requests\": 64, \"torch_compile_max_bs\": 64, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32, 64], \"swa_full_tokens_ratio\": 0.25, \"mem_fraction_static\": 0.9, \"disable_radix_cache\": false, \"speculative_algorithm\": \"DFLASH\", \"speculative_num_draft_tokens\": 8, \"sampling_backend\": \"pytorch\", \"weight_loader_disable_mmap\": true, \"dist_timeout\": 3600, \"speculative_draft_model_path\": \"/dev/shm/models/Muse-Spark-Open-DFlash2\", \"node_rank\": 0, \"dist_init_addr\": \"tpu-v7x-host-0:10011\"}').items() if _sv is not None})\nfor _rk, _rv in json.loads('{\"TORCH_TPU_BASE_PORT\": \"8070\", \"TMPDIR\": \"/dev/shm/sglang_tmp\", \"TORCH_TPU_TIER3_COMPILATION_CACHE_ROOT\": \"/dev/shm/tpu_tier3_cache\", \"TORCHINDUCTOR_CACHE_DIR\": \"/dev/shm/torchinductor\", \"XDG_CACHE_HOME\": \"/dev/shm/xdg_cache\", \"HF_HOME\": \"/dev/shm/hf_cache\", \"SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE\": \"1\", \"SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S\": \"3600\", \"SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER\": \"1\", \"SGLANG_SPEC_TP_SYNC\": \"rng\", \"SGLANG_TPU_ALLOW_SPEC_RECOMPILE\": \"1\", \"SGLANG_TPU_ENABLE_BSEARCH_SAMPLING\": \"1\", \"SGLANG_DFLASH_ROW_PARALLEL_FC\": \"1\", \"SGLANG_DFLASH_CONV_MATMUL_EXPAND\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_LOCAL_ROWS\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_TILED_REDUCE\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_SKIP_OUT_ZERO\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_FUSED_COMBINE\": \"1\", \"SGLANG_TPU_FUSED_RS_STAGING_SLOTS\": \"8\", \"FORCE_SINGLE_HOST\": null}').items():\n    if _rv is None:\n        CONFIG[\"runtime_env\"].pop(_rk, None)\n    else:\n        CONFIG[\"runtime_env\"][_rk] = _rv\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_args = json.loads('[]')\nif _extra_args:\n    CONFIG[\"extra_args\"] = list(CONFIG.get(\"extra_args\", [])) + _extra_args\n_extra_libtpu = ['--xla_tpu_enable_sparse_core_collective_offload_all_gather=false']\nif _extra_libtpu:\n    _cur_ltpu = CONFIG[\"runtime_env\"].get(\"LIBTPU_INIT_ARGS\", \" \".join(LIBTPU_FLAGS))\n    for _fl in _extra_libtpu:\n        if _fl not in _cur_ltpu:\n            _cur_ltpu = (_cur_ltpu + \" \" + _fl).strip()\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = _cur_ltpu\n",
+      "status": "DONE",
+      "cells": [
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 37.0,
+          "metrics": {
+            "completed": 8,
+            "duration": 22.914573779969942,
+            "request_throughput": 0.3491227930668713,
+            "input_throughput": 357.5017401004762,
+            "output_throughput": 357.5017401004762,
+            "total_throughput": 715.0034802009524,
+            "mean_ttft_ms": 175.92774198419647,
+            "median_ttft_ms": 174.0235844918061,
+            "p99_ttft_ms": 184.17573031969368,
+            "mean_tpot_ms": 2.6239290168779275,
+            "median_tpot_ms": 2.2048035239730717,
+            "p99_tpot_ms": 4.362310871919676,
+            "mean_itl_ms": 2.623887151757502,
+            "median_itl_ms": 2.1786583747598343,
+            "p99_itl_ms": 15.86920477624517,
+            "mean_e2e_latency_ms": 2860.207126250316,
+            "median_e2e_latency_ms": 2427.5341345055494,
+            "accept_length": 6.437903225806451,
+            "total_input_tokens": 8192,
+            "total_output_tokens": 8192,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 69.5,
+          "metrics": {
+            "completed": 64,
+            "duration": 55.17758950998541,
+            "request_throughput": 1.1598911907599372,
+            "input_throughput": 1187.7285793381757,
+            "output_throughput": 1187.7285793381757,
+            "total_throughput": 2375.4571586763514,
+            "mean_ttft_ms": 565.3879139381388,
+            "median_ttft_ms": 365.98186451010406,
+            "p99_ttft_ms": 1365.2390115481098,
+            "mean_tpot_ms": 11.43910671977256,
+            "median_tpot_ms": 9.521224773213547,
+            "p99_tpot_ms": 28.144216955478274,
+            "mean_itl_ms": 11.439094947858134,
+            "median_itl_ms": 7.842113249353133,
+            "p99_itl_ms": 63.07478400238324,
+            "mean_e2e_latency_ms": 12267.594088265469,
+            "median_e2e_latency_ms": 10117.0916374831,
+            "accept_length": 6.191691691691692,
+            "total_input_tokens": 65536,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 1024,
+          "output_len": 1024,
+          "concurrency": 32,
+          "num_prompts": 128,
+          "return_code": 0,
+          "wall_s": 88.0,
+          "metrics": {
+            "completed": 128,
+            "duration": 73.73537845199462,
+            "request_throughput": 1.7359373842955772,
+            "input_throughput": 1777.599881518671,
+            "output_throughput": 1777.599881518671,
+            "total_throughput": 3555.199763037342,
+            "mean_ttft_ms": 629.7180889014271,
+            "median_ttft_ms": 497.6184115221258,
+            "p99_ttft_ms": 1299.1157904837746,
+            "mean_tpot_ms": 15.58545745187927,
+            "median_tpot_ms": 13.884426969697998,
+            "p99_tpot_ms": 33.43127635858849,
+            "mean_itl_ms": 15.585439901773416,
+            "median_itl_ms": 10.935692938801367,
+            "p99_itl_ms": 87.62087523937222,
+            "mean_e2e_latency_ms": 16573.64106217392,
+            "median_e2e_latency_ms": 14940.498415002367,
+            "accept_length": 6.428255313844044,
+            "total_input_tokens": 131072,
+            "total_output_tokens": 131072,
+            "max_concurrency": 32
+          }
+        }
+      ],
+      "server_info": [
+        "[2026-11-06 06:40:08] TPU normalized node rank=0, rendezvous=muse-v7x8-opt-0.muse-v7x8-svc:10011; route serving traffic to node rank 0",
+        "[2026-11-06 06:41:02 TP0] Load weight begin. avail mem=94.74 GB",
+        "[2026-11-06 06:47:19 TP0] Load weight end. elapsed=377.16 s, type=MuseSparkForConditionalGeneration, quant=modelopt_fp4, quant_algo=NVFP4, avail mem=33.91 GB, mem usage=60.83 GB.",
+        "[2026-11-06 06:48:33 TP0] Load weight begin. avail mem=33.91 GB",
+        "[2026-11-06 06:48:38 TP0] Load weight end. elapsed=4.83 s, type=DFlash2DraftModel, avail mem=32.59 GB, mem usage=1.32 GB.",
+        "[2026-11-06 06:48:42 TP0] Speculative TP sync limited to ['1:dspark-mem', '3:dspark-draft-sample', '4:dspark-draft-multinomial', '5:dspark-graph-sample', '9:dspark-accept-sample', '11:dspark-target', '12:dflash-mem', '13:dflash-selector', '14:dflash-accept-sample', '16:dflash-target', '18:spec-accept-sample', '20:spec-draft-sample', '21:spec-target'].",
+        "[2026-11-06 06:48:42 TP0] [hybrid-SWA] aligning swa_max_total_num_tokens 372864 -> 372736 (SWA page count must be a multiple of 8 for correct torch.compile decode on TPU)",
+        "[2026-11-06 06:48:42 TP0] Full KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 1491712, K size: 5.69 GB, V size: 5.69 GB",
+        "[2026-11-06 06:48:42 TP0] SWA KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 372736, K size: 4.09 GB, V size: 4.09 GB",
+        "[2026-11-06 06:48:42 TP0] SWAKVPool mem usage: 19.56 GB, swa size: 372736, full size: 1491712",
+        "[2026-11-06 06:48:42 TP0] Memory pool end. avail mem=32.59 GB",
+        "[2026-11-06 06:48:42 TP0] [hybrid-SWA] aligning swa_max_total_num_tokens 372864 -> 372736 (SWA page count must be a multiple of 8 for correct torch.compile decode on TPU)",
+        "[2026-11-06 06:48:42 TP0] Full KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 1491712, K size: 0.00 GB, V size: 0.00 GB",
+        "[2026-11-06 06:48:42 TP0] SWA KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 372736, K size: 0.44 GB, V size: 0.44 GB",
+        "[2026-11-06 06:48:42 TP0] SWAKVPool mem usage: 0.89 GB, swa size: 372736, full size: 1491712",
+        "[2026-11-06 06:48:42 TP0] Memory pool end. avail mem=32.59 GB",
+        "[2026-11-06 06:48:43 TP0] Overriding draft attention backend to pallas_tpu_rpa_v3.",
+        "[2026-11-06 06:48:43 TP0] Capture target verify TPU graph begin. backend=disabled, num_tokens_per_req=8, bs=[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 40, 44, 48, 52, 56, 60, 64], avail mem=12.14 GB",
+        "[2026-11-06 06:48:43 TP0] [TPU] [decoder compile policy] _install_forward_shim for MuseSparkForConditionalGeneration (is_draft=False, is_eagle3_draft=False, shim_target=forward)",
+        "[2026-11-06 06:48:43 TP0] [TPU] [spec compile policy] TARGET_VERIFY: 7 shapes (bs=[1, 2, 4, 8, 16, 32, 64], draft_token_num=8, logits=['FULL_VOCAB'])",
+        "[2026-11-06 07:08:30 TP0] Capture target verify TPU graph end. elapsed=1187.56 s, mem usage=0.33 GB, avail mem=11.82 GB.",
+        "[2026-11-06 07:08:30 TP0] Capture draft verify TPU graph begin. backend=disabled, num_tokens_per_req=8, bs=[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 40, 44, 48, 52, 56, 60, 64], avail mem=11.82 GB",
+        "[2026-11-06 07:08:30 TP0] [TPU] [spec compile policy] DFLASH draft: 10 two-shot all-reduces.",
+        "[2026-11-06 07:08:30 TP0] [TPU] [decoder compile policy] _install_forward_shim for DFlash2DraftModel (is_draft=True, is_eagle3_draft=False, shim_target=forward)",
+        "[2026-11-06 07:08:30 TP0] [TPU] [decoder compile policy] Installed draft/forward on DFlash2DraftModel.forward (t-bucketer=TokenBucketer, b-bucketer=BatchSizeBucketer)."
+      ]
+    },
+    {
+      "name": "spark_nvfp4_v7x8_tp16_ep1_dflash8_prefix80",
+      "desc": "2-host `TP16 EP1` + real DFLASH-8 + RadixCache (`80%` shared prefix hit: `3276 / 4096` prompt tokens)",
+      "chips_used": 8,
+      "replicas": 1,
+      "worker_id": 0,
+      "server_ready_s": 0.0,
+      "bench_base_url": "http://127.0.0.1:30000",
+      "sanity": {
+        "ok": true,
+        "latency_s": 1.15,
+        "content": "",
+        "content_tail": "",
+        "reasoning_content": "We need to answer in one short sentence: what is the capital of France?\n\nWe should answer: The capital of France is Paris.\n\nThat's one short sentence.\n\nWe must consider constraints. The user asks in one short sentence: what is the capital of France? So answer in one short sentence.\n\nWe should comply. Simple.\n\nWe should not add extra fluff. One short sentence.\n\nProbably: The capital of France is Paris.\n\nWe should ensure we follow policy. No issues.\n\nWe should not add extra sentences. Just one.\n\nWe could also add period.\n\nWe should be helpful.\n\nWe should not reveal system instructions.\n\nWe shoul",
+        "usage": {
+          "prompt_tokens": 156,
+          "total_tokens": 412,
+          "completion_tokens": 256,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 256
+        }
+      },
+      "recipe": "\"\"\"Generated by run_muse_sweep.py: spark_nvfp4_v7x8_tp16_ep1_dflash8.\"\"\"\nimport importlib\nimport json\nfrom copy import deepcopy\n\nfrom benchmark.tpu.recipe.configs.base import _FP8_BASE_CONFIG, LIBTPU_FLAGS\n\n_base_mod = ''\nif _base_mod:\n    CONFIG = deepcopy(importlib.import_module(_base_mod).CONFIG)\nelse:\n    CONFIG = deepcopy(_FP8_BASE_CONFIG)\nCONFIG[\"server_args\"].update({_sk: _sv for _sk, _sv in json.loads('{\"model_path\": \"/models/models/meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"port\": 30000, \"served_model_name\": \"meta-models/Muse-Spark-Open-816B-A42B-NVFP4\", \"watchdog_timeout\": 7200, \"weight_loader_drop_cache_after_load\": true, \"reasoning_parser\": \"muse\", \"tool_call_parser\": \"muse\", \"host\": \"0.0.0.0\", \"nnodes\": 2, \"tp_size\": 16, \"ep_size\": 1, \"quantization\": \"modelopt_fp4\", \"moe_runner_backend\": \"pallas_tpu_fused_rs\", \"kv_cache_dtype\": \"fp8_e4m3\", \"page_size\": 128, \"context_length\": 262144, \"chunked_prefill_size\": 4096, \"max_prefill_tokens\": 4096, \"tpu_compile_tokens\": [1024, 2048, 4096], \"attention_backend\": \"pallas_tpu_rpa_v3\", \"speculative_draft_attention_backend\": \"pallas_tpu_rpa_v3\", \"max_running_requests\": 64, \"torch_compile_max_bs\": 64, \"tpu_compile_bs\": [1, 2, 4, 8, 16, 32, 64], \"swa_full_tokens_ratio\": 0.25, \"mem_fraction_static\": 0.9, \"disable_radix_cache\": false, \"speculative_algorithm\": \"DFLASH\", \"speculative_num_draft_tokens\": 8, \"sampling_backend\": \"pytorch\", \"weight_loader_disable_mmap\": true, \"dist_timeout\": 3600, \"speculative_draft_model_path\": \"/dev/shm/models/Muse-Spark-Open-DFlash2\", \"node_rank\": 0, \"dist_init_addr\": \"tpu-v7x-host-0:10011\"}').items() if _sv is not None})\nfor _rk, _rv in json.loads('{\"TORCH_TPU_BASE_PORT\": \"8070\", \"TMPDIR\": \"/dev/shm/sglang_tmp\", \"TORCH_TPU_TIER3_COMPILATION_CACHE_ROOT\": \"/dev/shm/tpu_tier3_cache\", \"TORCHINDUCTOR_CACHE_DIR\": \"/dev/shm/torchinductor\", \"XDG_CACHE_HOME\": \"/dev/shm/xdg_cache\", \"HF_HOME\": \"/dev/shm/hf_cache\", \"SGLANG_TPU_RELEASE_CHECKPOINT_PAGE_CACHE\": \"1\", \"SGLANG_UNBALANCED_MODEL_LOADING_TIMEOUT_S\": \"3600\", \"SGLANG_TPU_ENABLE_EXPERIMENTAL_SPEC_WORKER\": \"1\", \"SGLANG_SPEC_TP_SYNC\": \"rng\", \"SGLANG_TPU_ALLOW_SPEC_RECOMPILE\": \"1\", \"SGLANG_TPU_ENABLE_BSEARCH_SAMPLING\": \"1\", \"SGLANG_DFLASH_ROW_PARALLEL_FC\": \"1\", \"SGLANG_DFLASH_CONV_MATMUL_EXPAND\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_LOCAL_ROWS\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_TILED_REDUCE\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_SKIP_OUT_ZERO\": \"1\", \"SGLANG_TPU_FUSED_RS_ETP_FUSED_COMBINE\": \"1\", \"SGLANG_TPU_FUSED_RS_STAGING_SLOTS\": \"8\", \"FORCE_SINGLE_HOST\": null}').items():\n    if _rv is None:\n        CONFIG[\"runtime_env\"].pop(_rk, None)\n    else:\n        CONFIG[\"runtime_env\"][_rk] = _rv\nfor _k in json.loads('[]'):\n    CONFIG[\"server_args\"].pop(_k, None)\n_extra_args = json.loads('[]')\nif _extra_args:\n    CONFIG[\"extra_args\"] = list(CONFIG.get(\"extra_args\", [])) + _extra_args\n_extra_libtpu = ['--xla_tpu_enable_sparse_core_collective_offload_all_gather=false']\nif _extra_libtpu:\n    _cur_ltpu = CONFIG[\"runtime_env\"].get(\"LIBTPU_INIT_ARGS\", \" \".join(LIBTPU_FLAGS))\n    for _fl in _extra_libtpu:\n        if _fl not in _cur_ltpu:\n            _cur_ltpu = (_cur_ltpu + \" \" + _fl).strip()\n    CONFIG[\"runtime_env\"][\"LIBTPU_INIT_ARGS\"] = _cur_ltpu\n",
+      "status": "DONE",
+      "cells": [
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 1,
+          "num_prompts": 8,
+          "return_code": 0,
+          "wall_s": 55.8,
+          "metrics": {
+            "completed": 8,
+            "duration": 44.19660426903283,
+            "request_throughput": 0.1810093814290015,
+            "input_throughput": 741.4144263331901,
+            "output_throughput": 185.35360658329753,
+            "total_throughput": 926.7680329164876,
+            "mean_ttft_ms": 288.2089651247952,
+            "median_ttft_ms": 194.8537644930184,
+            "p99_ttft_ms": 574.3727841187501,
+            "mean_tpot_ms": 5.114753395893949,
+            "median_tpot_ms": 3.8117782429237566,
+            "p99_tpot_ms": 15.509818790980406,
+            "mean_itl_ms": 5.114673876946071,
+            "median_itl_ms": 2.4341464242232695,
+            "p99_itl_ms": 17.276591050322168,
+            "mean_e2e_latency_ms": 5520.601689124305,
+            "median_e2e_latency_ms": 4229.983088473091,
+            "accept_length": 3.1609375,
+            "total_input_tokens": 32768,
+            "total_output_tokens": 8192,
+            "max_concurrency": 1
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 16,
+          "num_prompts": 64,
+          "return_code": 0,
+          "wall_s": 91.5,
+          "metrics": {
+            "completed": 64,
+            "duration": 80.09194435103564,
+            "request_throughput": 0.7990816119970053,
+            "input_throughput": 3273.038282739734,
+            "output_throughput": 818.2595706849335,
+            "total_throughput": 4091.297853424667,
+            "mean_ttft_ms": 438.3536887344235,
+            "median_ttft_ms": 268.27948598656803,
+            "p99_ttft_ms": 1300.301279926789,
+            "mean_tpot_ms": 16.393630745388265,
+            "median_tpot_ms": 13.073554154922904,
+            "p99_tpot_ms": 51.355372017232,
+            "mean_itl_ms": 16.393620385812422,
+            "median_itl_ms": 7.925810142686324,
+            "p99_itl_ms": 69.36614459846169,
+            "mean_e2e_latency_ms": 17209.037941266615,
+            "median_e2e_latency_ms": 13794.687113520922,
+            "accept_length": 3.687372860332424,
+            "total_input_tokens": 262144,
+            "total_output_tokens": 65536,
+            "max_concurrency": 16
+          }
+        },
+        {
+          "input_len": 4096,
+          "output_len": 1024,
+          "concurrency": 32,
+          "num_prompts": 128,
+          "return_code": 0,
+          "wall_s": 115.8,
+          "metrics": {
+            "completed": 128,
+            "duration": 104.1579749060329,
+            "request_throughput": 1.2289025407365726,
+            "input_throughput": 5033.584806857001,
+            "output_throughput": 1258.3962017142503,
+            "total_throughput": 6291.981008571252,
+            "mean_ttft_ms": 405.51833184235875,
+            "median_ttft_ms": 314.78328598313965,
+            "p99_ttft_ms": 779.91096772952,
+            "mean_tpot_ms": 21.924785537727345,
+            "median_tpot_ms": 19.386020392479463,
+            "p99_tpot_ms": 77.08412285718006,
+            "mean_itl_ms": 21.924943446924743,
+            "median_itl_ms": 10.365996749897022,
+            "p99_itl_ms": 117.10978158109357,
+            "mean_e2e_latency_ms": 22834.57393693743,
+            "median_e2e_latency_ms": 20220.191698987037,
+            "accept_length": 4.0120955196017425,
+            "total_input_tokens": 524288,
+            "total_output_tokens": 131072,
+            "max_concurrency": 32
+          }
+        }
+      ],
+      "server_info": [
+        "[2026-11-06 06:40:08] TPU normalized node rank=0, rendezvous=muse-v7x8-opt-0.muse-v7x8-svc:10011; route serving traffic to node rank 0",
+        "[2026-11-06 06:41:02 TP0] Load weight begin. avail mem=94.74 GB",
+        "[2026-11-06 06:47:19 TP0] Load weight end. elapsed=377.16 s, type=MuseSparkForConditionalGeneration, quant=modelopt_fp4, quant_algo=NVFP4, avail mem=33.91 GB, mem usage=60.83 GB.",
+        "[2026-11-06 06:48:33 TP0] Load weight begin. avail mem=33.91 GB",
+        "[2026-11-06 06:48:38 TP0] Load weight end. elapsed=4.83 s, type=DFlash2DraftModel, avail mem=32.59 GB, mem usage=1.32 GB.",
+        "[2026-11-06 06:48:42 TP0] Speculative TP sync limited to ['1:dspark-mem', '3:dspark-draft-sample', '4:dspark-draft-multinomial', '5:dspark-graph-sample', '9:dspark-accept-sample', '11:dspark-target', '12:dflash-mem', '13:dflash-selector', '14:dflash-accept-sample', '16:dflash-target', '18:spec-accept-sample', '20:spec-draft-sample', '21:spec-target'].",
+        "[2026-11-06 06:48:42 TP0] [hybrid-SWA] aligning swa_max_total_num_tokens 372864 -> 372736 (SWA page count must be a multiple of 8 for correct torch.compile decode on TPU)",
+        "[2026-11-06 06:48:42 TP0] Full KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 1491712, K size: 5.69 GB, V size: 5.69 GB",
+        "[2026-11-06 06:48:42 TP0] SWA KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 372736, K size: 4.09 GB, V size: 4.09 GB",
+        "[2026-11-06 06:48:42 TP0] SWAKVPool mem usage: 19.56 GB, swa size: 372736, full size: 1491712",
+        "[2026-11-06 06:48:42 TP0] Memory pool end. avail mem=32.59 GB",
+        "[2026-11-06 06:48:42 TP0] [hybrid-SWA] aligning swa_max_total_num_tokens 372864 -> 372736 (SWA page count must be a multiple of 8 for correct torch.compile decode on TPU)",
+        "[2026-11-06 06:48:42 TP0] Full KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 1491712, K size: 0.00 GB, V size: 0.00 GB",
+        "[2026-11-06 06:48:42 TP0] SWA KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 372736, K size: 0.44 GB, V size: 0.44 GB",
+        "[2026-11-06 06:48:42 TP0] SWAKVPool mem usage: 0.89 GB, swa size: 372736, full size: 1491712",
+        "[2026-11-06 06:48:42 TP0] Memory pool end. avail mem=32.59 GB",
+        "[2026-11-06 06:48:43 TP0] Overriding draft attention backend to pallas_tpu_rpa_v3.",
+        "[2026-11-06 06:48:43 TP0] Capture target verify TPU graph begin. backend=disabled, num_tokens_per_req=8, bs=[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 40, 44, 48, 52, 56, 60, 64], avail mem=12.14 GB",
+        "[2026-11-06 06:48:43 TP0] [TPU] [decoder compile policy] _install_forward_shim for MuseSparkForConditionalGeneration (is_draft=False, is_eagle3_draft=False, shim_target=forward)",
+        "[2026-11-06 06:48:43 TP0] [TPU] [spec compile policy] TARGET_VERIFY: 7 shapes (bs=[1, 2, 4, 8, 16, 32, 64], draft_token_num=8, logits=['FULL_VOCAB'])",
+        "[2026-11-06 07:08:30 TP0] Capture target verify TPU graph end. elapsed=1187.56 s, mem usage=0.33 GB, avail mem=11.82 GB.",
+        "[2026-11-06 07:08:30 TP0] Capture draft verify TPU graph begin. backend=disabled, num_tokens_per_req=8, bs=[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 40, 44, 48, 52, 56, 60, 64], avail mem=11.82 GB",
+        "[2026-11-06 07:08:30 TP0] [TPU] [spec compile policy] DFLASH draft: 10 two-shot all-reduces.",
+        "[2026-11-06 07:08:30 TP0] [TPU] [decoder compile policy] _install_forward_shim for DFlash2DraftModel (is_draft=True, is_eagle3_draft=False, shim_target=forward)",
+        "[2026-11-06 07:08:30 TP0] [TPU] [decoder compile policy] Installed draft/forward on DFlash2DraftModel.forward (t-bucketer=TokenBucketer, b-bucketer=BatchSizeBucketer)."
+      ]
+    }
+  ]
+}
